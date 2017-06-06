@@ -1,5 +1,5 @@
 <center>
-![Home Page](http://makeos.org/logo/logo.png)
+![Home Page](docs/logo.png)
 
 # Ghost Bird Operating System Project #
 </center>
