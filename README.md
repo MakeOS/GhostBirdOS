@@ -1,3 +1,4 @@
+<center>
 ![Home Page](/docs/logo.png)
 
 # Ghost Bird Operating System Project #
