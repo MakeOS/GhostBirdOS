@@ -15,12 +15,15 @@ You can easily download and participate in the development of Ghost Bird Operati
 - visited our developer website:[makeos.org](http://makeos.org)
 - follow us on github:[GhostBirdOS](https://github.com/GhostBirdOperatingSystemProject/GhostBirdOS)
 
-First of all, Ghost Bird OS isn't a single project, in fact, this is a collection of multiple items, some of the project that make up Ghost Bird OS are as follows:
+First of all, Ghost Bird OS isn't integrated, in fact, this is a collection of multiple part, some of the part that make up Ghost Bird OS are as follows:
 
-- Explorer kernel Project
-- Explorer loader Project
+- Explorer loader
+- Drivers
+- Explorer kernel
+- System software, such as Graphical User Interface
+- System resources, such as theme and background
 
-As a part of development, the function realized by these project are necessary for Ghost Bird OS development. And we recommanded you not just only follow this project but also follow the above items.
+As part of Ghost Bird OS, these function realized by these part are necessary for Ghost Bird OS development.
 
 ## Tools ##
 GCC nasm bochs VirtualBox
