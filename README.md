@@ -1,8 +1,7 @@
-<center>
 ![Home Page](/docs/logo.png)
 
 # Ghost Bird Operating System Project #
-</center>
+
 </br></br></br>
 Copyright 2014-2017 Ghost Bird Operating System Project Developers. All rights reserved.
 
