@@ -2,7 +2,6 @@
 
 # Ghost Bird Operating System Project #
 
-</br></br></br>
 Copyright 2014-2017 Ghost Bird Operating System Project Developers. All rights reserved.
 
 A lightweight, multi-tasking graphical operating system, **JUST FOR FUN!**
