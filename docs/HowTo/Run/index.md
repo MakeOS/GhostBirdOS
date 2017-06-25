@@ -26,8 +26,3 @@ In the above site, you can download source code or clone repository to the local
 
 We need to use a lot of tools to help us read, write and debug our OS. For example, we need an excllent **code editor** which support highlight and some other extensions to make our develop comfortably, some free license **compiler** and tools to compile, link our C\C++\Assembly language code, after that, we need load our OS files into a virtual image, Ghost Bird File System Reader(or **gfr**) is required, then we need a convenient **virtual machine** to run our system, we can find out some problems, if there are some problem we can't figure out, maybe we need analyze some binary files through **hex editor**, or reverse Engineering through **disassembler**. Notice that it is possible that some compilers are a collection of tool chains(eg. GCC compiler). Besides, A kind of Markdown reader is necessary.
 
-| 一个普通标题 | 一个普通标题 | 一个普通标题 |
-| ------ | ------ | ------ |
-| 短文本 | 中等文本 | 稍微长一点的文本 |
-| 稍微长一点的文本 | 短文本 | 中等文本 |
-
