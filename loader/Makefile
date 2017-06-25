@@ -1,20 +1,28 @@
+# Date:Miss
+# Author:HuWenjie<1@hwj.me>
 # Explorer Loader
-# /Makefile
 # makefile for Explorer Loader
+# 
+# BSD 2-Clause License
+# 
+# Copyright (c) 2017, Ghost Bird Operating System Project Developers.
+# All rights reserved.
+
+# There are some command different among OS
 
 all:
 	cd mbr && make all
 	cd boot && make all
 	
-run:all
-# this line can't run in Linux
-	VBoxManage.exe startvm "Explorer"
+install:
+	cd mbr && make install
+	cd boot && make install
 	
 clean:
-	del /a /f /q boot\BOOT
-	del /a /f /q mbr\MBR.bin
-	del /s /f /q *.o
-	del /s /f /q *.bin
+	$(RM) boot/BOOT
+	$(RM) mbr/MBR.bin
+	$(RM) boot/*.o
+	$(RM) boot/*.bin
 	
 	
 # part of functions

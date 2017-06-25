@@ -4,6 +4,7 @@
 #include "../configure.h"
 #include "../problem.h"
 #include "MMU.h"
+#include "VI.h"
 #include "lib/stdlib.h"
 
 /**Î´·ÖÅäÄÚ´æÖ¸Õë*/

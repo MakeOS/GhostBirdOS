@@ -113,3 +113,4 @@ str_err_readboot:	db	"Read boot area unsuccessfully!", 10, 13, "Please Press The
 	
 	;填充MBR大小至446字节
 	times	446-($-$$)	db	0
+	

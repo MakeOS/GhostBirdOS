@@ -7,33 +7,73 @@
 # 
 # Copyright (c) 2017, Ghost Bird Operating System Project Developers.
 # All rights reserved.
+# Problems:
+# 	1.I don't know how to write else ifeq.
 
-# There are some command different among OS
-platform = $(win)
-windows = win
-linux = linux
+# Which of environment are you using
+Windows	= Win32
+Linux	= Linux
+ARCH	= $(Windows)
 
-ifeq ($(platform), $(linux))
-	clean_screen = clear
-else ifeq ($(platform), $(windows))
-	clean_screen = cls
-	RM = del
+CC = gcc
+AS = nasm
+gfr = gfr
+qemu = qemu-system-i386
+image = $(CURDIR)/image/image.vhd
+
+ifeq ($(ARCH), $(Windows))
+	clear_scn = cls
+	compress = makecab
+	depress = expand
+else
+	clear_scn = clear
+	compress = zip
+	depress = unzip
 endif
+
+export clear_scn
+export CC
+export AS
+export image
+export qemu
+export gfr
 
 
 
 .PHONY:gfr
 .PHONY:loader
+.PHONY:$(image)
 .PHONY:help
 .PHONY:clean
 .PHONY:run
+.PHONY:install
 .PHONY:all
 
 gfr:
-	cd "tools/Ghost Bird File System Reader" && make all
+	cd tools/gfr && make all
 	
 loader:
 	cd loader && make all
+
+prepare:$(image:.vhd = .zip) $(image)
+	$(depress) $(image:.vhd=.zip) $(image)
+		
+clean:
+	cd loader && make clean
+	cd tools/gfr && make clean
+
+dist:clean
+	$(compress) $(image) $(image:.vhd=.zip)
+	$(RM) $(image)
+	
+install:
+	cd loader && make install
+	
+all:
+	cd loader && make all
+	
+run:all install
+	$(qemu) -drive file=$(image),format=vpc
 
 help:
 	$(clean_screen)
@@ -44,13 +84,3 @@ help:
 	@echo clean		make cl
 	@echo loader		make Explorer Loader
 
-dist : clean
-	makecab image/image.vhd
-	tar czf 02152c.tar.gz *.c Makefile
-	
-clean:
-	$(RM) *.o *.zip
-
-run:
-
-all:

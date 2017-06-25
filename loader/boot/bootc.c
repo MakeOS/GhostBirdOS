@@ -427,6 +427,16 @@ void int_auto_return(void)
 	printk("Unexpected interrupt happened.");
 }
 
+int callback(int n, int type)
+{
+	if (n == 0)
+	{
+		
+	}else{
+		
+	}
+}
+
 /**configure文件储存内存指针*/
 static void *config_buf;
 /**保留扇区引导程序的主函数*/
@@ -487,6 +497,12 @@ void BOOT_main(const struct boot_info *boot_info)
 	/**分配放置configure的内存*/
 	config_buf = bmalloc(CONFIG_MAX);
 	if (config_buf == NULL) error(ERR_NO_MEM_FOR_CONFIG, "No memory for loader's configure file.");
+	
+	// Example
+	printak("<0xaaaaff>Hello, This is Explorer loader!\n</>");
+	select_register(0, callback, "show 'Hello, world!'");
+	select_register(1, callback, "show 'Explorer loader'");
+	io_hlt();
 	
 	/**加载内核*/
 	read_file(0, 0, KERNEL_NAME, KERNEL_ADDR, 1);

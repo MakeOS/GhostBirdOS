@@ -1,6 +1,19 @@
+# Date:Miss
+# Author:HuWenjie<1@hwj.me>
 # Explorer Loader
-# /boot/Makefile
 # makefile for Explorer Loader Boot
+# 
+# BSD 2-Clause License
+# 
+# Copyright (c) 2017, Ghost Bird Operating System Project Developers.
+# All rights reserved.
+
+# Note that there is a boota.asm, which is boota.o in the first element
+# of $(OBJ), because it has entry "_start"
+CFILES  = bootc.c lib/font.c VI.c lib/vsprintf.c \
+		  lib/mem.c lib/string.c storage.c fs.c MMU.c
+ASFILES = boota.asm
+OBJ		= $(ASFILES:.asm=.o) $(CFILES:.c=.o)
 
 # compile all the Boot
 all:
@@ -15,6 +28,10 @@ all:
 	make boot.o
 	make boot.bin
 	make BOOT
+	
+install:BOOT
+	$(gfr) -ws BOOT $(image) 2
+	
 # compile files
 	
 BOOT:setup.bin boot.bin
@@ -24,7 +41,7 @@ boot.bin:boot.o
 	objcopy -R .note -R .comment -S -O binary boot.o boot.bin
 	
 boot.o:boota.o bootc.o lib/font.o VI.o lib/vsprintf.o lib/mem.o lib/string.o storage.o fs.o MMU.o
-	ld -o boot.o	-Ttext 0x11000 boota.o bootc.o lib/font.o VI.o lib/vsprintf.o lib/mem.o lib/string.o storage.o fs.o MMU.o
+	ld -o boot.o -Ttext 0x11000 $(OBJ)
 
 setup.bin:setup.asm
 	nasm setup.asm -o setup.bin

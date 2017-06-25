@@ -47,6 +47,8 @@ struct VI_select
 	bool exist;
 	/**选项字符串*/
 	char text[VI_select_font_line];
+	/**回调函数*/
+	int (*callback)(int n, int type);
 }*VI_select;
 
 // VI相关数据储存所需要的内存
@@ -236,7 +238,7 @@ void select_clean(void)
 }
 
 /**选择注册函数*/
-int select_register(const unsigned long n, const char *text, ...)
+int select_register(const unsigned long n, int (*callback)(int n, int type), const char *text, ...)
 {
 	unsigned long select_cursor_x;
 	char buffer[BUFFER_SIZE];
@@ -251,6 +253,8 @@ int select_register(const unsigned long n, const char *text, ...)
 	
 	/**结构体赋值注册*/
 	strncpy(VI_select[n].text, buffer, VI_select_font_line);
+	
+	VI_select[n].callback = callback;
 	
 	/**标记为存在*/
 	VI_select[n].exist = true;
@@ -314,6 +318,17 @@ int select_set_active(unsigned long n)
 	return n;
 }
 
+/**确定选择函数*/
+void select_press(void)
+{
+	/**判断是否越界*/
+	if (select_active == 0xffffffff) return;
+	if (select_active == 0) return;
+	
+	/**调用*/
+	VI_select[select_active].callback(select_active, VI_DO_PRES);
+}
+
 /**向上选择函数*/
 void select_up(void)
 {
@@ -325,6 +340,9 @@ void select_up(void)
 	
 	/**活动选项上移*/
 	for (n = -1; select_set_active(select_active + n) == -2; n --);
+	
+	/**调用*/
+	VI_select[select_active].callback(select_active, VI_DO_OVER);
 }
 
 /**向下选择函数*/
@@ -337,6 +355,9 @@ void select_down(void)
 	
 	/**活动选项下移*/
 	for (n = 1; select_set_active(select_active + n) == -2; n ++);
+	
+	/**调用*/
+	VI_select[select_active].callback(select_active, VI_DO_OVER);
 }
 
 /**打印函数集合*/

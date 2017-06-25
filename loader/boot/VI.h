@@ -11,6 +11,10 @@
 #define		VI_page_output 0
 #define		VI_page_select 1
 
+/**回调函数的参数定义*/
+#define		VI_DO_PRES 1
+#define		VI_DO_OVER 2
+
 /**选择活动页函数*/
 int VI_active(int VI_page);
 
@@ -18,10 +22,13 @@ int VI_active(int VI_page);
 void select_clean(void);
 
 /**选择注册函数*/
-int select_register(const unsigned long n, const char *text, ...);
+int select_register(const unsigned long n, int (*callback)(int n, int type), const char *text, ...);
 
 /**设置活动选择函数*/
 int select_set_active(unsigned long n);
+
+/**确定选择函数*/
+void select_press(void);
 
 /**向上选择函数*/
 void select_up(void);
