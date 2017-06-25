@@ -14,13 +14,15 @@ A lightweight, multi-tasking graphical operating system, **JUST FOR FUN!**
 
 No one meaningful creation is easy. For your better work, we prepare some docs for you here:
 
-[How to create a unique OS by ourselves?](docs/HowToCreateOS.md "docs/HowToCreateOS.md")
+[How to run](docs/HowTo/Run/index.md "docs/HowTo/Run/index.md")
 
-[How to develop OS with us?](docs/HoToTeamWork.md "docs/HoToTeamWork.md")
+[How to create a unique OS by ourselves?](docs/HowTo/CreateOS.md "docs/HowTo/CreateOS.md")
 
-[How to obtain information through documentation, standards, and protocols](docs/HowToObtainInformation.md "docs/HowToObtainInformation.md")
+[How to develop OS with us?](docs/HoToTeamWork/index.md "docs/HoToTeamWork/index.md")
 
-[How to develop high quality projects](docs/HowToDevelopHighQuality.md "docs/HowToDevelopHighQuality.md")
+[How to obtain information through documentation, standards, and protocols](docs/HowTo/ObtainInformation/index.md "docs/HowTo/ObtainInformation/index.md")
+
+[How to develop high quality projects](docs/HowTo/DevelopHighQuality/index.md "docs/HowTo/DevelopHighQuality/index.md")
 
 ## Further information ##
 
@@ -29,11 +31,6 @@ No one meaningful creation is easy. For your better work, we prepare some docs f
 [Function we need to do](docs/Plan.md "docs/Plan.md")
 
 [Function we have done](docs/FunctionList.md "docs/FunctionList.md")
-
-You can easily download and participate in the development of Ghost Bird Operating System Project by the following way:
-
-- visited our developer website:[makeos.org](http://makeos.org)
-- follow us on github:[GhostBirdOS](https://github.com/GhostBirdOperatingSystemProject/GhostBirdOS)
 
 First of all, Ghost Bird OS isn't a single project, in fact, this is a collection of multiple items, some of the project that make up Ghost Bird OS are as follows:
 
