@@ -32,14 +32,5 @@ No one meaningful creation is easy. For your better work, we prepare some docs f
 
 [Function we have done](docs/FunctionList.md "docs/FunctionList.md")
 
-First of all, Ghost Bird OS isn't a single project, in fact, this is a collection of multiple items, some of the project that make up Ghost Bird OS are as follows:
-
-- Explorer kernel Project
-- Explorer loader Project
-
-As a part of development, the function realized by these project are necessary for Ghost Bird OS development. And we recommanded you not just only follow this project but also follow the above items.
-
-
-
 ## Licensing Terms ##
 All of the Ghost Bird OS sources are governed by the terms of the [BSD 2-clause "Simplified" License](https://github.com/MakeOS/GhostBirdOS/blob/master/LICENSE).
