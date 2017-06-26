@@ -72,7 +72,7 @@ open */GhostBirdOS/console.bat*, input command:
 
 if there is no wrong, you can see the result of runing, it maybe like this:
 
-![Result](result.png)
+![Result](result.PNG)
 
 *result*
 
