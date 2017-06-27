@@ -13,9 +13,22 @@
 #ifndef IH_H_
 #define IH_H_
 
-class image_handle
+class ImageHandle
 {
-	wstring format;
+public:
+	~ImageHandle();
+	int open(const char *parameter);
+	int close(void);
+	int put(int location, char c);
+	int get(int location);
+	int get_size(void);
+	int init(int type);
+	int format(int partition, int fs);
+	int new_partition(int n, int start, int size);
+private:
+	string format;
+	string path;
+	FILE *image;
 }
 
 #endif
