@@ -79,6 +79,7 @@ int arg_ws(void)
 	int LBA;
 	int src_len;
 	int dst_len;
+	int i;
 	FILE *src_file = NULL;
 	FILE *dst_file = NULL;
 	
@@ -138,7 +139,7 @@ int arg_ws(void)
 	fseek(src_file, 0, SEEK_SET);
 	fseek(dst_file, (LBA - 1) * SECTOR_SIZE, SEEK_SET);
 	
-	for (int i = 0; i < src_len; i ++)
+	for (i = 0; i < src_len; i ++)
 	{
 		putc(getc(src_file), dst_file);
 	}
@@ -245,4 +246,6 @@ write:
 read:
 	if (argv[1][2] == 's')
 		return arg_rs();
+	
+	return RET_FAIL;
 }
