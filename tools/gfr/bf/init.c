@@ -11,8 +11,8 @@
  **/
 
 #include <stdio.h>
-#include <return.h>
-#include <io.h>
+#include "../include/return.h"
+#include "../include/io.h"
 
 int init(void)
 {

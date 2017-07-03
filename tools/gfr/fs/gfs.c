@@ -11,9 +11,9 @@
  **/
 
 #include <stdio.h>
-#include <return.h>
-#include <config.h>
-#include <io.h>
+#include "../include/return.h"
+#include "../include/config.h"
+#include "../include/io.h"
 
 int GFS_scan(int n)
 {

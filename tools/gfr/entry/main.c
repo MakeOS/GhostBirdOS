@@ -34,9 +34,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <config.h>
-#include <return.h>
-#include <info.h>
+#include "../include/config.h"
+#include "../include/return.h"
+#include "../include/info.h"
 
 #define SECTOR_SIZE 512
 

@@ -10,8 +10,8 @@
  * All rights reserved.
  **/
 
-#include <config.h>
-#include <return.h>
+#include "../include/config.h"
+#include "../include/return.h"
 
 #ifdef CONFIG_ENABLE_GFS01
 

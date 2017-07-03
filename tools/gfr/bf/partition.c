@@ -12,7 +12,7 @@
 
 #include <stdio.h>
 #include <stddef.h>
-#include <return.h>
+#include "../include/return.h"
 
 int active_partition(int n)
 {

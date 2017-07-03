@@ -9,31 +9,38 @@
 # All rights reserved.
 
 CC			:= gcc
-DIRS		:= $(CURDIR) fs bf io
+DIRS		:= entry fs bf io
 CFILES		:= $(foreach dir,$(DIRS),$(wildcard $(dir)/*.c))
 OBJ			:= $(CFILES:.c=.o)
 
 EXECUTE := gfr.exe
-CFLAGS := -Wall -O2 -I $(CURDIR)/include/
+CFLAGS := -Wall -O2
+
+ifneq ($(MAKECMDGOALS), clean)
+-include $(CFILES:.c=.d)
+endif
 
 .PHONY: $(EXECUTE)
 
 $(EXECUTE):all
 	$(CC) -o $(EXECUTE) $(OBJ)
 
-all:
-	make $(OBJ)
+all:$(OBJ)
 
 %.d:%.c
-	@gcc -M $(CFLAGS) $< -o $@
+	gcc -M $(CFLAGS) $< > $@
+	@sed -i 's:$(notdir $(<:.c=.o)):$@ $(<:.c=.o):' $@
+
+# %.d:%.c
+# @echo $@ $(dir $<) > $@
+# @gcc -M $(CFLAGS) $< -o $@
+# $(shell gcc -M $(CFLAGS) $<) >> $@
+	
 
 %.o:%.c
-	@gcc -M $(CFLAGS) $< -o $(<:.c=.d)
 	gcc -c $(CFLAGS) $< -o $@
 	
 clean:
 	$(RM) $(EXECUTE)
 	$(RM) $(CFILES:.c=.d)
 	$(RM) $(OBJ)
-
--include $(CFILES:.c=.d)

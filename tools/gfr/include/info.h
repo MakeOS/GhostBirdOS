@@ -18,6 +18,4 @@
 #define VERSION "0.1"
 #define SUBVERSION "a"
 
-
-
 #endif
