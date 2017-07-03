@@ -1,8 +1,8 @@
 /**
- * Date:2017/6/26 17:57
+ * Date:2017/6/30 22:01
  * Author:HuWenjie<1@hwj.me>
  * Ghost Bird File System Reader
- * defination of image manager
+ * File System Definition
  * 
  * BSD 2-Clause License
  * 
@@ -10,8 +10,8 @@
  * All rights reserved.
  **/
  
-#ifndef IM_H_
-#define IM_H_
+#ifndef FS_H_
+#define FS_H_
 
 
 

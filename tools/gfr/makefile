@@ -8,22 +8,32 @@
 # Copyright (c) 2017, Ghost Bird Operating System Project Developers.
 # All rights reserved.
 
-CC			:= g++
-CPPFILES	:= gfr.cpp im/im.cpp im/vhd.cpp
-OBJ			:= $(CPPFILES:.cpp=.o)
+CC			:= gcc
+DIRS		:= $(CURDIR) fs bf io
+CFILES		:= $(foreach dir,$(DIRS),$(wildcard $(dir)/*.c))
+OBJ			:= $(CFILES:.c=.o)
 
 EXECUTE := gfr.exe
-LDFLAGS := -Wall -O2
-CPPFLAGS := -I C:/MinGW/include
+CFLAGS := -Wall -O2 -I $(CURDIR)/include/
 
-EXECUTE: $(OBJ)
-	$(LD) -o $(LDFLAGS) $(EXECUTE) $(OBJ)
+.PHONY: $(EXECUTE)
 
-all: EXECUTE
-	
-.c.o:
-	$(CC) -c $< $(CFLAGS)
-	
+$(EXECUTE):all
+	$(CC) -o $(EXECUTE) $(OBJ)
+
+all:
+	make $(OBJ)
+
+%.d:%.c
+	@gcc -M $(CFLAGS) $< -o $@
+
+%.o:%.c
+	@gcc -M $(CFLAGS) $< -o $(<:.c=.d)
+	gcc -c $(CFLAGS) $< -o $@
 	
 clean:
-	$(RM) gfr.exe
+	$(RM) $(EXECUTE)
+	$(RM) $(CFILES:.c=.d)
+	$(RM) $(OBJ)
+
+-include $(CFILES:.c=.d)

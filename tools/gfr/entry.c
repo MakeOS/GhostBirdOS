@@ -34,9 +34,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "include/info.h"
-#include "include/config.h"
-#include "include/return.h"
+#include <config.h>
+#include <return.h>
+#include <info.h>
 
 #define SECTOR_SIZE 512
 
@@ -199,9 +199,10 @@ void arg_sh(void)
 void arg_v(void)
 {
 	// Show some necessary info
-	printf(SOFTWARE"\n");
+	printf(SOFTWARE " " VERSION SUBVERSION "\n");
 	printf(COPYRIGHT"\n");
-	
+	printf("Support image format:\n");
+	printf("Support File System:\n");
 	return;
 }
 
@@ -249,3 +250,4 @@ read:
 	
 	return RET_FAIL;
 }
+
