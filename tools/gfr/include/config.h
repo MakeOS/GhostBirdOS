@@ -13,8 +13,6 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-// Here are some switch which can enable\disable every version of GFS.
 
-#define CONFIG_ENABLE_GFS01
 
 #endif

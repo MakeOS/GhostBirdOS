@@ -19,10 +19,10 @@ install:
 	cd boot && make install
 	
 clean:
-	$(RM) boot/BOOT
-	$(RM) mbr/MBR.bin
-	$(RM) boot/*.o
-	$(RM) boot/*.bin
+	#$(RM) boot/BOOT
+	#$(RM) mbr/MBR.bin
+	#$(RM) boot/*.o
+	#$(RM) boot/*.bin
 	
 	
 # part of functions

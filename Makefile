@@ -7,40 +7,28 @@
 # 
 # Copyright (c) 2017, Ghost Bird Operating System Project Developers.
 # All rights reserved.
-# Problems:
-# 	1.I don't know how to write else ifeq.
 
-# Which of environment are you using
-Windows	= Win32
-Linux	= Linux
-ARCH	= $(Windows)
-
-CC = gcc
-AS = nasm
-gfr = gfr
+CC      = gcc
+NS      = nasm
+LD      = ld
+OBJCOPY = objcopy
 qemu = qemu-system-i386
 image = $(CURDIR)/image/image.vhd
+compress = makecab
+depress = expand
 
-ifeq ($(ARCH), $(Windows))
-	clear_scn = cls
-	compress = makecab
-	depress = expand
-else
-	clear_scn = clear
-	compress = zip
-	depress = unzip
-endif
-
-export clear_scn
-export CC
-export AS
-export image
-export qemu
-export gfr
+export CC NS LD OBJCOPY
+export image qemu
 
 
-
-.PHONY: gfr loader help clean run install all
+.PHONY:gfr
+.PHONY:loader kernel
+.PHONY:$(image)
+.PHONY:help
+.PHONY:clean
+.PHONY:run
+.PHONY:install
+.PHONY:all
 
 gfr:
 	cd tools/gfr && make all
@@ -48,12 +36,16 @@ gfr:
 loader:
 	cd loader && make all
 
+kernel:
+	cd kernel && make all
+
 prepare:$(image:.vhd = .zip) $(image)
 	$(depress) $(image:.vhd=.zip) $(image)
 		
 clean:
 	cd loader && make clean
 	cd tools/gfr && make clean
+	cd kernel && make clean
 
 dist:clean
 	$(compress) $(image) $(image:.vhd=.zip)
@@ -69,7 +61,7 @@ run:all install
 	$(qemu) -drive file=$(image),format=vpc
 
 help:
-	$(clean_screen)
+	clear
 	@echo Ghost Bird Project Makefile - Help
 	@echo target		introduction
 	@echo gfr		make Ghost Bird File System Reader

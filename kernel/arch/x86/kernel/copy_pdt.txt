@@ -1,0 +1,42 @@
+/**创建新页目录函数*/
+unsigned long new_pdt(void)
+{
+	unsigned long ptr;
+	unsigned long *new_pdt;
+	
+	/**分配内存创建新的页目录表*/
+	for (new_pdt = NULL; new_pdt == NULL; )
+		new_pdt = vmalloc(PAGE_SIZE);
+	
+	/**将已经出来的页目录表的所有页表都拷贝到新页目录表中*/
+	for (ptr = 0; ptr < (RANG_KERNEL_SIZE / 4194304); ptr ++)
+	{
+		new_pdt[ptr] = pdt[ptr];
+	}
+}
+
+
+	unsigned long *new_pdt, *new_pt;
+	unsigned long ptr;
+	
+	/**分配页目录表*/
+	for (new_pdt = NULL; new_pdt == NULL; )
+		new_pdt = vmalloc(PAGE_SIZE);
+	
+	/**分配页表*/
+	for (new_pt = NULL; new_pt == NULL; )
+		new_pt = vmalloc((RANG_KERNEL_SIZE / PAGE_SIZE) * sizeof(new_pt));
+	
+	/**将所有页表都注册到页目录表*/
+	for (ptr = 0; ptr < (RANG_KERNEL_SIZE / 4194304); ptr ++)
+	{
+		new_pdt[ptr] = (ptr * PAGE_SIZE) + (int)new_pt + 0x7;
+	}
+	
+	/**将所有内存区域的页都注册到页表中*/
+	for (ptr = 0; ptr < RANG_KERNEL_SIZE / 4096; ptr ++)
+	{
+		new_pt[ptr] = ptr * PAGE_SIZE + 0x7;
+	}
+	
+	return (unsigned long)new_pdt;

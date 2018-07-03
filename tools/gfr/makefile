@@ -8,39 +8,29 @@
 # Copyright (c) 2017, Ghost Bird Operating System Project Developers.
 # All rights reserved.
 
-CC			:= gcc
-DIRS		:= entry fs bf io
-CFILES		:= $(foreach dir,$(DIRS),$(wildcard $(dir)/*.c))
-OBJ			:= $(CFILES:.c=.o)
+DIRS := $(shell find . -maxdepth 9 -type d)
+SRCS := $(foreach dir, $(DIRS), $(wildcard $(dir)/*.c))
+OBJS := $(patsubst %.c, %.o, $(SRCS))
+LDFLAGS := -Wall -O2
+CFLAGS := -fno-stack-protector
+GFR = gfr
 
-EXECUTE := gfr.exe
-CFLAGS := -Wall -O2
+EXEC_NAME = $(GFR)
 
-ifneq ($(MAKECMDGOALS), clean)
--include $(CFILES:.c=.d)
-endif
+sinclude $(SRCS:.c=.d)
 
-.PHONY: $(EXECUTE)
+all: $(EXEC_NAME)
 
-$(EXECUTE):all
-	$(CC) -o $(EXECUTE) $(OBJ)
 
-all:$(OBJ)
+$(EXEC_NAME): $(OBJS)
+	$(CC) -o $(EXEC_NAME) $(OBJS) $(LDFLAGS)
 
-%.d:%.c
-	gcc -M $(CFLAGS) $< > $@
-	@sed -i 's:$(notdir $(<:.c=.o)):$@ $(<:.c=.o):' $@
 
-# %.d:%.c
-# @echo $@ $(dir $<) > $@
-# @gcc -M $(CFLAGS) $< -o $@
-# $(shell gcc -M $(CFLAGS) $<) >> $@
-	
+%.d: %.c
+	@set -e; rm -f $@; \
+	$(CC) -M $(CFLAGS) $< > $@.$$$$; \
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
 
-%.o:%.c
-	gcc -c $(CFLAGS) $< -o $@
-	
 clean:
-	$(RM) $(EXECUTE)
-	$(RM) $(CFILES:.c=.d)
-	$(RM) $(OBJ)
+	$(RM) $(EXEC_NAME) *.exe $(OBJS) $(SRCS:.c=.d)

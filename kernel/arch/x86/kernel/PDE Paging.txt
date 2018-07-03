@@ -1,0 +1,22 @@
+/**初始化分页模式函数*/
+void init_paging(void)
+{
+	unsigned long *pde, ptr;
+	
+	/**分配页目录表*/
+	for (pde = NULL; pde == NULL; )
+		pde = vmalloc(4096);
+	
+	/**清空该页*/
+	memset(pde, 0, 4096);
+	
+	/**初始化页目录表*/
+	// for (ptr = 0; ptr < (RANG_KERNEL_SIZE / 4194304); ptr ++)
+	for (ptr = 0; ptr < 1024; ptr ++)
+	{
+		pde[ptr] = (ptr * 4194304) | 0b10000000;
+	}
+	
+	/**进入分页模式*/
+	goto_paging(pde);
+}
