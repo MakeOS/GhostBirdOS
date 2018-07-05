@@ -19,52 +19,52 @@
 #include "../recourse.h"
 
 /**
- * ExplorerÄÚºËÍ¼ĞÎ»¯½çÃæ´°¿ÚÏµÍ³¿â
- * ÔÚGUIµÄÍ¼²ã»¯»ù´¡ÉÏµÄ¸ß¼¶Í¼ĞÎ¿â
+ * Explorerå†…æ ¸å›¾å½¢åŒ–ç•Œé¢çª—å£ç³»ç»Ÿåº“
+ * åœ¨GUIçš„å›¾å±‚åŒ–åŸºç¡€ä¸Šçš„é«˜çº§å›¾å½¢åº“
  */
 
-/**´´½¨Windowº¯Êı
- * ´´½¨Ò»¸ö´°¿Ú£¬±êÌâÎªtitle£¬
- * ·ç¸ñÎªstyle£¬
- * µ±x = 0ÇÒy = 0Ê±£¬´°¿Ú»á´´½¨ÔÚ×îÖĞ¼ä
- * ´°¿ÚÖĞÓĞĞ§ÄÚÈİ³ß´çÎªlength*width
+/**åˆ›å»ºWindowå‡½æ•°
+ * åˆ›å»ºä¸€ä¸ªçª—å£ï¼Œæ ‡é¢˜ä¸ºtitleï¼Œ
+ * é£æ ¼ä¸ºstyleï¼Œ
+ * å½“x = 0ä¸”y = 0æ—¶ï¼Œçª—å£ä¼šåˆ›å»ºåœ¨æœ€ä¸­é—´
+ * çª—å£ä¸­æœ‰æ•ˆå†…å®¹å°ºå¯¸ä¸ºlength*width
  */
 struct window *GUI_window(char *title, char style, unsigned long x, unsigned long y, unsigned long length, unsigned long width)
 {
 	unsigned long real_length, real_width;
-	/**¸ù¾İ²»Í¬µÄ·ç¸ñ£¬½øĞĞ²»Í¬µÄ³õÊ¼»¯*/
+	/**æ ¹æ®ä¸åŒçš„é£æ ¼ï¼Œè¿›è¡Œä¸åŒçš„åˆå§‹åŒ–*/
 	if (style == WINDOW_NONE)
 	{
-		/**ÎŞ±ß¿ò*/
+		/**æ— è¾¹æ¡†*/
 		real_length = length;
 		real_width = width;
 		
-		/**ÎŞ±ß¿ò´°¿Ú×îĞ¡²»µÃ³¤¿íÎª0*/
+		/**æ— è¾¹æ¡†çª—å£æœ€å°ä¸å¾—é•¿å®½ä¸º0*/
 		if ((length * width) == 0)
 		{
-			/**´íÎó·µ»Ø*/
+			/**é”™è¯¯è¿”å›*/
 			return NULL;
 		}
 	}else if (style == WINDOW_NORMAL)
 	{
-		/**Ëã½ø±ß¿ò´óĞ¡*/
+		/**ç®—è¿›è¾¹æ¡†å¤§å°*/
 		real_length = length + (WINDOW_NORMAL_FRAME_WIDTH * 2);
 		real_width = width + WINDOW_NORMAL_HEADER_WIDTH + WINDOW_NORMAL_FRAME_WIDTH;
 		
-		/**Õı³£±ß¿ò´°¿Ú×îĞ¡²»µÃ³¤¿íÎª0*/
+		/**æ­£å¸¸è¾¹æ¡†çª—å£æœ€å°ä¸å¾—é•¿å®½ä¸º0*/
 		if ((length * width) == 0)
 		{
-			/**´íÎó·µ»Ø*/
+			/**é”™è¯¯è¿”å›*/
 			return NULL;
 		}
 	}
 	
-	/**·ÖÅäÒ»¸öĞÂµÄÍ¼²ã*/
+	/**åˆ†é…ä¸€ä¸ªæ–°çš„å›¾å±‚*/
 	struct window *new_window;
 	new_window = kmalloc(sizeof(struct window), 0);
 	if (new_window == NULL) error("window create failed.");
 	
-	/**½á¹¹Ìå¸³Öµ*/
+	/**ç»“æ„ä½“èµ‹å€¼*/
 	strncpy(new_window->title, title, WINDOW_NUM_TITLE);
 	new_window->style = style;
 	new_window->length = length;
@@ -73,9 +73,9 @@ struct window *GUI_window(char *title, char style, unsigned long x, unsigned lon
 	new_window->print_y = 0;
 	new_window->ident = WINDOW_IDENT;
 	
-	/**È·¶¨ĞÂ´°¿ÚµÄÎ»ÖÃ
-	 * Èç¹ûx,y¶¼Îª0£¬ÔòÄ¬ÈÏĞÂ´°¿ÚÎ»ÓÚÕıÖĞ¼ä
-	 * Èç¹ûx,yÖÁÉÙÓĞÒ»¸ö²»Îª0£¬ÔòĞÂ´°¿ÚÎ»ÖÃÔÚ(x,y)
+	/**ç¡®å®šæ–°çª—å£çš„ä½ç½®
+	 * å¦‚æœx,yéƒ½ä¸º0ï¼Œåˆ™é»˜è®¤æ–°çª—å£ä½äºæ­£ä¸­é—´
+	 * å¦‚æœx,yè‡³å°‘æœ‰ä¸€ä¸ªä¸ä¸º0ï¼Œåˆ™æ–°çª—å£ä½ç½®åœ¨(x,y)
 	 */
 	if ((x == 0) & (y == 0))
 	{
@@ -83,83 +83,83 @@ struct window *GUI_window(char *title, char style, unsigned long x, unsigned lon
 		y = ((Video_Info.yres - real_width) /2);
 	}
 	
-	/**´´½¨¡¢³õÊ¼»¯Í¼²ã*/
+	/**åˆ›å»ºã€åˆå§‹åŒ–å›¾å±‚*/
 	new_window->layer = GUI_new_layer(x, y, real_length, real_width);
 	
-	/**½«¸ÃÍ¼²ã´ÓÍ¼²ãÁ´±íÖĞÍÑÀë*/
+	/**å°†è¯¥å›¾å±‚ä»å›¾å±‚é“¾è¡¨ä¸­è„±ç¦»*/
 	new_window->layer->top->bottom = new_window->layer->bottom;
 	new_window->layer->bottom->top = new_window->layer->top;
 	
-	/**½«¸ÃÍ¼²ãÖÃÓÚÈÎÎñÀ¸Ö®ÏÂ£¬ÆäËû´°¿ÚÖ®ÉÏ*/
+	/**å°†è¯¥å›¾å±‚ç½®äºä»»åŠ¡æ ä¹‹ä¸‹ï¼Œå…¶ä»–çª—å£ä¹‹ä¸Š*/
 	new_window->layer->top = taskbar_layer;
 	new_window->layer->bottom = taskbar_layer->bottom;
 	taskbar_layer->bottom = new_window->layer;
 	new_window->layer->bottom->top = new_window->layer;
 	
-	/**ÉèÖÃÎª¿É¼û*/
+	/**è®¾ç½®ä¸ºå¯è§*/
 	new_window->layer->visiable = true;
 	
-	/**ÉèÖÃÖ¸Õë*/
+	/**è®¾ç½®æŒ‡é’ˆ*/
 	new_window->layer->winptr = new_window;
 	
-	/**ÅĞ¶Ï·ç¸ñÊÇ·ñÊÇÎŞ·ç¸ñ*/
+	/**åˆ¤æ–­é£æ ¼æ˜¯å¦æ˜¯æ— é£æ ¼*/
 	if (style == WINDOW_NONE)
 	{
-		/**ÎŞ±ß¿ò*/
+		/**æ— è¾¹æ¡†*/
 		GUI_put_square(new_window->layer, 0xffffffff, 0, 0, length, width);
 		
-	/**ÅĞ¶ÏÊÇ²»ÊÇÕı³£·ç¸ñ*/
+	/**åˆ¤æ–­æ˜¯ä¸æ˜¯æ­£å¸¸é£æ ¼*/
 	}else if (style == WINDOW_NORMAL)
 	{
-		/**ÉèÖÃĞÂµÄ´°¿ÚÎª»î¶¯´°¿Ú*/
+		/**è®¾ç½®æ–°çš„çª—å£ä¸ºæ´»åŠ¨çª—å£*/
 		window_set_active(new_window);
 		
-		/**»æÖÆ°´Å¥*/
+		/**ç»˜åˆ¶æŒ‰é’®*/
 		GUI_map(new_window->layer, close_f_botton, new_window->layer->length - close_f_botton->length - WINDOW_NORMAL_FRAME_WIDTH, 0, 0, 0, 0);
 		GUI_map(new_window->layer, mini_f_botton, new_window->layer->length - (close_f_botton->length + mini_f_botton->length) - WINDOW_NORMAL_FRAME_WIDTH, 0, 0, 0, 0);
 		
-		// /**½¨Á¢µ¥Ôª*/
+		// /**å»ºç«‹å•å…ƒ*/
 		GUI_new_unit(new_window->layer, UNIT_CLOSE, new_window->layer->length - close_f_botton->length - WINDOW_NORMAL_FRAME_WIDTH, 0, close_f_botton->length, close_f_botton->width);
 		GUI_new_unit(new_window->layer, UNIT_MINI, new_window->layer->length - (close_f_botton->length + mini_f_botton->length) - WINDOW_NORMAL_FRAME_WIDTH, 0, mini_f_botton->length, mini_f_botton->width);
 		
-		/**Ö÷Ìå*/
+		/**ä¸»ä½“*/
 		GUI_put_square(new_window->layer, 0xffffffff, WINDOW_NORMAL_FRAME_WIDTH, WINDOW_NORMAL_HEADER_WIDTH, length, width);
 	}
 
-	/**·µ»ØĞÂ´°¿ÚµÄÖ¸Õë*/
+	/**è¿”å›æ–°çª—å£çš„æŒ‡é’ˆ*/
 	return new_window;
 }
 
-/**ÊÍ·Å´°¿Úº¯Êı*/
+/**é‡Šæ”¾çª—å£å‡½æ•°*/
 void GUI_free_window(struct window *target)
 {
-	/**ÊÍ·Å´°¿ÚÊ¹ÓÃµÄÍ¼²ã×ÊÔ´*/
+	/**é‡Šæ”¾çª—å£ä½¿ç”¨çš„å›¾å±‚èµ„æº*/
 	GUI_free_layer(target->layer);
 	
-	/**ÊÍ·Å´°¿Ú*/
+	/**é‡Šæ”¾çª—å£*/
 	kfree(target);
 	
-	/**Õı³£·µ»Ø*/
+	/**æ­£å¸¸è¿”å›*/
 	return;
 }
 
-/**¾ÀÕı»æÖÆ²ÎÊıº¯Êı
- * ´°ÌåÓĞÎŞ±ß¿ò¡¢±ß¿ò·ç¸ñ²»Í¬Ê±
- * »æÖÆµ½Í¼²ãÉÏµÄÊµ¼ÊµØÖ·ÊÇ²»Ò»ÑùµÄ
+/**çº æ­£ç»˜åˆ¶å‚æ•°å‡½æ•°
+ * çª—ä½“æœ‰æ— è¾¹æ¡†ã€è¾¹æ¡†é£æ ¼ä¸åŒæ—¶
+ * ç»˜åˆ¶åˆ°å›¾å±‚ä¸Šçš„å®é™…åœ°å€æ˜¯ä¸ä¸€æ ·çš„
  */
 void correct_para(struct window *target, unsigned long *x, unsigned long *y, unsigned long *length, unsigned long *width)
 {
-	/**¸ù¾İ´°¿Ú·ç¸ñ¾ÀÕı²ÎÊı*/
+	/**æ ¹æ®çª—å£é£æ ¼çº æ­£å‚æ•°*/
 	if (target->style == WINDOW_NONE)
 	{
-		/**ÎŞ±ß¿ò*/
+		/**æ— è¾¹æ¡†*/
 	}else if (target->style == WINDOW_NORMAL)
 	{
-		/**ÓĞ´°Ìå±ß¿ò*/
+		/**æœ‰çª—ä½“è¾¹æ¡†*/
 		*x += WINDOW_NORMAL_FRAME_WIDTH;
 		*y += WINDOW_NORMAL_HEADER_WIDTH;
 		
-	/**ÅĞ¶ÏÊÇ·ñ³¬¹ı±ß½ç£¬Èç¹û³¬¹ı£¬ÒÔ±ß½çÎª×¼*/
+	/**åˆ¤æ–­æ˜¯å¦è¶…è¿‡è¾¹ç•Œï¼Œå¦‚æœè¶…è¿‡ï¼Œä»¥è¾¹ç•Œä¸ºå‡†*/
 		if ((length != NULL) & (*length >= (target->length + WINDOW_NORMAL_FRAME_WIDTH)))
 			*length = target->length + WINDOW_NORMAL_FRAME_WIDTH;
 		
@@ -169,39 +169,39 @@ void correct_para(struct window *target, unsigned long *x, unsigned long *y, uns
 	return;
 }
 
-/**Êä³ö×Ö·û´®µ½´°¿Ú*/
+/**è¾“å‡ºå­—ç¬¦ä¸²åˆ°çª—å£*/
 void window_string(struct window *target, unsigned long x, unsigned long y, char *s)
 {
 	unsigned long length = 0xffffffff, width = 0xffffffff;
-	/**¾ÀÕı²ÎÊı*/
+	/**çº æ­£å‚æ•°*/
 	correct_para(target, &x, &y, &length, &width);
 
-	/**Êä³ö×Ö·û´®*/
+	/**è¾“å‡ºå­—ç¬¦ä¸²*/
 	GUI_put_string(target->layer, 0xff000000, x, y, length, width, font("Standard Font"), s);
 }
 
-/**´°¿ÚĞÅÏ¢Êä³öº¯Êı*/
+/**çª—å£ä¿¡æ¯è¾“å‡ºå‡½æ•°*/
 int window_print(struct window *target, const char *fmt, ...)
 {
 	va_list arg;
 	unsigned int n;
 	
-	/**»º³åÇø*/
+	/**ç¼“å†²åŒº*/
 	char buffer[64];
 	
-	/**³õÊ¼»¯²ÎÊıÖ¸Õë*/
+	/**åˆå§‹åŒ–å‚æ•°æŒ‡é’ˆ*/
 	va_start(arg, fmt);
 	
-	/**¸ñÊ½»¯Ğ´Èë»º´æ²¢·µ»Ø³¤¶È*/
+	/**æ ¼å¼åŒ–å†™å…¥ç¼“å­˜å¹¶è¿”å›é•¿åº¦*/
 	n = vsprintf(buffer, fmt, arg);
 	
-	/**Êä³ö×Ö·û´®µ½´°¿Ú*/
+	/**è¾“å‡ºå­—ç¬¦ä¸²åˆ°çª—å£*/
 	window_string(target, target->print_x, target->print_y, buffer);
 	
-	/**Ö¸ÕëÖ¸ÏòĞÂÇøÓò*/
+	/**æŒ‡é’ˆæŒ‡å‘æ–°åŒºåŸŸ*/
 	target->print_y += 16;
 	
-	/**´¦ÀíÖ¸Õë£¬·ÀÖ¹Îó²Ù×÷*/
+	/**å¤„ç†æŒ‡é’ˆï¼Œé˜²æ­¢è¯¯æ“ä½œ*/
 	va_end(arg);
 	return n;
 }

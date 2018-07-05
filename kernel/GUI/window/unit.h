@@ -10,38 +10,38 @@
 #ifndef UNIT_H_
 #define UNIT_H_
 
-/**µ¥ÔªÏûÏ¢´¦Àíº¯ÊıÖ¸ÕëÊı×é*/
+/**å•å…ƒæ¶ˆæ¯å¤„ç†å‡½æ•°æŒ‡é’ˆæ•°ç»„*/
 #define NUM_UNIT_HANDLE		3
 extern void (*unit_handle[NUM_UNIT_HANDLE])(struct layer *target, unsigned long x, unsigned long y, void *ptr);
 
-/**µ¥ÔªÖÖÀàÁĞ±í*/
+/**å•å…ƒç§ç±»åˆ—è¡¨*/
 #define UNIT_CLOSE			0
 #define UNIT_MINI			1
 #define UNIT_BOTTON			2
 
-/**µ¥Ôª½á¹¹*/
+/**å•å…ƒç»“æ„*/
 struct layer_unit
 {
-	unsigned int type;				/**µ¥ÔªµÄÖÖÀà*/
-	unsigned long x, y;				/**µ¥ÔªµÄÎ»ÖÃ*/
-	unsigned long length, width;	/**µ¥ÔªµÄ³¤¿í*/
-	struct layer_unit *next;		/**ÏÂÒ»¸öµ¥Ôª½á¹¹*/
-	void *ptr;						/**¸÷¸öµ¥Ôª×Ô¶¨ÒåµÄÖ¸Õë*/
+	unsigned int type;				/**å•å…ƒçš„ç§ç±»*/
+	unsigned long x, y;				/**å•å…ƒçš„ä½ç½®*/
+	unsigned long length, width;	/**å•å…ƒçš„é•¿å®½*/
+	struct layer_unit *next;		/**ä¸‹ä¸€ä¸ªå•å…ƒç»“æ„*/
+	void *ptr;						/**å„ä¸ªå•å…ƒè‡ªå®šä¹‰çš„æŒ‡é’ˆ*/
 };
 
-/**°´Å¥ÏûÏ¢´¦Àíº¯Êı*/
+/**æŒ‰é’®æ¶ˆæ¯å¤„ç†å‡½æ•°*/
 void unit_botton_handle(struct layer *target, unsigned long x, unsigned long y, void *ptr);
 
-/**ĞÂ½¨°´Å¥º¯Êı*/
+/**æ–°å»ºæŒ‰é’®å‡½æ•°*/
 struct layer_unit *unit_new_botton(struct window *target, unsigned long x, unsigned long y, unsigned long length, unsigned long width, char *text);
 
-/**´°Ìå¹Ø±Õ°´Å¥´¦Àíº¯Êı*/
+/**çª—ä½“å…³é—­æŒ‰é’®å¤„ç†å‡½æ•°*/
 void unit_close_handle(struct layer *target, unsigned long x, unsigned long y, void *ptr);
 
-/**´°Ìå×îĞ¡»¯°´Å¥´¦Àíº¯Êı*/
+/**çª—ä½“æœ€å°åŒ–æŒ‰é’®å¤„ç†å‡½æ•°*/
 void unit_mini_handle(struct layer *target, unsigned long x, unsigned long y, void *ptr);
 
-/**´´½¨ĞÂµ¥Ôªº¯Êı*/
+/**åˆ›å»ºæ–°å•å…ƒå‡½æ•°*/
 struct layer_unit *GUI_new_unit(struct layer *target, unsigned int type, unsigned long x, unsigned long y, unsigned long length, unsigned long width);
 
 

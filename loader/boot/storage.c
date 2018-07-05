@@ -20,27 +20,27 @@
 
 
 
-/**´¢´æÆ÷¹ÜÀí¶¨Òå²¿·Ö*/
+/**å‚¨å­˜å™¨ç®¡ç†å®šä¹‰éƒ¨åˆ†*/
 /**Storage Management Definition*/
 
 
 
-/**ÉÈÇø»º´æÖ¸Õë*/
+/**æ‰‡åŒºç¼“å­˜æŒ‡é’ˆ*/
 void *sector_buffer;
 
-#pragma pack(push)					// ±£´æµ±Ç°¶ÔÆëĞÅÏ¢
-#pragma pack(1)						// Éè¶¨½á¹¹ÌåÒÔÒ»¸ö×Ö½ÚÎªµ¥Î»¶ÔÆë
+#pragma pack(push)					// ä¿å­˜å½“å‰å¯¹é½ä¿¡æ¯
+#pragma pack(1)						// è®¾å®šç»“æ„ä½“ä»¥ä¸€ä¸ªå­—èŠ‚ä¸ºå•ä½å¯¹é½
 
-/**´¢´æÆ÷Ö÷Òıµ¼¼ÇÂ¼*/
+/**å‚¨å­˜å™¨ä¸»å¼•å¯¼è®°å½•*/
 struct MBR{
 	char code[446];
 	struct Storage_Partition SP[4];
 	unsigned short int flag;
 }*MBR;
 
-#pragma pack(pop)					// »Ö¸´Ô­À´µÄ¶ÔÆëµ¥Î»
+#pragma pack(pop)					// æ¢å¤åŸæ¥çš„å¯¹é½å•ä½
 
-/**´¢´æÆ÷ÃèÊö·û±í*/
+/**å‚¨å­˜å™¨æè¿°ç¬¦è¡¨*/
 struct Storage_Description
 {
 	bool exist;
@@ -50,105 +50,105 @@ struct Storage_Description
 
 
 
-/**IDE¿ØÖÆÆ÷¶¨Òå²¿·Ö*/
+/**IDEæ§åˆ¶å™¨å®šä¹‰éƒ¨åˆ†*/
 /**IDE Support Definition*/
 
 
 
-// ÃüÁî¼Ä´æÆ÷×é
-// ¶Á£¨Ö÷»ú´ÓÖ÷Í¨µÀ¶ÁÊı¾İ£©
-#define IDE_PRIMARY_READ_DATA 0x1f0				// Êı¾İ¼Ä´æÆ÷
-#define IDE_PRIMARY_READ_ERROR 0x1f1			// ´íÎó¼Ä´æÆ÷£¨Ö»¶Á¼Ä´æÆ÷£©
-#define IDE_PRIMARY_READ_SECCOUNT 0x1f2			// ÉÈÇø¼ÆÊı¼Ä´æÆ÷
-#define IDE_PRIMARY_READ_LBA_0_7 0x1f3			// LBA¿éµØÖ·0~7
-#define IDE_PRIMARY_READ_LBA_8_15 0x1f4			// LBA¿éµØÖ·8~15
-#define IDE_PRIMARY_READ_LBA_16_23 0x1f5		// LBA¿éµØÖ·16~23
-#define IDE_PRIMARY_READ_LBA_D_24_27 0x1f6		// Çı¶¯Æ÷/LBA¿éµØÖ·24~27
-#define IDE_PRIMARY_READ_STATUS 0x1f7			// ×´Ì¬¼Ä´æÆ÷
+// å‘½ä»¤å¯„å­˜å™¨ç»„
+// è¯»ï¼ˆä¸»æœºä»ä¸»é€šé“è¯»æ•°æ®ï¼‰
+#define IDE_PRIMARY_READ_DATA 0x1f0				// æ•°æ®å¯„å­˜å™¨
+#define IDE_PRIMARY_READ_ERROR 0x1f1			// é”™è¯¯å¯„å­˜å™¨ï¼ˆåªè¯»å¯„å­˜å™¨ï¼‰
+#define IDE_PRIMARY_READ_SECCOUNT 0x1f2			// æ‰‡åŒºè®¡æ•°å¯„å­˜å™¨
+#define IDE_PRIMARY_READ_LBA_0_7 0x1f3			// LBAå—åœ°å€0~7
+#define IDE_PRIMARY_READ_LBA_8_15 0x1f4			// LBAå—åœ°å€8~15
+#define IDE_PRIMARY_READ_LBA_16_23 0x1f5		// LBAå—åœ°å€16~23
+#define IDE_PRIMARY_READ_LBA_D_24_27 0x1f6		// é©±åŠ¨å™¨/LBAå—åœ°å€24~27
+#define IDE_PRIMARY_READ_STATUS 0x1f7			// çŠ¶æ€å¯„å­˜å™¨
 
-// Ğ´£¨Ö÷»úÊı¾İĞ´ÈëÖ÷Í¨µÀ£©
-#define IDE_PRIMARY_WRITE_DATA 0x1f0			// Êı¾İ¼Ä´æÆ÷
-#define IDE_PRIMARY_WRITE_FEATURES 0x1f1		// ÌØÕ÷¼Ä´æÆ÷
-#define IDE_PRIMARY_WRITE_SECCOUNT 0x1f2		// ÉÈÇø¼ÆÊı¼Ä´æÆ÷
-#define IDE_PRIMARY_WRITE_LBA_0_7 0x1f3			// LBA¿éµØÖ·0~7
-#define IDE_PRIMARY_WRITE_LBA_8_15 0x1f4		// LBA¿éµØÖ·8~15
-#define IDE_PRIMARY_WRITE_LBA_16_23 0x1f5		// LBA¿éµØÖ·16~23
-#define IDE_PRIMARY_WRITE_LBA_D_24_27 0x1f6		// Çı¶¯Æ÷/LBA¿éµØÖ·24~27
-#define IDE_PRIMARY_WRITE_CMD 0x1f7				// ÃüÁî¼Ä´æÆ÷
+// å†™ï¼ˆä¸»æœºæ•°æ®å†™å…¥ä¸»é€šé“ï¼‰
+#define IDE_PRIMARY_WRITE_DATA 0x1f0			// æ•°æ®å¯„å­˜å™¨
+#define IDE_PRIMARY_WRITE_FEATURES 0x1f1		// ç‰¹å¾å¯„å­˜å™¨
+#define IDE_PRIMARY_WRITE_SECCOUNT 0x1f2		// æ‰‡åŒºè®¡æ•°å¯„å­˜å™¨
+#define IDE_PRIMARY_WRITE_LBA_0_7 0x1f3			// LBAå—åœ°å€0~7
+#define IDE_PRIMARY_WRITE_LBA_8_15 0x1f4		// LBAå—åœ°å€8~15
+#define IDE_PRIMARY_WRITE_LBA_16_23 0x1f5		// LBAå—åœ°å€16~23
+#define IDE_PRIMARY_WRITE_LBA_D_24_27 0x1f6		// é©±åŠ¨å™¨/LBAå—åœ°å€24~27
+#define IDE_PRIMARY_WRITE_CMD 0x1f7				// å‘½ä»¤å¯„å­˜å™¨
 
-// ¶Á£¨Ö÷»ú´ÓµÚ¶şÍ¨µÀ¶ÁÊı¾İ£©
-#define IDE_SECONDARY_READ_DATA 0x170			// Êı¾İ¼Ä´æÆ÷
-#define IDE_SECONDARY_READ_ERROR 0x171			// ´íÎó¼Ä´æÆ÷£¨Ö»¶Á¼Ä´æÆ÷£©
-#define IDE_SECONDARY_READ_SECCOUNT 0x172		// ÉÈÇø¼ÆÊı¼Ä´æÆ÷
-#define IDE_SECONDARY_READ_LBA_0_7 0x173		// LBA¿éµØÖ·0~7
-#define IDE_SECONDARY_READ_LBA_8_15 0x174		// LBA¿éµØÖ·8~15
-#define IDE_SECONDARY_READ_LBA_16_23 0x175		// LBA¿éµØÖ·16~23
-#define IDE_SECONDARY_READ_LBA_D_24_27 0x176	// Çı¶¯Æ÷/LBA¿éµØÖ·24~27
-#define IDE_SECONDARY_READ_STATUS 0x177			// ×´Ì¬¼Ä´æÆ÷
+// è¯»ï¼ˆä¸»æœºä»ç¬¬äºŒé€šé“è¯»æ•°æ®ï¼‰
+#define IDE_SECONDARY_READ_DATA 0x170			// æ•°æ®å¯„å­˜å™¨
+#define IDE_SECONDARY_READ_ERROR 0x171			// é”™è¯¯å¯„å­˜å™¨ï¼ˆåªè¯»å¯„å­˜å™¨ï¼‰
+#define IDE_SECONDARY_READ_SECCOUNT 0x172		// æ‰‡åŒºè®¡æ•°å¯„å­˜å™¨
+#define IDE_SECONDARY_READ_LBA_0_7 0x173		// LBAå—åœ°å€0~7
+#define IDE_SECONDARY_READ_LBA_8_15 0x174		// LBAå—åœ°å€8~15
+#define IDE_SECONDARY_READ_LBA_16_23 0x175		// LBAå—åœ°å€16~23
+#define IDE_SECONDARY_READ_LBA_D_24_27 0x176	// é©±åŠ¨å™¨/LBAå—åœ°å€24~27
+#define IDE_SECONDARY_READ_STATUS 0x177			// çŠ¶æ€å¯„å­˜å™¨
 
-// Ğ´£¨Ö÷»úÊı¾İĞ´ÈëµÚ¶şÍ¨µÀ£©
-#define IDE_SECONDARY_WRITE_DATA 0x170			// Êı¾İ¼Ä´æÆ÷
-#define IDE_SECONDARY_WRITE_FEATURES 0x171		// ÌØÕ÷¼Ä´æÆ÷
-#define IDE_SECONDARY_WRITE_SECCOUNT 0x172		// ÉÈÇø¼ÆÊı¼Ä´æÆ÷
-#define IDE_SECONDARY_WRITE_LBA_0_7 0x173		// LBA¿éµØÖ·0~7
-#define IDE_SECONDARY_WRITE_LBA_8_15 0x174		// LBA¿éµØÖ·8~15
-#define IDE_SECONDARY_WRITE_LBA_16_23 0x175		// LBA¿éµØÖ·16~23
-#define IDE_SECONDARY_WRITE_LBA_D_24_27 0x176	// Çı¶¯Æ÷/LBA¿éµØÖ·24~27
-#define IDE_SECONDARY_WRITE_CMD 0x177			// ÃüÁî¼Ä´æÆ÷
+// å†™ï¼ˆä¸»æœºæ•°æ®å†™å…¥ç¬¬äºŒé€šé“ï¼‰
+#define IDE_SECONDARY_WRITE_DATA 0x170			// æ•°æ®å¯„å­˜å™¨
+#define IDE_SECONDARY_WRITE_FEATURES 0x171		// ç‰¹å¾å¯„å­˜å™¨
+#define IDE_SECONDARY_WRITE_SECCOUNT 0x172		// æ‰‡åŒºè®¡æ•°å¯„å­˜å™¨
+#define IDE_SECONDARY_WRITE_LBA_0_7 0x173		// LBAå—åœ°å€0~7
+#define IDE_SECONDARY_WRITE_LBA_8_15 0x174		// LBAå—åœ°å€8~15
+#define IDE_SECONDARY_WRITE_LBA_16_23 0x175		// LBAå—åœ°å€16~23
+#define IDE_SECONDARY_WRITE_LBA_D_24_27 0x176	// é©±åŠ¨å™¨/LBAå—åœ°å€24~27
+#define IDE_SECONDARY_WRITE_CMD 0x177			// å‘½ä»¤å¯„å­˜å™¨
 
-/**¸ÃÊı×éÔªËØ·Ö±ğ¶ÔÓ¦ÉÏÊöµÄ0x1f0~0x1f7µÄ¼Ä´æÆ÷*/
+/**è¯¥æ•°ç»„å…ƒç´ åˆ†åˆ«å¯¹åº”ä¸Šè¿°çš„0x1f0~0x1f7çš„å¯„å­˜å™¨*/
 unsigned char IDE_register[8];
 
-// Õï¶Ï¼Ä´æÆ÷×é
-// ¶Á
-#define IDE_PRIMARY_READ_EXCHGSTAUS 0x3f6		// ½»»»×´Ì¬¼Ä´æÆ÷£¨Ö»¶Á¼Ä´æÆ÷£©
-#define IDE_PRIMARY_READ_DEVADDR 0x3f7			// Çı¶¯Æ÷µØÖ·¼Ä´æÆ÷
+// è¯Šæ–­å¯„å­˜å™¨ç»„
+// è¯»
+#define IDE_PRIMARY_READ_EXCHGSTAUS 0x3f6		// äº¤æ¢çŠ¶æ€å¯„å­˜å™¨ï¼ˆåªè¯»å¯„å­˜å™¨ï¼‰
+#define IDE_PRIMARY_READ_DEVADDR 0x3f7			// é©±åŠ¨å™¨åœ°å€å¯„å­˜å™¨
 
-// Ğ´
-#define IDE_PRIMARY_WRITE_RESET 0x3f6			// Éè±¸¿ØÖÆ¼Ä´æÆ÷£¨¸´Î»£©
+// å†™
+#define IDE_PRIMARY_WRITE_RESET 0x3f6			// è®¾å¤‡æ§åˆ¶å¯„å­˜å™¨ï¼ˆå¤ä½ï¼‰
 
-// IDE´íÎó¼Ä´æÆ÷
-#define IDE_ERR_AMNF 1					// Ã»ÕÒµ½ËùÒª·ÃÎÊµÄÉÈÇøµÄÊı¾İÇø
-#define IDE_ERR_TK0NF 2					// ÔÚÖ´ĞĞ»Ö¸´RECALIBRATEÃüÁîÊ±0´ÅµÀÃ»ÓĞ·¢ÏÖ
-#define IDE_ERR_ABRT 4					// ¶ÔÓ²ÅÌ·¢·Ç·¨Ö¸Áî»òÒòÓ²ÅÌÇı¶¯Æ÷¹ÊÕÏ¶øÔì³ÉÃüÁîÖ´ĞĞµÄÖĞ¶Ï
-#define IDE_ERR_MAC 8					// ¸ÃĞÅºÅÓÃÀ´ÏòÖ÷»ú·¢³öÍ¨Öª±íÊ¾½éÖÊµÄ¸Ä±ä
-#define IDE_ERR_IDNF 16					// Ã»ÓĞÕÒµ½·ÃÎÊµÄÉÈÇø»òCRC·¢Éú´íÎó
-#define IDE_ERR_MC 32					// ÕâÊÇ·¢ËÍ¸øÖ÷»úÒ»¸öĞÅºÅÒÔÍ¨ÖªÖ÷»úÊ¹ÓÃĞÂµÄ´«Êä½éÖÊ
-#define IDE_ERR_UNC 64					// ÔÚ¶ÁÉÈÇøÃüÁîÊ±³öÏÖ²»ÄÜĞ£ÕıµÄECC´íÎóÒò´Ë´Ë´ÎÊı¾İ´«ÊäÎŞĞ§
-#define IDE_ERR_BBK 128					// ÔÚ·ÃÎÊÉÈÇøµÄIDÊı¾İ³¡·¢ÏÖ»µµÄÊı¾İ¿éÊ±»áÖÃ1
+// IDEé”™è¯¯å¯„å­˜å™¨
+#define IDE_ERR_AMNF 1					// æ²¡æ‰¾åˆ°æ‰€è¦è®¿é—®çš„æ‰‡åŒºçš„æ•°æ®åŒº
+#define IDE_ERR_TK0NF 2					// åœ¨æ‰§è¡Œæ¢å¤RECALIBRATEå‘½ä»¤æ—¶0ç£é“æ²¡æœ‰å‘ç°
+#define IDE_ERR_ABRT 4					// å¯¹ç¡¬ç›˜å‘éæ³•æŒ‡ä»¤æˆ–å› ç¡¬ç›˜é©±åŠ¨å™¨æ•…éšœè€Œé€ æˆå‘½ä»¤æ‰§è¡Œçš„ä¸­æ–­
+#define IDE_ERR_MAC 8					// è¯¥ä¿¡å·ç”¨æ¥å‘ä¸»æœºå‘å‡ºé€šçŸ¥è¡¨ç¤ºä»‹è´¨çš„æ”¹å˜
+#define IDE_ERR_IDNF 16					// æ²¡æœ‰æ‰¾åˆ°è®¿é—®çš„æ‰‡åŒºæˆ–CRCå‘ç”Ÿé”™è¯¯
+#define IDE_ERR_MC 32					// è¿™æ˜¯å‘é€ç»™ä¸»æœºä¸€ä¸ªä¿¡å·ä»¥é€šçŸ¥ä¸»æœºä½¿ç”¨æ–°çš„ä¼ è¾“ä»‹è´¨
+#define IDE_ERR_UNC 64					// åœ¨è¯»æ‰‡åŒºå‘½ä»¤æ—¶å‡ºç°ä¸èƒ½æ ¡æ­£çš„ECCé”™è¯¯å› æ­¤æ­¤æ¬¡æ•°æ®ä¼ è¾“æ— æ•ˆ
+#define IDE_ERR_BBK 128					// åœ¨è®¿é—®æ‰‡åŒºçš„IDæ•°æ®åœºå‘ç°åçš„æ•°æ®å—æ—¶ä¼šç½®1
 
-// IDE×´Ì¬¼Ä´æÆ÷
+// IDEçŠ¶æ€å¯„å­˜å™¨
 
-#define IDE_STATUS_ERR 1				// ´íÎó(ERROR) ¸ÃÎ»Îª1±íÊ¾ÔÚ½áÊøÇ°´ÎµÄÃüÁîÖ´ĞĞÊ±·¢ÉúÁËÎŞ·¨»Ö¸´µÄ´íÎóÔÚ´íÎó¼Ä´æÆ÷ÖĞ±£´æÁË¸ü¶àµÄ´íÎóĞÅÏ¢
-#define IDE_STATUS_IDX 2				// ·´Ó³´ÓÇı¶¯Æ÷¶ÁÈëµÄË÷ÒıĞÅºÅ
-#define IDE_STATUS_CORR 4				// ¸ÃÎ»Îª1Ê±±íÊ¾ÒÑ°´ECCËã·¨Ğ£ÕıÓ²ÅÌµÄ¶ÁÊı¾İ
-#define IDE_STATUS_DRQ 8				// Îª1±íÊ¾ÇëÇóÖ÷»ú½øĞĞÊı¾İ´«Êä(¶Á»òĞ´)
-#define IDE_STATUS_DSC 16				// Îª1±íÊ¾´ÅÍ·Íê³ÉÑ°µÀ²Ù×÷ÒÑÍ£ÁôÔÚ¸ÃµÀÉÏ
-#define IDE_STATUS_DF 32				// Îª1Ê±±íÊ¾Çı¶¯Æ÷·¢ÉúĞ´¹ÊÕÏ
-#define IDE_STATUS_DRDY 64				// Îª1Ê±±íÊ¾Çı¶¯Æ÷×¼±¸ºÃ¿ÉÒÔ½ÓÊÜÃüÁî
-#define IDE_STATUS_BSY 128				// Îª1Ê±±íÊ¾Çı¶¯Æ÷Ã¦(BSY) ÕıÔÚÖ´ĞĞÃüÁîÔÚ·¢ËÍÃüÁîÇ°ÏÈÅĞ¶Ï¸ÃÎ»
+#define IDE_STATUS_ERR 1				// é”™è¯¯(ERROR) è¯¥ä½ä¸º1è¡¨ç¤ºåœ¨ç»“æŸå‰æ¬¡çš„å‘½ä»¤æ‰§è¡Œæ—¶å‘ç”Ÿäº†æ— æ³•æ¢å¤çš„é”™è¯¯åœ¨é”™è¯¯å¯„å­˜å™¨ä¸­ä¿å­˜äº†æ›´å¤šçš„é”™è¯¯ä¿¡æ¯
+#define IDE_STATUS_IDX 2				// åæ˜ ä»é©±åŠ¨å™¨è¯»å…¥çš„ç´¢å¼•ä¿¡å·
+#define IDE_STATUS_CORR 4				// è¯¥ä½ä¸º1æ—¶è¡¨ç¤ºå·²æŒ‰ECCç®—æ³•æ ¡æ­£ç¡¬ç›˜çš„è¯»æ•°æ®
+#define IDE_STATUS_DRQ 8				// ä¸º1è¡¨ç¤ºè¯·æ±‚ä¸»æœºè¿›è¡Œæ•°æ®ä¼ è¾“(è¯»æˆ–å†™)
+#define IDE_STATUS_DSC 16				// ä¸º1è¡¨ç¤ºç£å¤´å®Œæˆå¯»é“æ“ä½œå·²åœç•™åœ¨è¯¥é“ä¸Š
+#define IDE_STATUS_DF 32				// ä¸º1æ—¶è¡¨ç¤ºé©±åŠ¨å™¨å‘ç”Ÿå†™æ•…éšœ
+#define IDE_STATUS_DRDY 64				// ä¸º1æ—¶è¡¨ç¤ºé©±åŠ¨å™¨å‡†å¤‡å¥½å¯ä»¥æ¥å—å‘½ä»¤
+#define IDE_STATUS_BSY 128				// ä¸º1æ—¶è¡¨ç¤ºé©±åŠ¨å™¨å¿™(BSY) æ­£åœ¨æ‰§è¡Œå‘½ä»¤åœ¨å‘é€å‘½ä»¤å‰å…ˆåˆ¤æ–­è¯¥ä½
 
-// IDEÍ¨µÀ
+// IDEé€šé“
 #define IDE_CHANNEL_PRIMARY		0x0
 #define IDE_CHANNEL_SECONDARY	0x1
 
-// IDEÇı¶¯Æ÷
+// IDEé©±åŠ¨å™¨
 #define IDE_DRIVE_MASTER	0xA0
 #define IDE_DRIVE_SLAVE		0xB0
 
-// IDEÃüÁî
-#define IDE_CMD_READ		0x20		// ¶ÁÈ¡ÉÈÇøÃüÁî
-#define IDE_CMD_WRITE		0x30		// Ğ´ÈëÉÈÇøÃüÁî
-#define IDE_CMD_CHECK		0x90		// ´ÅÅÌÕï¶ÏÃüÁî
-#define IDE_CMD_IDENTIFY	0xEC		// ±æÊ¶ÃüÁî
+// IDEå‘½ä»¤
+#define IDE_CMD_READ		0x20		// è¯»å–æ‰‡åŒºå‘½ä»¤
+#define IDE_CMD_WRITE		0x30		// å†™å…¥æ‰‡åŒºå‘½ä»¤
+#define IDE_CMD_CHECK		0x90		// ç£ç›˜è¯Šæ–­å‘½ä»¤
+#define IDE_CMD_IDENTIFY	0xEC		// è¾¨è¯†å‘½ä»¤
 
 
-/**IDE¿ØÖÆÆ÷Ö§³Ö²¿·Ö*/
+/**IDEæ§åˆ¶å™¨æ”¯æŒéƒ¨åˆ†*/
 /**IDE Controller Support*/
 
 
 
-/**´ÓIDE¿ØÖÆÆ÷¶ÁÈ¡¼Ä´æÆ÷*/
+/**ä»IDEæ§åˆ¶å™¨è¯»å–å¯„å­˜å™¨*/
 void IDE_reg_read(char PS)
 {
 	unsigned long port_offset = 0;
@@ -158,7 +158,7 @@ void IDE_reg_read(char PS)
 		port_offset = IDE_SECONDARY_READ_DATA - IDE_PRIMARY_READ_DATA;
 	}
 	
-	/**¶ÁÊı¾İ*/
+	/**è¯»æ•°æ®*/
 	IDE_register[1] = io_in8(IDE_PRIMARY_READ_ERROR + port_offset);
 	IDE_register[2] = io_in8(IDE_PRIMARY_READ_SECCOUNT + port_offset);
 	IDE_register[3] = io_in8(IDE_PRIMARY_READ_LBA_0_7 + port_offset);
@@ -168,7 +168,7 @@ void IDE_reg_read(char PS)
 	IDE_register[7] = io_in8(IDE_PRIMARY_READ_STATUS + port_offset);
 }
 
-/**ÏòIDE¿ØÖÆÆ÷·¢ËÍÃüÁî*/
+/**å‘IDEæ§åˆ¶å™¨å‘é€å‘½ä»¤*/
 void IDE_reg_cmd(char PS)
 {
 	unsigned long port_offset = 0;
@@ -178,7 +178,7 @@ void IDE_reg_cmd(char PS)
 		port_offset = IDE_SECONDARY_READ_DATA - IDE_PRIMARY_READ_DATA;
 	}
 	
-	/**Ğ´Êı¾İ*/
+	/**å†™æ•°æ®*/
 	io_out8(IDE_PRIMARY_WRITE_FEATURES + port_offset		, IDE_register[1]);
 	io_out8(IDE_PRIMARY_WRITE_SECCOUNT + port_offset		, IDE_register[2]);
 	io_out8(IDE_PRIMARY_WRITE_LBA_0_7 + port_offset			, IDE_register[3]);
@@ -188,29 +188,29 @@ void IDE_reg_cmd(char PS)
 	io_out8(IDE_PRIMARY_WRITE_CMD + port_offset				, IDE_register[7]);
 }
 
-/**IDE´ÅÅÌ¸´Î»£¬ÉĞ²»Çå³şÊÇ·ñĞèÒªÇø·Ö²»Í¬Í¨µÀµÄÖ÷´ÓIDE´ÅÅÌ*/
+/**IDEç£ç›˜å¤ä½ï¼Œå°šä¸æ¸…æ¥šæ˜¯å¦éœ€è¦åŒºåˆ†ä¸åŒé€šé“çš„ä¸»ä»IDEç£ç›˜*/
 void IDE_reset(void)
 {
 	/**
-	 * Éè±¸¿ØÖÆ¼Ä´æÆ÷£¬
-	 * bit 3 = 1£¬bit 2 = SRST£¬
-	 * bit 1 = IEN£¬bit 0 = 0
-	 * ÆäÖĞSRSTÖÃ1Ôò¿ÉÊ¹Çı¶¯Æ÷´¦ÓÚ¸´Î»×´Ì¬£¬
-	 * IENÎªÊÇ·ñÔÊĞíÖĞ¶Ï
+	 * è®¾å¤‡æ§åˆ¶å¯„å­˜å™¨ï¼Œ
+	 * bit 3 = 1ï¼Œbit 2 = SRSTï¼Œ
+	 * bit 1 = IENï¼Œbit 0 = 0
+	 * å…¶ä¸­SRSTç½®1åˆ™å¯ä½¿é©±åŠ¨å™¨å¤„äºå¤ä½çŠ¶æ€ï¼Œ
+	 * IENä¸ºæ˜¯å¦å…è®¸ä¸­æ–­
 	 */
 	io_out8(IDE_PRIMARY_WRITE_RESET, 0xc);
 	io_out8(IDE_PRIMARY_WRITE_RESET, 0x8);
 }
 
-/**IDE´ÅÅÌµÈ´ı*/
+/**IDEç£ç›˜ç­‰å¾…*/
 void IDE_wait(void)
 {
-	/**µÈ´ı´ÎÊı¼ÆÊ±*/
+	/**ç­‰å¾…æ¬¡æ•°è®¡æ—¶*/
 	//unsigned long n;
-	for (; (io_in8(IDE_PRIMARY_READ_STATUS) & (IDE_STATUS_DRQ | IDE_STATUS_BSY)) != IDE_STATUS_DRQ;);				/**Ñ­»·µÈ´ı*/
+	for (; (io_in8(IDE_PRIMARY_READ_STATUS) & (IDE_STATUS_DRQ | IDE_STATUS_BSY)) != IDE_STATUS_DRQ;);				/**å¾ªç¯ç­‰å¾…*/
 }
 
-/**È·±£BSYÎª0*/
+/**ç¡®ä¿BSYä¸º0*/
 void IDE_nobusy(void)
 {
 	for(;;)
@@ -224,22 +224,22 @@ void IDE_nobusy(void)
 
 
 
-/**IDE¿ØÖÆÆ÷Ğ´ÉÈÇø*/
+/**IDEæ§åˆ¶å™¨å†™æ‰‡åŒº*/
 int IDE_write(unsigned long storage_number, const void *src, unsigned long LBA_addr, unsigned long n)
 {
 	
 }
 
-/**ÔÚATA±ê×¼ÖĞ£¬IDEÃüÁî¹²ÓĞ30¶à¸ö£¬ÆäÖĞÓĞ10¸öÊÇÍ¨ÓÃĞÍÃüÁî*/
-#define HD_CMD_READ		0x20			//¶ÁÈ¡ÉÈÇøÃüÁî
-#define HD_CMD_WRITE	0x30			//Ğ´ÈëÉÈÇøÃüÁî
-#define HD_CMD_CHECK	0x90			//´ÅÅÌÕï¶ÏÃüÁî
+/**åœ¨ATAæ ‡å‡†ä¸­ï¼ŒIDEå‘½ä»¤å…±æœ‰30å¤šä¸ªï¼Œå…¶ä¸­æœ‰10ä¸ªæ˜¯é€šç”¨å‹å‘½ä»¤*/
+#define HD_CMD_READ		0x20			//è¯»å–æ‰‡åŒºå‘½ä»¤
+#define HD_CMD_WRITE	0x30			//å†™å…¥æ‰‡åŒºå‘½ä»¤
+#define HD_CMD_CHECK	0x90			//ç£ç›˜è¯Šæ–­å‘½ä»¤
 	
-/**²Ù×÷ÉÈÇøÊ±ÔÊĞíµÄ×î¶à³ö´í´ÎÊı*/
+/**æ“ä½œæ‰‡åŒºæ—¶å…è®¸çš„æœ€å¤šå‡ºé”™æ¬¡æ•°*/
 #define MAX_ERRORS	10
 
-/**ATÓ²ÅÌ¿ØÖÆÆ÷¼Ä´æÆ÷¶Ë¿Ú¼°×÷ÓÃ*/
-/**¶ÁÊ±*/
+/**ATç¡¬ç›˜æ§åˆ¶å™¨å¯„å­˜å™¨ç«¯å£åŠä½œç”¨*/
+/**è¯»æ—¶*/
 #define HD_DATA			0x1f0
 #define HD_ERROR		0x1f1
 #define HD_NSECTOR		0x1f2
@@ -248,52 +248,52 @@ int IDE_write(unsigned long storage_number, const void *src, unsigned long LBA_a
 #define HD_HCYL			0x1f5
 #define HD_CURRENT		0x1f6
 #define HD_STATUS		0x1f7
-/**Ğ´Ê±*/
+/**å†™æ—¶*/
 #define HD_PRECOMP		0x1f1
 #define HD_COMMAND		0x1f7
 
 void hdd_wait(void)
 {
-	/**µÈ´ı´ÎÊı¼ÆÊ±*/
+	/**ç­‰å¾…æ¬¡æ•°è®¡æ—¶*/
 	//unsigned long n;
-	for (; (io_in8(HD_STATUS) & 0x88) != 0x08;);				/**Ñ­»·µÈ´ı*/
+	for (; (io_in8(HD_STATUS) & 0x88) != 0x08;);				/**å¾ªç¯ç­‰å¾…*/
 }
 
 void read_disk(unsigned long LBA, unsigned short *buffer, unsigned long number)
 {
 	unsigned long offset, i;
-	io_out16(HD_NSECTOR,number);								/**ÊıÁ¿*/
-	io_out8(HD_SECTOR,(LBA & 0xff));							/**LBAµØÖ·7~0*/
-	io_out8(HD_LCYL,((LBA >> 8) & 0xff));						/**LBAµØÖ·15~8*/
-	io_out8(HD_HCYL,((LBA >> 16) & 0xff));						/**LBAµØÖ·23~16*/
-	io_out8(HD_CURRENT,(((LBA >> 24) & 0xff) + 0xe0));			/**LBAµØÖ·27~24 + LBAÄ£Ê½£¬Ö÷Ó²ÅÌ*/
-	io_out8(HD_STATUS,HD_CMD_READ);								/**¶ÁÉÈÇø*/
-	/**Ñ­»·´ÓDATA¶Ë¿Ú¶ÁÈ¡Êı¾İ*/
+	io_out16(HD_NSECTOR,number);								/**æ•°é‡*/
+	io_out8(HD_SECTOR,(LBA & 0xff));							/**LBAåœ°å€7~0*/
+	io_out8(HD_LCYL,((LBA >> 8) & 0xff));						/**LBAåœ°å€15~8*/
+	io_out8(HD_HCYL,((LBA >> 16) & 0xff));						/**LBAåœ°å€23~16*/
+	io_out8(HD_CURRENT,(((LBA >> 24) & 0xff) + 0xe0));			/**LBAåœ°å€27~24 + LBAæ¨¡å¼ï¼Œä¸»ç¡¬ç›˜*/
+	io_out8(HD_STATUS,HD_CMD_READ);								/**è¯»æ‰‡åŒº*/
+	/**å¾ªç¯ä»DATAç«¯å£è¯»å–æ•°æ®*/
 	for (i = 0; i != number; i ++)
 	{
 		hdd_wait();
 		for (offset = 0; offset < 256; offset ++)
 		{
-			buffer[(i * 256) + offset] = io_in16(HD_DATA);		/**´ÓDATA¶Ë¿ÚÖĞ¶ÁÈ¡Êı¾İ*/
+			buffer[(i * 256) + offset] = io_in16(HD_DATA);		/**ä»DATAç«¯å£ä¸­è¯»å–æ•°æ®*/
 		}
 	}
 	
 	return;
 }
 
-/**IDE¿ØÖÆÆ÷¶ÁÉÈÇø*/
+/**IDEæ§åˆ¶å™¨è¯»æ‰‡åŒº*/
 int IDE_read(unsigned long storage_number, void *dest, unsigned long LBA_addr, unsigned long n)
 {
 	read_disk(LBA_addr, dest, n);
 	return 0;
 	
 	short int *buffer = (short int *)dest;
-	/**½øĞĞIDEÍ¨µÀÅĞ¶Ï*/
+	/**è¿›è¡ŒIDEé€šé“åˆ¤æ–­*/
 	if ((storage_number == SD_IDE_00) | (storage_number == SD_IDE_01))
 	{
-		/**ÈôÊÇµÚÒ»Í¨µÀµÄ´¢´æÆ÷*/
+		/**è‹¥æ˜¯ç¬¬ä¸€é€šé“çš„å‚¨å­˜å™¨*/
 		
-		/**Ñ­»·¶ÁÈ¡ÉÈÇø*/
+		/**å¾ªç¯è¯»å–æ‰‡åŒº*/
 		for (; n != 0; n --, buffer += (512 / sizeof(short int)), LBA_addr ++)
 		{
 			IDE_register[2] = 1;
@@ -302,20 +302,20 @@ int IDE_read(unsigned long storage_number, void *dest, unsigned long LBA_addr, u
 			IDE_register[5] = ((LBA_addr >> 16) & 0xff);
 			if (storage_number == SD_IDE_00)
 			{
-				/**ÈôÊÇÖ÷ÅÌ*/
+				/**è‹¥æ˜¯ä¸»ç›˜*/
 				IDE_register[6] = (((LBA_addr >> 24) & 0xff) + 0b11100000);
 			}else{
 				IDE_register[6] = (((LBA_addr >> 24) & 0xff) + 0b11110000);
 			}
 			IDE_register[7] = IDE_CMD_READ;
 			
-			/**·¢³öÃüÁî*/
+			/**å‘å‡ºå‘½ä»¤*/
 			IDE_reg_cmd(IDE_CHANNEL_PRIMARY);
 			
-			/**µÈµ½IDEµÚÒ»Í¨µÀ²»Ã¦Ê±*/
+			/**ç­‰åˆ°IDEç¬¬ä¸€é€šé“ä¸å¿™æ—¶*/
 			IDE_wait();
 			printk("FFF4.3\n");
-			/**¶ÁÈ¡Êı¾İ*/
+			/**è¯»å–æ•°æ®*/
 			unsigned long r;
 			for (r = 0; r < (512 / sizeof(short int)); r ++)
 			{
@@ -325,29 +325,29 @@ int IDE_read(unsigned long storage_number, void *dest, unsigned long LBA_addr, u
 		}
 	}else if ((storage_number == SD_IDE_10) | (storage_number == SD_IDE_11))
 	{
-		/**Èç¹ûÊÇµÚ¶şÍ¨µÀµÄ´¢´æÆ÷*/
+		/**å¦‚æœæ˜¯ç¬¬äºŒé€šé“çš„å‚¨å­˜å™¨*/
 		warning(WARN_STORAGE_NOT_SUPPORT, "The IDE Secondary is not yet supported.");
 		return STORAGE_RETVAL_ERR_NOT_SUPPORT;
 	}else{
-		/**Èô·ÇIDE¿ØÖÆÆ÷µÄ´¢´æÆ÷*/
+		/**è‹¥éIDEæ§åˆ¶å™¨çš„å‚¨å­˜å™¨*/
 		return STORAGE_RETVAL_ERR_NOT_SUPPORT;
 	}
 	return STORAGE_RETVAL_NORMAL;
 }
 
-/**IDE¿ØÖÆÆ÷³õÊ¼»¯*/
+/**IDEæ§åˆ¶å™¨åˆå§‹åŒ–*/
 void init_IDE(void)
 {
 	char *IDE_Description = "IDE Controller";
 	unsigned long n;
 	
-	/**Ôö¼Ó¶ÔÉè±¸µÄÃèÊö*/
+	/**å¢åŠ å¯¹è®¾å¤‡çš„æè¿°*/
 	SD[SD_IDE_00].Description = IDE_Description;
 	SD[SD_IDE_01].Description = IDE_Description;
 	SD[SD_IDE_10].Description = IDE_Description;
 	SD[SD_IDE_11].Description = IDE_Description;
 	
-	/**¼ì²âÖ÷Í¨µÀÖ÷´ÅÅÌ×´Ì¬*/
+	/**æ£€æµ‹ä¸»é€šé“ä¸»ç£ç›˜çŠ¶æ€*/
 	/*io_out8(IDE_PRIMARY_WRITE_LBA_D_24_27, IDE_DRIVE_MASTER);
 	io_out8(IDE_PRIMARY_WRITE_FEATURES, 0);
 	io_out8(IDE_PRIMARY_WRITE_SECCOUNT, 0);
@@ -357,9 +357,9 @@ void init_IDE(void)
 	io_out8(IDE_PRIMARY_WRITE_CMD, IDE_CMD_IDENTIFY);
 	if (io_in8(IDE_PRIMARY_READ_STATUS) != 0)
 	{*/
-		// ´æÔÚ´ÅÅÌ
+		// å­˜åœ¨ç£ç›˜
 				
-		/**ÔÚ´¢´æÆ÷ÃèÊö·û±í²¿·Ö×¢²á*/
+		/**åœ¨å‚¨å­˜å™¨æè¿°ç¬¦è¡¨éƒ¨åˆ†æ³¨å†Œ*/
 		SD[SD_IDE_00].exist = true;
 		
 		IDE_read(SD_IDE_00, MBR, 0, 1);
@@ -372,7 +372,7 @@ void init_IDE(void)
 		printak("<%#X>IDE Controller:</>Found Primary Master.\n", DeepPink);
 	// }
 	
-	/**¼ì²âÖ÷Í¨µÀ´Ó´ÅÅÌ×´Ì¬*/
+	/**æ£€æµ‹ä¸»é€šé“ä»ç£ç›˜çŠ¶æ€*/
 	// io_out8(IDE_PRIMARY_WRITE_LBA_D_24_27, IDE_DRIVE_SLAVE);
 	// io_out8(IDE_PRIMARY_WRITE_FEATURES, 0);
 	// io_out8(IDE_PRIMARY_WRITE_SECCOUNT, 0);
@@ -382,10 +382,10 @@ void init_IDE(void)
 	// io_out8(IDE_PRIMARY_WRITE_CMD, IDE_CMD_IDENTIFY);
 	// if (io_in8(IDE_PRIMARY_READ_STATUS) != 0)
 	// {
-		// ´æÔÚ´ÅÅÌ
+		// å­˜åœ¨ç£ç›˜
 		
 		
-		/**ÔÚ´¢´æÆ÷ÃèÊö·û±í²¿·Ö×¢²á*/
+		/**åœ¨å‚¨å­˜å™¨æè¿°ç¬¦è¡¨éƒ¨åˆ†æ³¨å†Œ*/
 		SD[SD_IDE_01].exist = true;
 		
 		IDE_read(SD_IDE_01, MBR, 0, 1);
@@ -398,19 +398,19 @@ void init_IDE(void)
 		printak("<%#X>IDE Controller:</>Found Primary Slave.\n", DeepPink);
 	// }
 
-	/**Êä³öĞÅÏ¢*/
+	/**è¾“å‡ºä¿¡æ¯*/
 	printk("IDE Controller finished.\n");
 }
 
-/**´¢´æÆ÷¹ÜÀí²¿·Ö*/
+/**å‚¨å­˜å™¨ç®¡ç†éƒ¨åˆ†*/
 /**Storage Management*/
 
 
 
-/**¶Á´¢´æÆ÷ÉÈÇøº¯Êı*/
+/**è¯»å‚¨å­˜å™¨æ‰‡åŒºå‡½æ•°*/
 int storage_read(unsigned long storage_number, void *dest, unsigned long LBA_addr, unsigned long n)
 {
-	/**Ñ¡ÔñÏàÓ¦µÄ´¢´æÆ÷¶ÁÈ¡º¯Êı*/
+	/**é€‰æ‹©ç›¸åº”çš„å‚¨å­˜å™¨è¯»å–å‡½æ•°*/
 	switch(storage_number)
 	{
 		case SD_IDE_00:return IDE_read(storage_number, dest, LBA_addr, n);
@@ -421,7 +421,7 @@ int storage_read(unsigned long storage_number, void *dest, unsigned long LBA_add
 	}
 }
 
-/**·µ»Ø»î¶¯·ÖÇøµÄÊıÁ¿*/
+/**è¿”å›æ´»åŠ¨åˆ†åŒºçš„æ•°é‡*/
 unsigned long storage_active_partition(void)
 {
 	unsigned long r, n;
@@ -440,55 +440,55 @@ unsigned long storage_active_partition(void)
 	return r;
 }
 
-/**³õÊ¼»¯´¢´æÆ÷¹ÜÀíº¯Êı*/
+/**åˆå§‹åŒ–å‚¨å­˜å™¨ç®¡ç†å‡½æ•°*/
 unsigned int init_storage(void)
 {
 	unsigned long n, r;
 	
-	/**Îª´¢´æÆ÷ÃèÊö·û±í·ÖÅäÄÚ´æ*/
+	/**ä¸ºå‚¨å­˜å™¨æè¿°ç¬¦è¡¨åˆ†é…å†…å­˜*/
 	SD = bmalloc((SD_NUM) * sizeof(struct Storage_Description));
 	if (SD == NULL) error(ERR_NO_MEM_FOR_SD, "No memory for Storage Description.");
 	
-	/**½«´¢´æÆ÷ÃèÊö·û±íÈ«²¿Çå0*/
+	/**å°†å‚¨å­˜å™¨æè¿°ç¬¦è¡¨å…¨éƒ¨æ¸…0*/
 	memset(SD, 0, (SD_NUM) * sizeof(struct Storage_Description));
 	
-	/**Îª´¢´æÆ÷µÄÉÈÇø»º´æÅä±¸µÄÄÚ´æ*/
+	/**ä¸ºå‚¨å­˜å™¨çš„æ‰‡åŒºç¼“å­˜é…å¤‡çš„å†…å­˜*/
 	sector_buffer = bmalloc(sizeof(struct MBR));
 	if (sector_buffer == NULL) error(ERR_NO_MEM_FOR_SCTBUF, "No memory for Storage MBR.");
 	
-	/**MBRÖ¸ÕëÖ¸ÏòÉÈÇø»º´æ*/
+	/**MBRæŒ‡é’ˆæŒ‡å‘æ‰‡åŒºç¼“å­˜*/
 	MBR = (struct MBR *)sector_buffer;
 	
-	/**ÆäËü´¢´æÆ÷¿ØÖÆÆ÷µÄ³õÊ¼»¯º¯ÊıÔÚÕâÀïµ÷ÓÃ*/
+	/**å…¶å®ƒå‚¨å­˜å™¨æ§åˆ¶å™¨çš„åˆå§‹åŒ–å‡½æ•°åœ¨è¿™é‡Œè°ƒç”¨*/
 	
-	/**³õÊ¼»¯IDE¿ØÖÆÆ÷*/
+	/**åˆå§‹åŒ–IDEæ§åˆ¶å™¨*/
 	init_IDE();
 	
-	/**´òÓ¡ËùÓĞ´¢´æÆ÷ĞÅÏ¢*/
+	/**æ‰“å°æ‰€æœ‰å‚¨å­˜å™¨ä¿¡æ¯*/
 	printak("<%#X>Storage List:</>\n", Snow1);
 	for (n = 0; n < SD_NUM; n ++)
 	{
 		if (SD[n].exist == true)
 		{
-			/**´òÓ¡´¢´æÆ÷ÃèÊöĞÅÏ¢*/
+			/**æ‰“å°å‚¨å­˜å™¨æè¿°ä¿¡æ¯*/
 			printak("    <%#X>%s(%d)</>\n", Snow2, SD[n].Description, n);
 			
-			/**´òÓ¡´¢´æÆ÷µÄ·ÖÇøĞÅÏ¢*/
+			/**æ‰“å°å‚¨å­˜å™¨çš„åˆ†åŒºä¿¡æ¯*/
 			for (r = 0; r < 4; r ++)
 			{
 				printak("        <%#X>Partition%d:</>", Snow3, r);
-				/**»®·Ö»î¶¯·ÖÇøºÍ·Ç»î¶¯·ÖÇø*/
+				/**åˆ’åˆ†æ´»åŠ¨åˆ†åŒºå’Œéæ´»åŠ¨åˆ†åŒº*/
 				if (SD[n].SP[r].active == 0x80)
 				{
 					printak("<%#X>Active.</>", Orange1);
 				}else{
 					printak("<%#X>Inactive.</>", Snow3);
 				}
-				/**·ÖÇøÎ»ÖÃĞÅÏ¢*/
+				/**åˆ†åŒºä½ç½®ä¿¡æ¯*/
 				printak("<%#X>File System:%#X,Start(LBA):%d,Length(Sector):%d.\n</>", Snow3, SD[n].SP[r].fs, SD[n].SP[r].start_LBA, SD[n].SP[r].size_sector);
 			}
 		}else{
-			/**´òÓ¡´¢´æÆ÷ÃèÊöĞÅÏ¢*/
+			/**æ‰“å°å‚¨å­˜å™¨æè¿°ä¿¡æ¯*/
 			printak("    <%#X>%s(%d, Unmounted)</>\n", Snow4, SD[n].Description, n);
 		}
 		

@@ -23,14 +23,11 @@ all: $(EXEC_NAME)
 
 
 $(EXEC_NAME): $(OBJS)
-	$(CC) -o $(EXEC_NAME) $(OBJS) $(LDFLAGS)
-
+	$(CC) $(LDFLAGS) -o $(EXEC_NAME) $(OBJS)
 
 %.d: %.c
-	@set -e; rm -f $@; \
-	$(CC) -M $(CFLAGS) $< > $@.$$$$; \
-	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
-	rm -f $@.$$$$
+	@$(CC) -M $(CFLAGS) $< > $@; \
+	sed -i 's,$(notdir $*)\.o[ :]*,$*.o $@ : ,g' $@;
 
 clean:
 	$(RM) $(EXEC_NAME) *.exe $(OBJS) $(SRCS:.c=.d)

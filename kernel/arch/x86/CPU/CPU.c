@@ -145,10 +145,10 @@ void init_CPU(void)
 
 void output_CPU_info(void)
 {
-	unsigned int brands[4]; //Ã¿´ÎµÄeax¡¢ebx¡¢ecx¡¢edx
+	unsigned int brands[4]; //æ¯æ¬¡çš„eaxã€ebxã€ecxã€edx
 	unsigned int i;
 
-	/**¿Õ³öÒ»ĞĞ*/
+	/**ç©ºå‡ºä¸€è¡Œ*/
 	printk("\n");
 	
 	printk("CPU information:\n");

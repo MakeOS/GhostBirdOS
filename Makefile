@@ -9,6 +9,7 @@
 # All rights reserved.
 
 CC      = gcc
+CXX     = g++
 NS      = nasm
 LD      = ld
 OBJCOPY = objcopy

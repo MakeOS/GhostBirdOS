@@ -13,7 +13,7 @@
 #include "unit.h"
 
 
-/**µ¥ÔªÏûÏ¢´¦Àíº¯ÊıÖ¸ÕëÊı×é*/
+/**å•å…ƒæ¶ˆæ¯å¤„ç†å‡½æ•°æŒ‡é’ˆæ•°ç»„*/
 void (*unit_handle[NUM_UNIT_HANDLE])(struct layer *target, unsigned long x, unsigned long y, void *ptr) =
 {
 	unit_close_handle,
@@ -21,68 +21,68 @@ void (*unit_handle[NUM_UNIT_HANDLE])(struct layer *target, unsigned long x, unsi
 	unit_botton_handle
 };
 
-/**°´Å¥¿Ø¼ş½á¹¹ÃèÊö*/
+/**æŒ‰é’®æ§ä»¶ç»“æ„æè¿°*/
 struct unit_botton
 {
 	char *text;
 };
 
-/**°´Å¥ÏûÏ¢´¦Àíº¯Êı*/
+/**æŒ‰é’®æ¶ˆæ¯å¤„ç†å‡½æ•°*/
 void unit_botton_handle(struct layer *target, unsigned long x, unsigned long y, void *ptr)
 {
 	window_print(target->winptr, "botton:(%d,%d)", x, y);
 }
 
-/**ĞÂ½¨°´Å¥º¯Êı*/
+/**æ–°å»ºæŒ‰é’®å‡½æ•°*/
 struct layer_unit *unit_new_botton(struct window *target, unsigned long x, unsigned long y, unsigned long length, unsigned long width, char *text)
 {
-	/**¾ÀÕı²ÎÊı*/
+	/**çº æ­£å‚æ•°*/
 	correct_para(target, &x, &y, &length, &width);
 	
-	/**ĞÂ½¨´°¿Úµ¥Ôª*/
+	/**æ–°å»ºçª—å£å•å…ƒ*/
 	GUI_new_unit(target->layer, UNIT_BOTTON, x, y, length, width);
 	
-	/**»æÖÆ°´Å¥*/
+	/**ç»˜åˆ¶æŒ‰é’®*/
 	GUI_put_square(target->layer, 0xff0066ff, x, y, length, width);
 	
-	/**ÏÔÊ¾°´Å¥ÉÏÃæµÄÎÄ×Ö*/
+	/**æ˜¾ç¤ºæŒ‰é’®ä¸Šé¢çš„æ–‡å­—*/
 	GUI_put_string(target->layer, 0xffffffff, x, y + 4, x + length, y + width, font("Standard Font"), text);
 }
 
-/**´°Ìå¹Ø±Õ°´Å¥´¦Àíº¯Êı*/
+/**çª—ä½“å…³é—­æŒ‰é’®å¤„ç†å‡½æ•°*/
 void unit_close_handle(struct layer *target, unsigned long x, unsigned long y, void *ptr)
 {
-	/**Ê×ÏÈ¸Ä±ä´°¿Ú½á¹¹±æÊ¶*/
+	/**é¦–å…ˆæ”¹å˜çª—å£ç»“æ„è¾¨è¯†*/
 	target->winptr->ident = 0;
-	/**ÊÍ·ÅÏàÓ¦´°¿Ú*/
+	/**é‡Šæ”¾ç›¸åº”çª—å£*/
 	GUI_free_window(target->winptr);
 }
 
-/**´°Ìå×îĞ¡»¯°´Å¥´¦Àíº¯Êı*/
+/**çª—ä½“æœ€å°åŒ–æŒ‰é’®å¤„ç†å‡½æ•°*/
 void unit_mini_handle(struct layer *target, unsigned long x, unsigned long y, void *ptr)
 {
 	window_print(target->winptr, "click mini:(%d,%d)", x, y);
 }
 
-/**´´½¨ĞÂµ¥Ôªº¯Êı*/
+/**åˆ›å»ºæ–°å•å…ƒå‡½æ•°*/
 struct layer_unit *GUI_new_unit(struct layer *target, unsigned int type, unsigned long x, unsigned long y, unsigned long length, unsigned long width)
 {
 	struct layer_unit *new_unit;
 	
-	/**ÉêÇëÒ»¿éÄÚ´æ¿Õ¼ä·ÅÏÂĞÂµÄµ¥Ôª*/
+	/**ç”³è¯·ä¸€å—å†…å­˜ç©ºé—´æ”¾ä¸‹æ–°çš„å•å…ƒ*/
 	for (new_unit = NULL; new_unit == NULL; )
 		new_unit = kmalloc(sizeof(struct layer_unit), 0);
 	
-	/**²ÎÊı¸³Öµ*/
+	/**å‚æ•°èµ‹å€¼*/
 	new_unit->x = x;
 	new_unit->y = y;
 	new_unit->length = length;
 	new_unit->width = width;
 	new_unit->type = type;
 	
-	/**¼ÓÈëÍ¼²ãÖĞµ¥Ôªµ¥ÏòÁ´±í*/
+	/**åŠ å…¥å›¾å±‚ä¸­å•å…ƒå•å‘é“¾è¡¨*/
 	new_unit->next = target->layer_unit_list;
 	target->layer_unit_list = new_unit;
 }
 
-/**»ñÈ¡ĞÂµ¥ÔªÎ»ÖÃ*/
+/**è·å–æ–°å•å…ƒä½ç½®*/

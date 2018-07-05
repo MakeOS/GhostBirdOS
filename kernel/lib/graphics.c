@@ -13,10 +13,10 @@
 #include <lib/math.h>
 #include <lib/graphics.h>
 
-/**ÏÔÊ¾ÏñËØº¯Êı*/
+/**æ˜¾ç¤ºåƒç´ å‡½æ•°*/
 void (*putpixel)(unsigned int x, unsigned int y, unsigned int color);
 
-/**»ñÈ¡ÏñËØº¯Êı*/
+/**è·å–åƒç´ å‡½æ•°*/
 unsigned int (*getpixel)(unsigned int x, unsigned int y);
 
 /**graphical initialization*/
@@ -24,10 +24,10 @@ void Inti_Graph(void)
 {
 	extern void init_VESA(void);
 	
-	/**³õÊ¼»¯VBEÄ£Ê½*/
+	/**åˆå§‹åŒ–VBEæ¨¡å¼*/
 	init_VESA();
 	
-	/**¸ù¾İBPPÅĞ¶ÏËùĞèÒªµÄÏàÓ¦ÏÔÊ¾ÏñËØº¯Êı*/
+	/**æ ¹æ®BPPåˆ¤æ–­æ‰€éœ€è¦çš„ç›¸åº”æ˜¾ç¤ºåƒç´ å‡½æ•°*/
 	if (Video_Info.bit_per_pixel == 24)
 	{
 		putpixel = putpixel24;
@@ -43,7 +43,7 @@ void Inti_Graph(void)
 void outtextxy(unsigned long x, unsigned long y, unsigned int color, unsigned char *string)
 {
 	unsigned long point;
-	/**»ñµÃ×Ö¿âĞÅÏ¢*/
+	/**è·å¾—å­—åº“ä¿¡æ¯*/
 	struct font_info *font_info;
 	font_info = font("Standard Font");
 	for (point = 0; string[point] != 0x00; point ++)
@@ -53,10 +53,10 @@ void outtextxy(unsigned long x, unsigned long y, unsigned int color, unsigned ch
 	}
 }
 
-/*ÏÔÊ¾×Ö*/
+/*æ˜¾ç¤ºå­—*/
 void draw_font(unsigned long x, unsigned long y, unsigned int color, struct font_info *font_info, unsigned char ascii)
 {
-	unsigned long p, i, font_offset;/*×Ö¿âÆ«ÒÆÁ¿*/
+	unsigned long p, i, font_offset;/*å­—åº“åç§»é‡*/
 	unsigned char d;
 	font_offset = ascii * 16;
 	for (i = 0; i < 16; i++)
@@ -73,7 +73,7 @@ void draw_font(unsigned long x, unsigned long y, unsigned int color, struct font
 	}
 }
 
-/*ÔÚÆÁÄ»Ö¸¶¨µØ·½»­·½¿é*/
+/*åœ¨å±å¹•æŒ‡å®šåœ°æ–¹ç”»æ–¹å—*/
 void rectangle(unsigned long x, unsigned long y, unsigned long height, unsigned long width, unsigned int color)
 {
 	unsigned long m, n;
@@ -94,7 +94,7 @@ void line(unsigned long x0, unsigned long y0, unsigned long x1, unsigned long y1
 	dy=abs(y1-y0);
 	n=dx+dy;
 	
-	/**¸ù¾İx1ºÍx0µÄ¹ØÏµ£¬Ñ¡ÔñºÏÊÊµÄkÔËËã·½·¨*/
+	/**æ ¹æ®x1å’Œx0çš„å…³ç³»ï¼Œé€‰æ‹©åˆé€‚çš„kè¿ç®—æ–¹æ³•*/
 	if (x1 == x0)
 	{
 		k=2;
@@ -129,12 +129,12 @@ void line(unsigned long x0, unsigned long y0, unsigned long x1, unsigned long y1
 		}
 }
 
-/**24Î»É«²ÊÄ£Ê½»ñÈ¡ÏñËØº¯Êı*/
+/**24ä½è‰²å½©æ¨¡å¼è·å–åƒç´ å‡½æ•°*/
 unsigned int getpixel24(unsigned int x, unsigned int y)
 {
 	unsigned int i;
 	
-	/**ÏÈÅĞ¶Ï¸ÃÏñËØÊÇ·ñÔÚÆÁÄ»ÉÏ*/
+	/**å…ˆåˆ¤æ–­è¯¥åƒç´ æ˜¯å¦åœ¨å±å¹•ä¸Š*/
 	if (x < Video_Info.xres & y < Video_Info.yres)
 	{
 		i = ((y * Video_Info.xres) + x) * 3;
@@ -142,23 +142,23 @@ unsigned int getpixel24(unsigned int x, unsigned int y)
 	}
 }
 
-/**24Î»É«²ÊÄ£Ê½»ñÈ¡ÏñËØº¯Êı*/
+/**24ä½è‰²å½©æ¨¡å¼è·å–åƒç´ å‡½æ•°*/
 unsigned int getpixel32(unsigned int x, unsigned int y)
 {
-	/**ÏÈÅĞ¶Ï¸ÃÏñËØÊÇ·ñÔÚÆÁÄ»ÉÏ*/
+	/**å…ˆåˆ¤æ–­è¯¥åƒç´ æ˜¯å¦åœ¨å±å¹•ä¸Š*/
 	if (x < Video_Info.xres & y < Video_Info.yres)
 	{
 		return ((unsigned int *)Video_Info.vram)[(y * Video_Info.xres) + x];
 	}
 }
 
-/**24Î»É«²ÊÄ£Ê½»æÖÆÏñËØº¯Êı*/
+/**24ä½è‰²å½©æ¨¡å¼ç»˜åˆ¶åƒç´ å‡½æ•°*/
 void putpixel24(unsigned int x, unsigned int y, unsigned int color)
 {
 	int i;
 	unsigned char *vram = Video_Info.vram;
 	
-	/**ÏÈÅĞ¶Ï¸ÃÏñËØÊÇ·ñÔÚÆÁÄ»ÉÏ*/
+	/**å…ˆåˆ¤æ–­è¯¥åƒç´ æ˜¯å¦åœ¨å±å¹•ä¸Š*/
 	if ((x < Video_Info.xres) & (y < Video_Info.yres))
 	{
 		i = ((y * Video_Info.xres) + x)*3;
@@ -170,14 +170,14 @@ void putpixel24(unsigned int x, unsigned int y, unsigned int color)
 
 void putpixel32(unsigned int x, unsigned int y, unsigned int color)
 {
-	/**ÏÈÅĞ¶Ï¸ÃÏñËØÊÇ·ñÔÚÆÁÄ»ÉÏ*/
+	/**å…ˆåˆ¤æ–­è¯¥åƒç´ æ˜¯å¦åœ¨å±å¹•ä¸Š*/
 	if ((x < Video_Info.xres) & (y < Video_Info.yres))
 	{
 		((unsigned int *)Video_Info.vram)[(y * Video_Info.xres) + x] = color;
 	}
 }
 
-/**Çå³ıÆÁÄ»º¯Êı*/
+/**æ¸…é™¤å±å¹•å‡½æ•°*/
 void clear_screen(void)
 {
 	memset(Video_Info.vram, 0, Video_Info.vram_length);	

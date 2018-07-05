@@ -11,10 +11,10 @@
 #ifndef SYSCALLS_H_
 #define SYSCALLS_H_
 
-/**ÏµÍ³µ÷ÓÃÖĞ¶ÏºÅ*/
+/**ç³»ç»Ÿè°ƒç”¨ä¸­æ–­å·*/
 #define SYSCALLS_INTERRUPT	50
 
-/**ÉÏÏÂÎÄ(Í¨ÓÃ¼Ä´æÆ÷)±»Ñ¹Èë¶ÑÕ»µÄË³Ğò*/
+/**ä¸Šä¸‹æ–‡(é€šç”¨å¯„å­˜å™¨)è¢«å‹å…¥å †æ ˆçš„é¡ºåº*/
 struct context
 {
 	long edi;		/**esp + 4*/
@@ -27,7 +27,7 @@ struct context
 	long eax;		/**esp + 32*/
 };
 
-/**´¦ÀíÏµÍ³µ÷ÓÃº¯Êı£¬Î»ÓÚsyscalls.asmÖĞ*/
+/**å¤„ç†ç³»ç»Ÿè°ƒç”¨å‡½æ•°ï¼Œä½äºsyscalls.asmä¸­*/
 void do_syscalls(struct context context);
 
 #endif

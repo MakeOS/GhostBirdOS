@@ -17,83 +17,83 @@
 #include "window.h"
 #include "../layer.h"
 
-#pragma pack(push)					//±£´æµ±Ç°¶ÔÆëÐÅÏ¢
-#pragma pack(1)						//Éè¶¨½á¹¹ÌåÒÔÒ»¸ö×Ö½ÚÎªµ¥Î»¶ÔÆë
+#pragma pack(push)					//ä¿å­˜å½“å‰å¯¹é½ä¿¡æ¯
+#pragma pack(1)						//è®¾å®šç»“æž„ä½“ä»¥ä¸€ä¸ªå­—èŠ‚ä¸ºå•ä½å¯¹é½
 
-/**BMPÎ»Í¼ÎÄ¼þÍ·½á¹¹*/
+/**BMPä½å›¾æ–‡ä»¶å¤´ç»“æž„*/
 #define NUM_OF_TYPE		2
 struct bmp_file_header
 {
-	char type[NUM_OF_TYPE];			//Î»Í¼Àà±ð£¬ÔÚWindowsÖÐ£¬Õâ¸ö×Ö¶ÎÎª"BM"
-	unsigned int size;				//³¤¶È
-	unsigned int reserved;			//±£Áô£¬×ÜÎª0
-	unsigned int bmp_data_offset;	//´ÓÎÄ¼þ¿ªÊ¼µ½Î»Í¼Êý¾Ý¿ªÊ¼Ö®¼äµÄÊý¾Ý(bitmap data)Ö®¼äµÄÆ«ÒÆÁ¿
-	unsigned int bmp_header_size;	//Î»Í¼ÐÅÏ¢Í·(bitmap info header)µÄ³¤¶È
-	unsigned int length;			//Î»Í¼³¤¶È
-	unsigned int width;				//Î»Í¼¿í¶È
-	unsigned short planes;			//Î»Í¼µÄÎ»ÃæÊý(×ÜÊÇ1)
+	char type[NUM_OF_TYPE];			//ä½å›¾ç±»åˆ«ï¼Œåœ¨Windowsä¸­ï¼Œè¿™ä¸ªå­—æ®µä¸º"BM"
+	unsigned int size;				//é•¿åº¦
+	unsigned int reserved;			//ä¿ç•™ï¼Œæ€»ä¸º0
+	unsigned int bmp_data_offset;	//ä»Žæ–‡ä»¶å¼€å§‹åˆ°ä½å›¾æ•°æ®å¼€å§‹ä¹‹é—´çš„æ•°æ®(bitmap data)ä¹‹é—´çš„åç§»é‡
+	unsigned int bmp_header_size;	//ä½å›¾ä¿¡æ¯å¤´(bitmap info header)çš„é•¿åº¦
+	unsigned int length;			//ä½å›¾é•¿åº¦
+	unsigned int width;				//ä½å›¾å®½åº¦
+	unsigned short planes;			//ä½å›¾çš„ä½é¢æ•°(æ€»æ˜¯1)
 };
 
-/**BMPÍ¼ÏñÐÅÏ¢Í·
- * Ñ¹ËõËµÃ÷
- * 0 - ²»Ñ¹Ëõ (Ê¹ÓÃBI_RGB±íÊ¾)
- * 1 - RLE 8-Ê¹ÓÃ8Î»RLEÑ¹Ëõ·½Ê½(ÓÃBI_RLE8±íÊ¾)
- * 2 - RLE 4-Ê¹ÓÃ4Î»RLEÑ¹Ëõ·½Ê½(ÓÃBI_RLE4±íÊ¾)
- * 3 - Bitfields-Î»Óò´æ·Å·½Ê½(ÓÃBI_BITFIELDS±íÊ¾)
+/**BMPå›¾åƒä¿¡æ¯å¤´
+ * åŽ‹ç¼©è¯´æ˜Ž
+ * 0 - ä¸åŽ‹ç¼© (ä½¿ç”¨BI_RGBè¡¨ç¤º)
+ * 1 - RLE 8-ä½¿ç”¨8ä½RLEåŽ‹ç¼©æ–¹å¼(ç”¨BI_RLE8è¡¨ç¤º)
+ * 2 - RLE 4-ä½¿ç”¨4ä½RLEåŽ‹ç¼©æ–¹å¼(ç”¨BI_RLE4è¡¨ç¤º)
+ * 3 - Bitfields-ä½åŸŸå­˜æ”¾æ–¹å¼(ç”¨BI_BITFIELDSè¡¨ç¤º)
  */
 struct bmp_info_header
 {
-	unsigned short bpp;				//Ã¿¸öÏñËØÎ»Êý(1/4/8/16/24/32·Ö±ð´ú±íµ¥É«/16É«/256É«/16bit/24bit/32bit)
-	unsigned int compression;		//Ñ¹ËõËµÃ÷
-	unsigned int bmp_data_size;		//×Ö½Ú±íÊ¾µÄÎ»Í¼Êý¾Ý´óÐ¡(4µÄ±¶Êý)
-	unsigned int HResolution;		//ÓÃÏñËØ/Ã×±íÊ¾Ë®Æ½·Ö±æÂÊ
-	unsigned int VResolution;		//ÓÃÏñËØ/Ã×±íÊ¾´¹Ö±·Ö±æÂÊ
-	unsigned int colors;			//Î»Í¼Ê¹ÓÃµÄÑÕÉ«Êý
-	unsigned int impt_colors;		//Ö¸¶¨ÖØÒªµÄÑÕÉ«Êý
+	unsigned short bpp;				//æ¯ä¸ªåƒç´ ä½æ•°(1/4/8/16/24/32åˆ†åˆ«ä»£è¡¨å•è‰²/16è‰²/256è‰²/16bit/24bit/32bit)
+	unsigned int compression;		//åŽ‹ç¼©è¯´æ˜Ž
+	unsigned int bmp_data_size;		//å­—èŠ‚è¡¨ç¤ºçš„ä½å›¾æ•°æ®å¤§å°(4çš„å€æ•°)
+	unsigned int HResolution;		//ç”¨åƒç´ /ç±³è¡¨ç¤ºæ°´å¹³åˆ†è¾¨çŽ‡
+	unsigned int VResolution;		//ç”¨åƒç´ /ç±³è¡¨ç¤ºåž‚ç›´åˆ†è¾¨çŽ‡
+	unsigned int colors;			//ä½å›¾ä½¿ç”¨çš„é¢œè‰²æ•°
+	unsigned int impt_colors;		//æŒ‡å®šé‡è¦çš„é¢œè‰²æ•°
 };
 
-#pragma pack(pop)					//»Ö¸´Ô­À´µÄ¶ÔÆëµ¥Î»
+#pragma pack(pop)					//æ¢å¤åŽŸæ¥çš„å¯¹é½å•ä½
 
 /**
- * BMP¸ñÊ½Í¼Æ¬¼ÓÔØº¯Êý
- * ³É¹¦·µ»Ø0£¬²»³É¹¦·µ»Ø1
+ * BMPæ ¼å¼å›¾ç‰‡åŠ è½½å‡½æ•°
+ * æˆåŠŸè¿”å›ž0ï¼Œä¸æˆåŠŸè¿”å›ž1
  */
 int *window_load_bmp(struct GUI_image *image, char *buffer)
 {	
-	/**Ð´Ö¸ÕëºÍ¶ÁÖ¸Õë*/
+	/**å†™æŒ‡é’ˆå’Œè¯»æŒ‡é’ˆ*/
 	unsigned long wptr, rptr;
 	
 	unsigned char *data;
 	
-	/**BMPÊý¾ÝÇøÖ¸Õë*/
+	/**BMPæ•°æ®åŒºæŒ‡é’ˆ*/
 	unsigned char *bmp_data;
 	
-	/**BMPÎ»Í¼ÎÄ¼þÍ·Ö¸Õë*/
+	/**BMPä½å›¾æ–‡ä»¶å¤´æŒ‡é’ˆ*/
 	struct bmp_file_header *head = (struct bmp_file_header *) buffer;
 	
-	/**BMPÎ»Í¼ÐÅÏ¢Í·Ö¸Õë*/
+	/**BMPä½å›¾ä¿¡æ¯å¤´æŒ‡é’ˆ*/
 	struct bmp_info_header *info_head = (struct bmp_info_header *) (buffer + sizeof(struct bmp_file_header));
 	
-	/**Êä³öÐÅÏ¢*/
+	/**è¾“å‡ºä¿¡æ¯*/
 	// window_print(GUI_control, "BMP size:%dByte,length:%d,width:%d,bpp:%d.", head->size, head->length, head->width, info_head->bpp);
 	
-	/**»ñÈ¡Êý¾ÝÇøÆðÊ¼µØÖ·*/
+	/**èŽ·å–æ•°æ®åŒºèµ·å§‹åœ°å€*/
 	bmp_data = buffer + head->bmp_data_offset;
 	
-	/**×¼±¸Êý¾ÝÇø·ÅÖÃ³éÏó¹ýµÄÊý¾Ý*/
+	/**å‡†å¤‡æ•°æ®åŒºæ”¾ç½®æŠ½è±¡è¿‡çš„æ•°æ®*/
 	for (data = NULL; data == NULL; )
 		data = vmalloc(head->length * head->width * 4);
 	
-	/**¸ù¾ÝÃ¿¸öÏñËØÎ»ÊýÊ¹ÓÃ²»Í¬¿½±´·½·¨*/
+	/**æ ¹æ®æ¯ä¸ªåƒç´ ä½æ•°ä½¿ç”¨ä¸åŒæ‹·è´æ–¹æ³•*/
 	switch(info_head->bpp)
 	{
 		case 24: goto copy_24;
 		case 32: goto copy_32;
 	}
 	
-/**24Î»Î»Í¼¿½±´Êý¾Ý*/
+/**24ä½ä½å›¾æ‹·è´æ•°æ®*/
 copy_24:
-	/**Ñ­»·¿½±´*/
+	/**å¾ªçŽ¯æ‹·è´*/
 	wptr = 0;
 	rptr = (head->width - 1) * head->length * 3;
 	for (; wptr < head->length * head->width * 4;)
@@ -105,7 +105,7 @@ copy_24:
 		wptr += 4;
 		rptr += 3;
 		
-		/**ÏòÉÏÌî³ä*/
+		/**å‘ä¸Šå¡«å……*/
 		if (rptr % (head->length * 3) == 0)
 		{
 			rptr -= head->length * 3 * 2;
@@ -113,9 +113,9 @@ copy_24:
 	}
 	goto finish;
 	
-/**32Î»Î»Í¼¿½±´Êý¾Ý*/
+/**32ä½ä½å›¾æ‹·è´æ•°æ®*/
 copy_32:	
-	/**Ñ­»·¿½±´*/
+	/**å¾ªçŽ¯æ‹·è´*/
 	wptr = 0;
 	rptr = (head->width - 1) * head->length;
 	for (; wptr < head->length * head->width;)
@@ -124,7 +124,7 @@ copy_32:
 		wptr ++;
 		rptr ++;
 		
-		/**ÏòÉÏÌî³ä*/
+		/**å‘ä¸Šå¡«å……*/
 		if (rptr % (head->length) == 0)
 		{
 			rptr -= head->length * 2;
@@ -133,99 +133,99 @@ copy_32:
 	goto finish;
 	
 finish:
-	/**Ìî³ä*image*/
+	/**å¡«å……*image*/
 	image->data = (unsigned int *)data;
 	image->length = head->length;
 	image->width = head->width;
 	
-	/**Õý³£·µ»Ø*/
+	/**æ­£å¸¸è¿”å›ž*/
 	return 0;
 }
 
-/**ËùÓÐÖ§³ÖµÄÎÄ¼þµÄÍ·½á¹¹ÁªºÏÌå*/
+/**æ‰€æœ‰æ”¯æŒçš„æ–‡ä»¶çš„å¤´ç»“æž„è”åˆä½“*/
 union image_head_union
 {
 	struct bmp_file_header bmp_file_header;
 };
 
-/**¼ÓÔØÍ¼Æ¬º¯Êý*/
+/**åŠ è½½å›¾ç‰‡å‡½æ•°*/
 struct GUI_image *window_load_image(char *filename)
 {
-	/**ÎÄ¼þÐÅÏ¢½á¹¹Ìå*/
+	/**æ–‡ä»¶ä¿¡æ¯ç»“æž„ä½“*/
 	file_info image_info;
 	
-	/**ÎÄ¼þ»º³åÇøÖ¸Õë*/
+	/**æ–‡ä»¶ç¼“å†²åŒºæŒ‡é’ˆ*/
 	char *buffer;
 	
-	/**ÎÄ¼þÍ·½á¹¹ÁªºÏÌå*/
+	/**æ–‡ä»¶å¤´ç»“æž„è”åˆä½“*/
 	union image_head_union *head_union;
 	
-	/**·µ»ØµÄ³éÏóÍ¼ÐÎ½á¹¹Ö¸Õë*/
+	/**è¿”å›žçš„æŠ½è±¡å›¾å½¢ç»“æž„æŒ‡é’ˆ*/
 	struct GUI_image *retval;
 	
-	/**»ñÈ¡ÎÄ¼þÐÅÏ¢*/
+	/**èŽ·å–æ–‡ä»¶ä¿¡æ¯*/
 	image_info = get_file_info(filename);
 	
-	/**ÉêÇë·ûºÏ´óÐ¡µÄ»º³åÇø*/
+	/**ç”³è¯·ç¬¦åˆå¤§å°çš„ç¼“å†²åŒº*/
 	for (buffer = NULL; buffer == NULL; )
 		buffer = vmalloc(image_info.size);
 	
-	/**ÉêÇë·ûºÏ´óÐ¡µÄ³éÏóÍ¼ÐÎ½á¹¹Ê¹ÓÃµÄÄÚ´æ*/
+	/**ç”³è¯·ç¬¦åˆå¤§å°çš„æŠ½è±¡å›¾å½¢ç»“æž„ä½¿ç”¨çš„å†…å­˜*/
 	for (retval = NULL; retval == NULL; )
 		retval = kmalloc(sizeof(struct GUI_image), 0);
 	
 	
-	/**¼ÓÔØÍ¼Æ¬ÎÄ¼þ*/
+	/**åŠ è½½å›¾ç‰‡æ–‡ä»¶*/
 	file_open(filename, buffer);
 	
-	/**Í·½á¹¹ÌåÖ¸ÕëÖ¸ÏòÎÄ¼þÍ·²¿*/
+	/**å¤´ç»“æž„ä½“æŒ‡é’ˆæŒ‡å‘æ–‡ä»¶å¤´éƒ¨*/
 	head_union = (union image_head_union *) buffer;
 	
-/**ÅÐ¶ÏÍ¼Æ¬¸ñÊ½£¬·Ö±ðÊ¹ÓÃ²»Í¬µÄ×ª»»º¯Êý×ª»»*/
+/**åˆ¤æ–­å›¾ç‰‡æ ¼å¼ï¼Œåˆ†åˆ«ä½¿ç”¨ä¸åŒçš„è½¬æ¢å‡½æ•°è½¬æ¢*/
 	
-	/**ÅÐ¶ÏÊÇ·ñÊÇBMPÍ¼Æ¬*/
+	/**åˆ¤æ–­æ˜¯å¦æ˜¯BMPå›¾ç‰‡*/
 	if (head_union->bmp_file_header.type[0] == 'B' &
 		head_union->bmp_file_header.type[1] == 'M' )
 	{
-		/**ÊÇBMPÍ¼Æ¬*/
+		/**æ˜¯BMPå›¾ç‰‡*/
 		// window_print(GUI_control, "image type:Microsoft Windows BMP Image");
 		
-		/**µ÷ÓÃBMPÍ¼Æ¬¼ÓÔØº¯Êý*/
+		/**è°ƒç”¨BMPå›¾ç‰‡åŠ è½½å‡½æ•°*/
 		window_load_bmp(retval, buffer);
 		
-		/**ÊÍ·Å»º³åÇø*/
+		/**é‡Šæ”¾ç¼“å†²åŒº*/
 		vfree(buffer);
 		// window_print(GUI_control, "GUI image length:%d,width:%d,data:%#X", retval->length, retval->width, retval->data);
 	}else{
-		/**ÆäËû¸ñÊ½ÎÄ¼þ*/
+		/**å…¶ä»–æ ¼å¼æ–‡ä»¶*/
 		// window_print(GUI_control, "Unkown Format.");
 		
-		/**ÊÍ·ÅÏà¹Ø½á¹¹Õ¼ÓÃµÄÄÚ´æ¡¢ÎÄ¼þÕ¼ÓÃµÄ»º´æ*/
+		/**é‡Šæ”¾ç›¸å…³ç»“æž„å ç”¨çš„å†…å­˜ã€æ–‡ä»¶å ç”¨çš„ç¼“å­˜*/
 		vfree(buffer);
 		kfree(retval);
 		
-		/**Ê§°Ü·µ»Ø*/
+		/**å¤±è´¥è¿”å›ž*/
 		return NULL;
 	}
 	
-	/**Õý³£·µ»Ø*/
+	/**æ­£å¸¸è¿”å›ž*/
 	return retval;
 }
 
-/**ÊÍ·ÅÍ¼Æ¬×ÊÔ´º¯Êý*/
+/**é‡Šæ”¾å›¾ç‰‡èµ„æºå‡½æ•°*/
 void free_image(struct GUI_image *image)
 {
-	/**ÅÐ¶ÏÊÇ·ñÐèÒªÊÍ·Å*/
+	/**åˆ¤æ–­æ˜¯å¦éœ€è¦é‡Šæ”¾*/
 	if (image->data == NULL) return;
 	
-	/**ÊÍ·ÅimageµÄÊý¾ÝÇø*/
+	/**é‡Šæ”¾imageçš„æ•°æ®åŒº*/
 	vfree(image->data);
 	
-	/**ÊÍ·ÅimageµÄ½á¹¹Ìå*/
+	/**é‡Šæ”¾imageçš„ç»“æž„ä½“*/
 	kfree(image);
 	
-	/**ÖÃ¿ÕÖ¸Õë*/
+	/**ç½®ç©ºæŒ‡é’ˆ*/
 	image = NULL;
 	
-	/**Õý³£·µ»Ø*/
+	/**æ­£å¸¸è¿”å›ž*/
 }

@@ -11,31 +11,31 @@
 #include <time.h>
 #include <types.h>
 
-/**ExplorerÊ±¼ä¹ÜÀí*/
+/**Exploreræ—¶é—´ç®¡ç†*/
 
-/**Ê±ÖÓÏà¹ØµÄ±äÁ¿*/
-ulong century;					/**ÊÀ¼Í*/
-ulong year, mon, day;			/**Äê¡¢ÔÂ¡¢ÈÕ*/
-ulong hour, min, sec;			/**Ê±¡¢·Ö¡¢Ãë*/
-ulong week_day;					/**Ò»ÖÜÖĞµ±Ç°Ìì*/
-ulong ms = 0;					/**Î¢Ãë*/
-ulong system_runtime = 0;		/**ÏµÍ³ÔËĞĞÊ±¼ä£¬Î¢Ãë¼ÆÊ±£¬Ò»¿ªÊ¼¹é0*/
+/**æ—¶é’Ÿç›¸å…³çš„å˜é‡*/
+ulong century;					/**ä¸–çºª*/
+ulong year, mon, day;			/**å¹´ã€æœˆã€æ—¥*/
+ulong hour, min, sec;			/**æ—¶ã€åˆ†ã€ç§’*/
+ulong week_day;					/**ä¸€å‘¨ä¸­å½“å‰å¤©*/
+ulong ms = 0;					/**å¾®ç§’*/
+ulong system_runtime = 0;		/**ç³»ç»Ÿè¿è¡Œæ—¶é—´ï¼Œå¾®ç§’è®¡æ—¶ï¼Œä¸€å¼€å§‹å½’0*/
 
-/**BCDÂë×ª»»³É16½øÖÆ·½·¨*/
+/**BCDç è½¬æ¢æˆ16è¿›åˆ¶æ–¹æ³•*/
 #define BCD_HEX(n)	((n >> 4) * 10) + (n & 0xf)
 
 void init_time(void)
 {
-	/**»ñÈ¡CMOSĞ¾Æ¬ÉÏµÄÄê¡¢ÔÂ¡¢ÈÕ¡¢Ê±¡¢·Ö¡¢Ãë*/
-	sec = BCD_HEX(read_cmos(CMOS_CUR_SEC));			/**µ±Ç°Ãë*/
-	min = BCD_HEX(read_cmos(CMOS_CUR_MIN));			/**µ±Ç°·Ö*/
-	hour = BCD_HEX(read_cmos(CMOS_CUR_HOUR));		/**µ±Ç°Ê±*/
-	week_day = BCD_HEX(read_cmos(CMOS_WEEK_DAY));	/**Ò»ÖÜÖĞµ±Ç°Ìì*/
-	day = BCD_HEX(read_cmos(CMOS_MON_DAY));			/**Ò»ÔÂÖĞµ±Ç°ÈÕ*/
-	mon = BCD_HEX(read_cmos(CMOS_CUR_MON));			/**µ±Ç°ÔÂ*/
-	year = BCD_HEX(read_cmos(CMOS_CUR_YEAR));		/**µ±Ç°Äê*/
-	century = BCD_HEX(read_cmos(CMOS_CUR_CEN));		/**µ±Ç°ÊÀ¼Í*/
-	/**CMOSÖĞµÄÄê·İ½ö½öÊÇ´Ó±¾ÊÀ¼Í¿ªÊ¼µ½ÏÖÔÚµÄ¾ø¶ÔÖµ£¬ĞèÒª¼ÓÉÏÊÀ¼Í*/
+	/**è·å–CMOSèŠ¯ç‰‡ä¸Šçš„å¹´ã€æœˆã€æ—¥ã€æ—¶ã€åˆ†ã€ç§’*/
+	sec = BCD_HEX(read_cmos(CMOS_CUR_SEC));			/**å½“å‰ç§’*/
+	min = BCD_HEX(read_cmos(CMOS_CUR_MIN));			/**å½“å‰åˆ†*/
+	hour = BCD_HEX(read_cmos(CMOS_CUR_HOUR));		/**å½“å‰æ—¶*/
+	week_day = BCD_HEX(read_cmos(CMOS_WEEK_DAY));	/**ä¸€å‘¨ä¸­å½“å‰å¤©*/
+	day = BCD_HEX(read_cmos(CMOS_MON_DAY));			/**ä¸€æœˆä¸­å½“å‰æ—¥*/
+	mon = BCD_HEX(read_cmos(CMOS_CUR_MON));			/**å½“å‰æœˆ*/
+	year = BCD_HEX(read_cmos(CMOS_CUR_YEAR));		/**å½“å‰å¹´*/
+	century = BCD_HEX(read_cmos(CMOS_CUR_CEN));		/**å½“å‰ä¸–çºª*/
+	/**CMOSä¸­çš„å¹´ä»½ä»…ä»…æ˜¯ä»æœ¬ä¸–çºªå¼€å§‹åˆ°ç°åœ¨çš„ç»å¯¹å€¼ï¼Œéœ€è¦åŠ ä¸Šä¸–çºª*/
 	year += century * 100;
 	printk("time:century:%d year:%d month:%d day:%d week:%d hour:%d min:%d sec:%d\n", century, year, mon, day, week_day, hour, min, sec);
 }

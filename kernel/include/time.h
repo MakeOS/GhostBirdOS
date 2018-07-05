@@ -12,12 +12,12 @@
 
 #include <types.h>
 
-/**Ê±ÖÓÏà¹ØµÄ±äÁ¿*/
-extern ulong century;					/**ÊÀ¼Í*/
-extern ulong year, mon, day;			/**Äê¡¢ÔÂ¡¢ÈÕ*/
-extern ulong hour, min, sec;			/**Ê±¡¢·Ö¡¢Ãë*/
-extern ulong week_day;					/**Ò»ÖÜÖĞµ±Ç°Ìì*/
-extern ulong ms;							/**Î¢Ãë*/
-extern ulong system_runtime;				/**ÏµÍ³ÔËĞĞÊ±¼ä£¬Ò»¿ªÊ¼¹é0*/
+/**æ—¶é’Ÿç›¸å…³çš„å˜é‡*/
+extern ulong century;					/**ä¸–çºª*/
+extern ulong year, mon, day;			/**å¹´ã€æœˆã€æ—¥*/
+extern ulong hour, min, sec;			/**æ—¶ã€åˆ†ã€ç§’*/
+extern ulong week_day;					/**ä¸€å‘¨ä¸­å½“å‰å¤©*/
+extern ulong ms;							/**å¾®ç§’*/
+extern ulong system_runtime;				/**ç³»ç»Ÿè¿è¡Œæ—¶é—´ï¼Œä¸€å¼€å§‹å½’0*/
 	
 #endif

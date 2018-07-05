@@ -31,9 +31,9 @@ void init_keyboard(void)
 	register_PIC(1, &int_keyboard_handle, "keyboard");
 	
 	/*initialize for keyboard*/
-	cmd_keyboard(0xED);	/*ÉèÖÃLEDµÆÃüÁî*/
-	cmd_keyboard(0x00);	/*ÉèÖÃLED×´Ì¬È«²¿¹Ø±Õ*/
-	cmd_keyboard(0xF4);	/*Çå¿Õ¼üÅÌ»º³å*/
+	cmd_keyboard(0xED);	/*è®¾ç½®LEDç¯å‘½ä»¤*/
+	cmd_keyboard(0x00);	/*è®¾ç½®LEDçŠ¶æ€å…¨éƒ¨å…³é—­*/
+	cmd_keyboard(0xF4);	/*æ¸…ç©ºé”®ç›˜ç¼“å†²*/
 	return;
 }
 

@@ -15,21 +15,21 @@
 // A pointer that push argument, eip and jump to the start of kernel
 void (*kernel_start)(const struct boot_info *boot_info) = KERNEL_ADDR;
 
-// ÊÓÆµÄ£Ê½ĞÅÏ¢
+// è§†é¢‘æ¨¡å¼ä¿¡æ¯
 struct Video_Info Video_Info;
 
-/**ÏÔÊ¾ÏñËØº¯Êı*/
+/**æ˜¾ç¤ºåƒç´ å‡½æ•°*/
 void (*putpixel)(unsigned int x, unsigned int y, unsigned int color);
 
-/**»ñÈ¡ÏñËØº¯Êı*/
+/**è·å–åƒç´ å‡½æ•°*/
 unsigned int (*getpixel)(unsigned int x, unsigned int y);
 
-/**24Î»É«²ÊÄ£Ê½»ñÈ¡ÏñËØº¯Êı*/
+/**24ä½è‰²å½©æ¨¡å¼è·å–åƒç´ å‡½æ•°*/
 unsigned int getpixel24(unsigned int x, unsigned int y)
 {
 	unsigned int i;
 	
-	/**ÏÈÅĞ¶Ï¸ÃÏñËØÊÇ·ñÔÚÆÁÄ»ÉÏ*/
+	/**å…ˆåˆ¤æ–­è¯¥åƒç´ æ˜¯å¦åœ¨å±å¹•ä¸Š*/
 	if (x < Video_Info.xres & y < Video_Info.yres)
 	{
 		i = ((y * Video_Info.xres) + x) * 3;
@@ -37,23 +37,23 @@ unsigned int getpixel24(unsigned int x, unsigned int y)
 	}
 }
 
-/**32Î»É«²ÊÄ£Ê½»ñÈ¡ÏñËØº¯Êı*/
+/**32ä½è‰²å½©æ¨¡å¼è·å–åƒç´ å‡½æ•°*/
 unsigned int getpixel32(unsigned int x, unsigned int y)
 {
-	/**ÏÈÅĞ¶Ï¸ÃÏñËØÊÇ·ñÔÚÆÁÄ»ÉÏ*/
+	/**å…ˆåˆ¤æ–­è¯¥åƒç´ æ˜¯å¦åœ¨å±å¹•ä¸Š*/
 	if (x < Video_Info.xres & y < Video_Info.yres)
 	{
 		return ((unsigned int *)Video_Info.vram)[(y * Video_Info.xres) + x];
 	}
 }
 
-/**24Î»É«²ÊÄ£Ê½»æÖÆÏñËØº¯Êı*/
+/**24ä½è‰²å½©æ¨¡å¼ç»˜åˆ¶åƒç´ å‡½æ•°*/
 void putpixel24(unsigned int x, unsigned int y, unsigned int color)
 {
 	int i;
 	unsigned char *vram = Video_Info.vram;
 	
-	/**ÏÈÅĞ¶Ï¸ÃÏñËØÊÇ·ñÔÚÆÁÄ»ÉÏ*/
+	/**å…ˆåˆ¤æ–­è¯¥åƒç´ æ˜¯å¦åœ¨å±å¹•ä¸Š*/
 	if ((x < Video_Info.xres) & (y < Video_Info.yres))
 	{
 		i = ((y * Video_Info.xres) + x)*3;
@@ -63,17 +63,17 @@ void putpixel24(unsigned int x, unsigned int y, unsigned int color)
 	}
 }
 
-/**32Î»É«²ÊÄ£Ê½»æÖÆÏñËØº¯Êı*/
+/**32ä½è‰²å½©æ¨¡å¼ç»˜åˆ¶åƒç´ å‡½æ•°*/
 void putpixel32(unsigned int x, unsigned int y, unsigned int color)
 {
-	/**ÏÈÅĞ¶Ï¸ÃÏñËØÊÇ·ñÔÚÆÁÄ»ÉÏ*/
+	/**å…ˆåˆ¤æ–­è¯¥åƒç´ æ˜¯å¦åœ¨å±å¹•ä¸Š*/
 	if ((x < Video_Info.xres) & (y < Video_Info.yres))
 	{
 		((unsigned int *)Video_Info.vram)[(y * Video_Info.xres) + x] = color;
 	}
 }
 
-/*ÔÚÆÁÄ»Ö¸¶¨µØ·½»­·½¿é*/
+/*åœ¨å±å¹•æŒ‡å®šåœ°æ–¹ç”»æ–¹å—*/
 void rectangle(unsigned long x, unsigned long y, unsigned long height, unsigned long width, unsigned int color)
 {
 	unsigned long m, n;
@@ -86,10 +86,10 @@ void rectangle(unsigned long x, unsigned long y, unsigned long height, unsigned 
 	}
 }
 
-// »æ×Öº¯Êı
+// ç»˜å­—å‡½æ•°
 void draw_font(unsigned long x, unsigned long y, unsigned int color, unsigned char ascii)
 {
-	unsigned long i, font_offset;/*×Ö¿âÆ«ÒÆÁ¿*/
+	unsigned long i, font_offset;/*å­—åº“åç§»é‡*/
 	unsigned char d;
 	font_offset = ascii * 16;
 	for (i = 0; i < 16; i++)
@@ -106,7 +106,7 @@ void draw_font(unsigned long x, unsigned long y, unsigned int color, unsigned ch
 	}
 }
 
-/**ÆÁÄ»ÉÏÖ¸¶¨Î»ÖÃÊä³öÒ»ĞĞ×Ö·û´®*/
+/**å±å¹•ä¸ŠæŒ‡å®šä½ç½®è¾“å‡ºä¸€è¡Œå­—ç¬¦ä¸²*/
 void outtextxy(unsigned long x, unsigned long y, unsigned int color, unsigned char *string)
 {
 	unsigned long point;
@@ -117,7 +117,7 @@ void outtextxy(unsigned long x, unsigned long y, unsigned int color, unsigned ch
 	}
 }
 
-// »æÏßº¯Êı
+// ç»˜çº¿å‡½æ•°
 void line(unsigned long x0, unsigned long y0, unsigned long x1, unsigned long y1, unsigned int color)
 {
 	int dx,dy,n,k,i,f;
@@ -126,7 +126,7 @@ void line(unsigned long x0, unsigned long y0, unsigned long x1, unsigned long y1
 	dy=abs(y1-y0);
 	n=dx+dy;
 	
-	/**¸ù¾İx1ºÍx0µÄ¹ØÏµ£¬Ñ¡ÔñºÏÊÊµÄkÔËËã·½·¨*/
+	/**æ ¹æ®x1å’Œx0çš„å…³ç³»ï¼Œé€‰æ‹©åˆé€‚çš„kè¿ç®—æ–¹æ³•*/
 	if (x1 == x0)
 	{
 		k=2;
@@ -161,19 +161,19 @@ void line(unsigned long x0, unsigned long y0, unsigned long x1, unsigned long y1
 		}
 }
 
-/**ÖØÖÃº¯Êı*/
+/**é‡ç½®å‡½æ•°*/
 void reset(void)
 {
 	io_out8(0x64,0xfe);
 }
 
-/**Í£»úº¯Êı*/
+/**åœæœºå‡½æ•°*/
 void halt(void)
 {
 	io_hlt();
 }
 
-/**³ÖĞøÍ£»úº¯Êı*/
+/**æŒç»­åœæœºå‡½æ•°*/
 void stillhalt(void)
 {
 	loop:
@@ -181,29 +181,29 @@ void stillhalt(void)
 	goto loop;
 }
 
-/**µ÷ÊÔº¯Êı£¬ÓÃÓÚÏÔÊ¾¸÷ÖÖÄÚ´æÄÚÈİ*/
+/**è°ƒè¯•å‡½æ•°ï¼Œç”¨äºæ˜¾ç¤ºå„ç§å†…å­˜å†…å®¹*/
 void debug(void * address, unsigned long size)
 {
 	unsigned char count;
 	unsigned char *data_ptr = address;
 	
-	/**Èç¹ûsize´óĞ¡²»¶Ô£¬ÔòÖ±½ÓÊä³öĞÅÏ¢ºóÖ±½Ó·µ»Ø*/
+	/**å¦‚æœsizeå¤§å°ä¸å¯¹ï¼Œåˆ™ç›´æ¥è¾“å‡ºä¿¡æ¯åç›´æ¥è¿”å›*/
 	if (size == 0)
 	{
 		printk("debug invalid.\n");
 		return;
 	}
 	
-	/**Èç¹ûsize²»ÊÇ16×Ö½Ú¶ÔÆë£¬¾Í°´16×Ö½Ú¶ÔÆë*/
+	/**å¦‚æœsizeä¸æ˜¯16å­—èŠ‚å¯¹é½ï¼Œå°±æŒ‰16å­—èŠ‚å¯¹é½*/
 	if ((size % 16) != 0)
 	{
 		size = size & 0xfffffff0;
 		size + 16;
 	}
-	/**»æÖÆ±íÍ·*/
+	/**ç»˜åˆ¶è¡¨å¤´*/
 	printk ("Memory %#x to %#x:\n", address, address + size);
 	printk("Offset(h)  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n");
-	/**Êä³ö½á¹û*/
+	/**è¾“å‡ºç»“æœ*/
 	for (; size != 0;)
 	{
 		printk("%08X   %02X %02X %02X %02X ", (unsigned long)data_ptr & 0xfffffff0, *(data_ptr), *(data_ptr + 1), *(data_ptr + 2), *(data_ptr + 3));
@@ -235,31 +235,31 @@ extern int_0x24, int_0x25, int_0x26, int_0x27;
 extern int_0x28, int_0x29, int_0x2A, int_0x2B;
 extern int_0x2C, int_0x2D, int_0x2E, int_0x2F;
 
-// IDTµØÖ·¼°´óĞ¡
+// IDTåœ°å€åŠå¤§å°
 void *IDT_base;
 #define		IDT_size	8 * 256
 
-/**Çå¿ÕÖĞ¶ÏÃèÊö·û±íº¯Êı*/
+/**æ¸…ç©ºä¸­æ–­æè¿°ç¬¦è¡¨å‡½æ•°*/
 void clean_IDT(void)
 {
-	/**½øĞĞÅĞ¶Ï*/
+	/**è¿›è¡Œåˆ¤æ–­*/
 	if (IDT_base == NULL) error (ERR_NO_MEM_FOR_ID, "IDT_base = NULL when clean the IDT");
-	/**Çå¿ÕÖĞ¶ÏÃèÊö·û±í*/
+	/**æ¸…ç©ºä¸­æ–­æè¿°ç¬¦è¡¨*/
 	memset(IDT_base, 0, IDT_size);
 }
 
-/**ÖĞ¶Ï³õÊ¼»¯º¯Êı*/
+/**ä¸­æ–­åˆå§‹åŒ–å‡½æ•°*/
 void init_interrupt(void)
 {
 	extern void write_IDTR(void *base, unsigned short size);
-	/**Èô·ÖÅäÄÚ´æ²»³É¹¦ÔòÊä³ö´íÎóĞÅÏ¢*/
+	/**è‹¥åˆ†é…å†…å­˜ä¸æˆåŠŸåˆ™è¾“å‡ºé”™è¯¯ä¿¡æ¯*/
 	IDT_base = bmalloc(IDT_size);
 	if (IDT_base == NULL) error (ERR_NO_MEM_FOR_ID, "No memory for Interrupt Description Table.");
-	/**³õÊ¼»¯ÖĞ¶ÏÃèÊö·û±í*/
+	/**åˆå§‹åŒ–ä¸­æ–­æè¿°ç¬¦è¡¨*/
 	write_IDTR(IDT_base, IDT_size - 1);
 	
 	clean_IDT();
-	/**´´½¨ÖĞ¶ÏÃèÊö·û*/
+	/**åˆ›å»ºä¸­æ–­æè¿°ç¬¦*/
 	create_ID(0x20 , 0x08, &int_0x20 , interrupt_gate + IDT_32 + IDT_DPL_0 + IDT_P);
 	create_ID(0x21 , 0x08, &int_0x21 , interrupt_gate + IDT_32 + IDT_DPL_0 + IDT_P);
 	create_ID(0x22 , 0x08, &int_0x22 , interrupt_gate + IDT_32 + IDT_DPL_0 + IDT_P);
@@ -278,13 +278,13 @@ void init_interrupt(void)
 	create_ID(0x2F , 0x08, &int_0x2F , interrupt_gate + IDT_32 + IDT_DPL_0 + IDT_P);
 }
 
-/**ÔÊĞíÖĞ¶Ï*/
+/**å…è®¸ä¸­æ–­*/
 void allow_interrupt(void)
 {
 	io_sti();
 }
 
-/**²»ÔÊĞíÖĞ¶Ï*/
+/**ä¸å…è®¸ä¸­æ–­*/
 void disallow_interrupt(void)
 {
 	io_cli();
@@ -327,59 +327,59 @@ void cmd_keyboard(char command)
 
 /**
  * made by Lab Explorer Developers<1@GhostBirdOS.org>
- * ¿ª·Å8259ÌØ¶¨ÖĞ¶ÏµÄº¯Êı
- * Èë¿Ú£ºIRQºÅ
- * ³ö¿Ú£º(-1):´íÎó 0:ÕıÈ·
+ * å¼€æ”¾8259ç‰¹å®šä¸­æ–­çš„å‡½æ•°
+ * å…¥å£ï¼šIRQå·
+ * å‡ºå£ï¼š(-1):é”™è¯¯ 0:æ­£ç¡®
  */
 int open_PIC(unsigned char IRQ)
 {
 	if (IRQ > 15)
 	{
 		return (-1);
-	}else if (IRQ <= 7)/*Ö÷8259*/
+	}else if (IRQ <= 7)/*ä¸»8259*/
 	{
 		io_out8(PIC0_IMR, (io_in8(PIC0_IMR) & (~(1 << IRQ))));
-	}else{/*´Ó8259*/
+	}else{/*ä»8259*/
 		io_out8(PIC1_IMR, (io_in8(PIC1_IMR) & (~(1 << IRQ - 8))));
 	}	
 	return 0;
 }
 
-/**³õÊ¼»¯¼üÅÌ*/
+/**åˆå§‹åŒ–é”®ç›˜*/
 void init_keyboard(void)
 {
-	/**³õÊ¼»¯ÖĞ¶ÏÏµÍ³*/
+	/**åˆå§‹åŒ–ä¸­æ–­ç³»ç»Ÿ*/
 	
-	/**³õÊ¼»¯8259AĞ¾Æ¬*/
-	/**Ê×ÏÈ½«Ö÷¡¢´Ó8259AµÄÖĞ¶Ï¹Ø±Õ£¬·ÀÖ¹³öÏÖ´íÎó*/
-	io_out8(PIC0_IMR, 0xff);				/*½ûÖ¹Ö÷8259µÄËùÓĞÖĞ¶Ï*/
-	io_out8(PIC1_IMR, 0xff);				/*½ûÖ¹´Ó8259µÄËùÓĞÖĞ¶Ï*/
+	/**åˆå§‹åŒ–8259AèŠ¯ç‰‡*/
+	/**é¦–å…ˆå°†ä¸»ã€ä»8259Açš„ä¸­æ–­å…³é—­ï¼Œé˜²æ­¢å‡ºç°é”™è¯¯*/
+	io_out8(PIC0_IMR, 0xff);				/*ç¦æ­¢ä¸»8259çš„æ‰€æœ‰ä¸­æ–­*/
+	io_out8(PIC1_IMR, 0xff);				/*ç¦æ­¢ä»8259çš„æ‰€æœ‰ä¸­æ–­*/
 
-	io_out8(PIC0_ICW1, 0x11);				/*±ßÑØ´¥·¢Ä£Ê½*/
-	io_out8(PIC0_ICW2, PIC0_intr_offset);	/*PIC 0~7 ÓÉPIC0_intr_offset ~ PIC0_intr_offset+8¸ºÔğ*/
-	io_out8(PIC0_ICW3, 1 << 2);				/*´ÓPIC¸úÖ÷PICµÄµÚ2ºÅÖĞ¶ÏÏßÏàÁ¬*/
-	io_out8(PIC0_ICW4, 0x01);				/*ÎŞ»º³åÄ£Ê½*/
+	io_out8(PIC0_ICW1, 0x11);				/*è¾¹æ²¿è§¦å‘æ¨¡å¼*/
+	io_out8(PIC0_ICW2, PIC0_intr_offset);	/*PIC 0~7 ç”±PIC0_intr_offset ~ PIC0_intr_offset+8è´Ÿè´£*/
+	io_out8(PIC0_ICW3, 1 << 2);				/*ä»PICè·Ÿä¸»PICçš„ç¬¬2å·ä¸­æ–­çº¿ç›¸è¿*/
+	io_out8(PIC0_ICW4, 0x01);				/*æ— ç¼“å†²æ¨¡å¼*/
 	
-	io_out8(PIC1_ICW1, 0x11);				/*±ßÑØ´¥·¢*/
-	io_out8(PIC1_ICW2, PIC1_intr_offset);	/*PIC 8~15 ÓÉint 0x28~0x2f¸ºÔğ*/
-	io_out8(PIC1_ICW3, 2);					/*´Ó8259¸úPIC 2 ÏàÁ¬*/
-	io_out8(PIC1_ICW4, 0x01);				/*ÎŞ»º³åÄ£Ê½*/
+	io_out8(PIC1_ICW1, 0x11);				/*è¾¹æ²¿è§¦å‘*/
+	io_out8(PIC1_ICW2, PIC1_intr_offset);	/*PIC 8~15 ç”±int 0x28~0x2fè´Ÿè´£*/
+	io_out8(PIC1_ICW3, 2);					/*ä»8259è·ŸPIC 2 ç›¸è¿*/
+	io_out8(PIC1_ICW4, 0x01);				/*æ— ç¼“å†²æ¨¡å¼*/
 
-	io_out8(PIC0_IMR, 0xfb);				/*½ûÖ¹ËùÓĞÖĞ¶Ï*/
-	io_out8(PIC1_IMR, 0xff);				/*½ûÖ¹ËùÓĞÖĞ¶Ï*/
+	io_out8(PIC0_IMR, 0xfb);				/*ç¦æ­¢æ‰€æœ‰ä¸­æ–­*/
+	io_out8(PIC1_IMR, 0xff);				/*ç¦æ­¢æ‰€æœ‰ä¸­æ–­*/
 	
-	/**³õÊ¼»¯¼üÅÌ*/
-	cmd_keyboard(0xED);	/*ÉèÖÃLEDµÆÃüÁî*/
-	cmd_keyboard(0x00);	/*ÉèÖÃLED×´Ì¬È«²¿¹Ø±Õ*/
-	cmd_keyboard(0xF4);	/*Çå¿Õ¼üÅÌ»º³å*/
+	/**åˆå§‹åŒ–é”®ç›˜*/
+	cmd_keyboard(0xED);	/*è®¾ç½®LEDç¯å‘½ä»¤*/
+	cmd_keyboard(0x00);	/*è®¾ç½®LEDçŠ¶æ€å…¨éƒ¨å…³é—­*/
+	cmd_keyboard(0xF4);	/*æ¸…ç©ºé”®ç›˜ç¼“å†²*/
 	
 	open_PIC(1);
 	
-	/**·µ»Ø*/
+	/**è¿”å›*/
 	return;
 }
 
-/**¼üÅÌÖĞ¶Ï´¦Àíº¯Êı*/
+/**é”®ç›˜ä¸­æ–­å¤„ç†å‡½æ•°*/
 unsigned long r = 0;
 unsigned int color = 0x333333;
 void keyboard_handle(void)
@@ -388,24 +388,24 @@ void keyboard_handle(void)
 	key_val = io_in8(keycmd_write_mode);
 	
 	/**
-	 * ¼üÅÌÉÏ¼üÊÇ0x48£¬ÏÂ¼üÊÇ0x50£¬
-	 * F1¼üÊÇ0x3B£¬F2ÊÇ0x3C
-	 * Esc¼üÊÇ0x1
+	 * é”®ç›˜ä¸Šé”®æ˜¯0x48ï¼Œä¸‹é”®æ˜¯0x50ï¼Œ
+	 * F1é”®æ˜¯0x3Bï¼ŒF2æ˜¯0x3C
+	 * Escé”®æ˜¯0x1
 	 */
 	
-	/**ÏòÉÏ¼ü´¥·¢*/
+	/**å‘ä¸Šé”®è§¦å‘*/
 	if (key_val == 0x48) select_up();
 	
-	/**ÏòÏÂ¼ü´¥·¢*/
+	/**å‘ä¸‹é”®è§¦å‘*/
 	if (key_val == 0x50) select_down();
 	
-	/**F1¼ü´¥·¢*/
+	/**F1é”®è§¦å‘*/
 	if (key_val == 0x3B) VI_active(VI_page_output);
 	
-	/**F2¼ü´¥·¢*/
+	/**F2é”®è§¦å‘*/
 	if (key_val == 0x3C) VI_active(VI_page_select);
 	
-	/**Esc¼ü´¥·¢*/
+	/**Escé”®è§¦å‘*/
 	if (key_val == 0x1) reset();
 	
 	/**EOI*/
@@ -421,7 +421,7 @@ void i8259A_auto_return(void)
 	io_out8(0xA0, 0x20);
 }
 
-/**ÆäËûÖĞ¶ÏµÄ×Ô¶¯·µ»Ø*/
+/**å…¶ä»–ä¸­æ–­çš„è‡ªåŠ¨è¿”å›*/
 void int_auto_return(void)
 {
 	printk("Unexpected interrupt happened.");
@@ -437,32 +437,32 @@ int callback(int n, int type)
 	}
 }
 
-/**configureÎÄ¼ş´¢´æÄÚ´æÖ¸Õë*/
+/**configureæ–‡ä»¶å‚¨å­˜å†…å­˜æŒ‡é’ˆ*/
 static void *config_buf;
-/**±£ÁôÉÈÇøÒıµ¼³ÌĞòµÄÖ÷º¯Êı*/
+/**ä¿ç•™æ‰‡åŒºå¼•å¯¼ç¨‹åºçš„ä¸»å‡½æ•°*/
 void BOOT_main(const struct boot_info *boot_info)
 {
-	/**ÅĞ¶ÏÊÇ·ñ³É¹¦»ñÈ¡Æô¶¯ĞÅÏ¢*/
+	/**åˆ¤æ–­æ˜¯å¦æˆåŠŸè·å–å¯åŠ¨ä¿¡æ¯*/
 	if (boot_info->flag[0] != 'E' |
 		boot_info->flag[1] != 'B' |
 		boot_info->flag[2] != 'I' )
 	{
-		reset();		/**ÏµÍ³ÖØÖÃ*/
+		reset();		/**ç³»ç»Ÿé‡ç½®*/
 	}
 	
-	/**ÅĞ¶ÏÆô¶¯ĞÅÏ¢µÄ³¤¶ÈÊÇ·ñ·ûºÏÒªÇó*/
+	/**åˆ¤æ–­å¯åŠ¨ä¿¡æ¯çš„é•¿åº¦æ˜¯å¦ç¬¦åˆè¦æ±‚*/
 	if (boot_info->size != sizeof(struct boot_info))
 	{
-		reset();		/**ÏµÍ³ÖØÖÃ*/
+		reset();		/**ç³»ç»Ÿé‡ç½®*/
 	}
-	/**³õÊ¼»¯Í¼ĞÎÄ£Ê½*/
+	/**åˆå§‹åŒ–å›¾å½¢æ¨¡å¼*/
 	Video_Info.xres = boot_info->ModeInfoBlock.XResolution;
 	Video_Info.yres = boot_info->ModeInfoBlock.YResolution;
 	Video_Info.bit_per_pixel = boot_info->ModeInfoBlock.BitsPerPixel;
 	Video_Info.vram_length = (((Video_Info.xres * Video_Info.yres) * (Video_Info.bit_per_pixel / 8)) & 0xfffff000) + 0x1000;
 	Video_Info.vram = (unsigned char*)boot_info->ModeInfoBlock.PhysBasePtr;
 	
-	/**¸ù¾İBPPÅĞ¶ÏËùĞèÒªµÄÏàÓ¦ÏÔÊ¾ÏñËØº¯Êı*/
+	/**æ ¹æ®BPPåˆ¤æ–­æ‰€éœ€è¦çš„ç›¸åº”æ˜¾ç¤ºåƒç´ å‡½æ•°*/
 	if (Video_Info.bit_per_pixel == 24)
 	{
 		putpixel = putpixel24;
@@ -473,28 +473,28 @@ void BOOT_main(const struct boot_info *boot_info)
 		getpixel = getpixel32;
 	}
 	
-	/**³õÊ¼»¯¿ÉÊÓ»¯½çÃæ*/
+	/**åˆå§‹åŒ–å¯è§†åŒ–ç•Œé¢*/
 	init_VI();
 	
-	/**³õÊ¼»¯ÖĞ¶ÏÃèÊö·û±í*/
+	/**åˆå§‹åŒ–ä¸­æ–­æè¿°ç¬¦è¡¨*/
 	init_interrupt();
 	
-	/**³õÊ¼»¯¼üÅÌ*/
+	/**åˆå§‹åŒ–é”®ç›˜*/
 	init_keyboard();
 	
-	/**ÔÊĞíÖĞ¶Ï*/
+	/**å…è®¸ä¸­æ–­*/
 	allow_interrupt();	
 	
-	/**³õÊ¼»¯´¢´æÆ÷¹ÜÀí*/
+	/**åˆå§‹åŒ–å‚¨å­˜å™¨ç®¡ç†*/
 	init_storage();
 	
-	/**¼ì²â»î¶¯·ÖÇøµÄÊıÁ¿*/
+	/**æ£€æµ‹æ´»åŠ¨åˆ†åŒºçš„æ•°é‡*/
 	printk("Active storage partition:%d\n", storage_active_partition());
 	
-	/**³õÊ¼»¯ÎÄ¼şÏµÍ³*/
+	/**åˆå§‹åŒ–æ–‡ä»¶ç³»ç»Ÿ*/
 	init_FS();
 	
-	/**·ÖÅä·ÅÖÃconfigureµÄÄÚ´æ*/
+	/**åˆ†é…æ”¾ç½®configureçš„å†…å­˜*/
 	config_buf = bmalloc(CONFIG_MAX);
 	if (config_buf == NULL) error(ERR_NO_MEM_FOR_CONFIG, "No memory for loader's configure file.");
 	
@@ -504,12 +504,12 @@ void BOOT_main(const struct boot_info *boot_info)
 	select_register(1, callback, "show 'Explorer loader'");
 	io_hlt();
 	
-	/**¼ÓÔØÄÚºË*/
+	/**åŠ è½½å†…æ ¸*/
 	read_file(0, 0, KERNEL_NAME, KERNEL_ADDR, 1);
 	
 	printk("Kernel address:%#X", kernel_start);
 	
-	/**ÔËĞĞÄÚºË*/
+	/**è¿è¡Œå†…æ ¸*/
 	kernel_start(boot_info);
 }
 

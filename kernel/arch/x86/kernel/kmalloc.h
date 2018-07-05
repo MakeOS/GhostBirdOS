@@ -5,13 +5,13 @@
  * Explorer/include/kmalloc.h
  * version:Alpha
  * 2/10/2014 9:04 AM:created
- * 10/1/2015 8:15 AM:ÖØĞ´ÄÚ´æ·ÖÅä
+ * 10/1/2015 8:15 AM:é‡å†™å†…å­˜åˆ†é…
  */
 
 #ifndef KMALLOC_H_
 #define KMALLOC_H_
 
-/**ÄÚ´æ³Ø*/
+/**å†…å­˜æ± */
 struct mem_pool
 {
 	size_t size;
@@ -19,7 +19,7 @@ struct mem_pool
 	struct Memory_Descriptor *next;
 };
 
-/**ÄÚ´æÃèÊö·û*/
+/**å†…å­˜æè¿°ç¬¦*/
 struct Memory_Descriptor
 {
 	void *page;
@@ -27,20 +27,20 @@ struct Memory_Descriptor
 	unsigned short refcnt;
 	struct Memory_Descriptor *next;
 };
-/**ÆäÖĞflags´ú±íÏÂÃæÇé¿öÖ®Ò»*/
+/**å…¶ä¸­flagsä»£è¡¨ä¸‹é¢æƒ…å†µä¹‹ä¸€*/
 #define MEM_INVALID	0
 #define MEM_FREE	1
 #define MEM_USED	2
 
 
-/**ÄÚºËĞ¡¿éÄÚ´æ·ÖÅäº¯Êı
- * ²ÎÊı:size - ÇëÇóµÄÄÚ´æ¿é³¤¶È
- * ·µ»ØÖµ:NULL - ·ÖÅäÊ§°Ü; !NULL - ·ÖÅä³É¹¦£¬·µ»ØÄÚ´æÊ×µØÖ·
+/**å†…æ ¸å°å—å†…å­˜åˆ†é…å‡½æ•°
+ * å‚æ•°:size - è¯·æ±‚çš„å†…å­˜å—é•¿åº¦
+ * è¿”å›å€¼:NULL - åˆ†é…å¤±è´¥; !NULL - åˆ†é…æˆåŠŸï¼Œè¿”å›å†…å­˜é¦–åœ°å€
  */
 void *kmalloc(size_t size, int flags);
 
-/**ÄÚºËĞ¡¿éÄÚ´æÊÍ·Åº¯Êı
- * ²ÎÊı:point - Ö¸ÏòÒªÊÍ·ÅµÄÄÚ´æÊ×µØÖ·(Ö®Ç°kmallocº¯ÊıµÄ·µ»ØÖµ)
+/**å†…æ ¸å°å—å†…å­˜é‡Šæ”¾å‡½æ•°
+ * å‚æ•°:point - æŒ‡å‘è¦é‡Šæ”¾çš„å†…å­˜é¦–åœ°å€(ä¹‹å‰kmallocå‡½æ•°çš„è¿”å›å€¼)
  */
 void kfree(void *point);
 

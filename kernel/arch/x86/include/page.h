@@ -10,9 +10,9 @@
 #ifndef PAGE_H_
 #define PAGE_H_
 
-#define PAGE_SIZE	4096				// Ò³µÄ´óĞ¡£º4096Byte
+#define PAGE_SIZE	4096				// é¡µçš„å¤§å°ï¼š4096Byte
 
-/**Ò³¹ÊÕÏ´¦Àí³ÌĞò*/
+/**é¡µæ•…éšœå¤„ç†ç¨‹åº*/
 void do_page_fault(int error_code);
 
 #endif

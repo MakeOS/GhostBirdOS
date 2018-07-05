@@ -16,54 +16,54 @@
 #include <task.h>
 
 /**
- * Explorer ÄÚºË½ø³Ì¹ÜÀí
+ * Explorer å†…æ ¸è¿›ç¨‹ç®¡ç†
  * Lab Explorer Developers<2322869088@qq.com>
- * ²ÉÓÃ¶à¼¶ÓÅÏÈ·´À¡¶ÓÁĞËã·¨
+ * é‡‡ç”¨å¤šçº§ä¼˜å…ˆåé¦ˆé˜Ÿåˆ—ç®—æ³•
  */
 
-/**ÔÊĞíµ÷¶È±êÖ¾*/
+/**å…è®¸è°ƒåº¦æ ‡å¿—*/
 static bool schedule_flag = false;
 
-unsigned long temp_stack;/*ÁÙÊ±¶ÑÕ»Ö¸Õë´æ·Å±äÁ¿*/
+unsigned long temp_stack;/*ä¸´æ—¶å †æ ˆæŒ‡é’ˆå­˜æ”¾å˜é‡*/
 
 
-/**¶ÓÁĞ£ºÊµÊ±¡¢¸ß¡¢Õı³£¡¢µÍÓÅÏÈ¡¢½©Ê¬¡¢µÈ´ı£¬
- * ¿ÉÒÔÊ¹ÓÃ¶à¼¶·´À¡µ÷¶ÈËã·¨¡£
+/**é˜Ÿåˆ—ï¼šå®æ—¶ã€é«˜ã€æ­£å¸¸ã€ä½ä¼˜å…ˆã€åƒµå°¸ã€ç­‰å¾…ï¼Œ
+ * å¯ä»¥ä½¿ç”¨å¤šçº§åé¦ˆè°ƒåº¦ç®—æ³•ã€‚
  */
 static union task *realtime, *high, *normal, *low, *zomble, *wait;
 
-/**ÈÎÎñ0µÄÁªºÏÌå¶¨Òå*/
+/**ä»»åŠ¡0çš„è”åˆä½“å®šä¹‰*/
 union task task_0;
 
-/**³õÊ¼»¯ÈÎÎñ¹ÜÀí*/
+/**åˆå§‹åŒ–ä»»åŠ¡ç®¡ç†*/
 void init_task(void)
 {
 	struct process_struct *process_0;
 	
-	/**¶Ô0ÈÎÎñµÄÊı¾İ½á¹¹½øĞĞ¸³Öµ*/
-	task_0.info.counter = 60;		/**¸ø0ÈÎÎñ·ÖÅä50Î¢ÃëµÄÊ±¼äÆ¬*/
-	task_0.info.time_limit = 60;	/**0ÈÎÎñÊ±¼äÆ¬³¤¶ÈÎª50Î¢Ãë*/
-	task_0.info.runtime = 0;		/**0ÈÎÎñ×Ü¹²ÔËĞĞÊ±¼ä¹é0*/
-	task_0.info.state = TASK_HIGH;	/**ÉèÖÃ0ÈÎÎñÎª¸ßÓÅÏÈ¼¶ÈÎÎñ*/
+	/**å¯¹0ä»»åŠ¡çš„æ•°æ®ç»“æ„è¿›è¡Œèµ‹å€¼*/
+	task_0.info.counter = 60;		/**ç»™0ä»»åŠ¡åˆ†é…50å¾®ç§’çš„æ—¶é—´ç‰‡*/
+	task_0.info.time_limit = 60;	/**0ä»»åŠ¡æ—¶é—´ç‰‡é•¿åº¦ä¸º50å¾®ç§’*/
+	task_0.info.runtime = 0;		/**0ä»»åŠ¡æ€»å…±è¿è¡Œæ—¶é—´å½’0*/
+	task_0.info.state = TASK_HIGH;	/**è®¾ç½®0ä»»åŠ¡ä¸ºé«˜ä¼˜å…ˆçº§ä»»åŠ¡*/
 	
-	/**½«0ÈÎÎñ×ö³ÉË«ÏòÑ­»·Á´±í*/
+	/**å°†0ä»»åŠ¡åšæˆåŒå‘å¾ªç¯é“¾è¡¨*/
 	task_0.info.next = &task_0;
 	task_0.info.prev = &task_0;
 	
-	/**µ±Ç°ÈÎÎñÖ¸Ïò0ÈÎÎñ*/
+	/**å½“å‰ä»»åŠ¡æŒ‡å‘0ä»»åŠ¡*/
 	current = &task_0;
 	
-	/**·ÖÅä½ø³Ì0½á¹¹Ìå*/
+	/**åˆ†é…è¿›ç¨‹0ç»“æ„ä½“*/
 	for (process_0 = NULL; process_0 == NULL; )
 		process_0 = kmalloc(sizeof(struct process_struct), 0);
 	
-	/**Çå¿Õ½ø³Ì0½á¹¹Ìå*/
+	/**æ¸…ç©ºè¿›ç¨‹0ç»“æ„ä½“*/
 	memset(process_0, 0, sizeof(struct process_struct));
 	
-	/**½«0ÈÎÎñÉı¼¶³É0½ø³Ì*/
+	/**å°†0ä»»åŠ¡å‡çº§æˆ0è¿›ç¨‹*/
 	task_0.info.pptr = process_0;
 	
-	/**0½ø³Ì¸³Öµ*/
+	/**0è¿›ç¨‹èµ‹å€¼*/
 	process_0->cr3 = read_CR3();
 	process_0->msg_list = NULL;
 	process_0->nthread ++;
@@ -72,217 +72,217 @@ void init_task(void)
 }
 
 
-/**´´½¨ÄÚºË¼¶Ïß³Ìº¯Êı*/
+/**åˆ›å»ºå†…æ ¸çº§çº¿ç¨‹å‡½æ•°*/
 union task* new_task(int (*function)(), void *argument)
 {
-	/**ÎªĞÂÈÎÎñµÄÊı¾İ½á¹¹·ÖÅä¿Õ¼ä*/
+	/**ä¸ºæ–°ä»»åŠ¡çš„æ•°æ®ç»“æ„åˆ†é…ç©ºé—´*/
 	union task *new_task;
 	new_task = vmalloc(sizeof(union task));
 	if (new_task == NULL) return 0;
 	memset(new_task, 0, sizeof(union task));
 	
-	/**¶ÔĞÂÈÎÎñµÄÊı¾İ½á¹¹½øĞĞ¸³Öµ*/
-	new_task->info.father = current;			/**ÉèÖÃ¸¸ÈÎÎñÖ¸Õë*/
-	new_task->info.time_limit = 60;				/**Ê±¼äÆ¬*/
-	new_task->info.counter = 0;					/**´´½¨Ê±²»·ÖÅäÊ±¼äÆ¬*/
-	new_task->info.runtime = 0;					/**ĞÂÈÎÎñ×Ü¹²Ö´ĞĞÊ±¼ä¹é0*/
-	new_task->info.state = TASK_HIGH;			/**ÉèÖÃĞÂÈÎÎñÎª¸ßÓÅÏÈ¼¶ÈÎÎñ*/
-	new_task->info.pptr = current->info.pptr;	/**ĞÂÈÎÎñÍ¬ÑùÊÇ±¾½ø³ÌµÄÒ»¸öÏß³Ì*/
-	new_task->info.pptr->nthread ++;			/**±¾½ø³ÌµÄÏß³ÌÊıÁ¿¼ÓÒ»*/
+	/**å¯¹æ–°ä»»åŠ¡çš„æ•°æ®ç»“æ„è¿›è¡Œèµ‹å€¼*/
+	new_task->info.father = current;			/**è®¾ç½®çˆ¶ä»»åŠ¡æŒ‡é’ˆ*/
+	new_task->info.time_limit = 60;				/**æ—¶é—´ç‰‡*/
+	new_task->info.counter = 0;					/**åˆ›å»ºæ—¶ä¸åˆ†é…æ—¶é—´ç‰‡*/
+	new_task->info.runtime = 0;					/**æ–°ä»»åŠ¡æ€»å…±æ‰§è¡Œæ—¶é—´å½’0*/
+	new_task->info.state = TASK_HIGH;			/**è®¾ç½®æ–°ä»»åŠ¡ä¸ºé«˜ä¼˜å…ˆçº§ä»»åŠ¡*/
+	new_task->info.pptr = current->info.pptr;	/**æ–°ä»»åŠ¡åŒæ ·æ˜¯æœ¬è¿›ç¨‹çš„ä¸€ä¸ªçº¿ç¨‹*/
+	new_task->info.pptr->nthread ++;			/**æœ¬è¿›ç¨‹çš„çº¿ç¨‹æ•°é‡åŠ ä¸€*/
 	
-	/**¶ÔĞÂÈÎÎñµÄ¶ÑÕ»½øĞĞ³õÊ¼»¯*/
+	/**å¯¹æ–°ä»»åŠ¡çš„å †æ ˆè¿›è¡Œåˆå§‹åŒ–*/
 	new_task->info.stack = Init_Kernel_Task(((unsigned long)new_task + TASK_SIZE), function, argument);
 	
-	/**½«ĞÂÈÎÎñ²åÈëµ½ÈÎÎñÁĞ±íÖĞ*/
+	/**å°†æ–°ä»»åŠ¡æ’å…¥åˆ°ä»»åŠ¡åˆ—è¡¨ä¸­*/
 	current->info.next->info.prev = new_task;
 	new_task->info.prev = current;
 	new_task->info.next = (*current).info.next;
 	current->info.next = new_task;
 	
-	/**·µ»Ø*/
+	/**è¿”å›*/
 	return new_task;
 }
 
-/**Ö´ĞĞÓ¦ÓÃ³ÌĞòº¯Êı£¨·ÇPOSIX±ê×¼£©*/
+/**æ‰§è¡Œåº”ç”¨ç¨‹åºå‡½æ•°ï¼ˆéPOSIXæ ‡å‡†ï¼‰*/
 int run_exec(void *arg)
 {
 	struct GBOS_head *head;
 	struct exec_file_para *file_para = arg;
 	struct process_struct *new_process;
-	/**Í£Ö¹µ÷¶È*/
+	/**åœæ­¢è°ƒåº¦*/
 	disable_schedule();
 	
-	/**·ÖÅä½ø³Ì½á¹¹Ìå*/
+	/**åˆ†é…è¿›ç¨‹ç»“æ„ä½“*/
 	for (new_process = NULL; new_process == NULL; )
 		new_process = kmalloc(sizeof(struct process_struct), 0);
 	
-	/**Çå¿Õ½ø³Ì½á¹¹Ìå*/
+	/**æ¸…ç©ºè¿›ç¨‹ç»“æ„ä½“*/
 	memset(new_process, 0, sizeof(struct process_struct));
 	
-	/**½«µ±Ç°ÈÎÎñÓëµ±Ç°½ø³ÌÍÑ¹³*/
+	/**å°†å½“å‰ä»»åŠ¡ä¸å½“å‰è¿›ç¨‹è„±é’©*/
 	current->info.pptr->nthread --;
 	
-	/**½«ÈÎÎñÉı¼¶³É½ø³Ì*/
+	/**å°†ä»»åŠ¡å‡çº§æˆè¿›ç¨‹*/
 	current->info.pptr = new_process;
 	
-	/**½ø³Ì¸³Öµ*/
+	/**è¿›ç¨‹èµ‹å€¼*/
 	new_process->cr3 = new_pdt();
 	new_process->msg_list = NULL;
 	new_process->nthread ++;
 
-	/**ÇĞ»»Ò³Ä¿Â¼±í*/
+	/**åˆ‡æ¢é¡µç›®å½•è¡¨*/
 	write_CR3(new_process->cr3);
 	
-	/**ÔÊĞíµ÷¶È*/
+	/**å…è®¸è°ƒåº¦*/
 	enable_schedule();
 	
-	/**¼ÓÔØÎÄ¼ş*/
+	/**åŠ è½½æ–‡ä»¶*/
 	file_open(file_para->filename, (void *)0x10000000);
 	
-	/**»ØÊÕ½á¹¹Ìå*/
+	/**å›æ”¶ç»“æ„ä½“*/
 	kfree(arg);
 	
-	/**¶Ô×¼ÎÄ¼şÍ·*/
+	/**å¯¹å‡†æ–‡ä»¶å¤´*/
 	head = (void *)0x10000000;
 	
-	/**¼ì²éÊÇ·ñÊÇÓĞĞ§Ó¦ÓÃ³ÌĞò*/
+	/**æ£€æŸ¥æ˜¯å¦æ˜¯æœ‰æ•ˆåº”ç”¨ç¨‹åº*/
 	if (head->flag[0] != 'G' |
 		head->flag[1] != 'B' |
 		head->flag[2] != 'O' |
 		head->flag[3] != 'S' )
 	{
-		/**Ê§°Ü·µ»Ø*/
+		/**å¤±è´¥è¿”å›*/
 		return 0;
 	}
 	
-	/**Ö´ĞĞÓ¦ÓÃ³ÌĞò*/
+	/**æ‰§è¡Œåº”ç”¨ç¨‹åº*/
 	head->entry();
 }
 
-/**ÔËĞĞÈÎÎñº¯Êı*/
+/**è¿è¡Œä»»åŠ¡å‡½æ•°*/
 union task* run(char *filename, char *para, int flag)
 {
 	struct exec_file_para *new_arg;
 	
-	/**ÖÁÉÙfilename×Ö·û´®Ö¸Õë²»ÄÜÎªNULL*/
+	/**è‡³å°‘filenameå­—ç¬¦ä¸²æŒ‡é’ˆä¸èƒ½ä¸ºNULL*/
 	if (filename == NULL) return NULL;
 	
-	/**·ÖÅäÒ»¸öexec_file_para½á¹¹Ìå×°ÔØÖ´ĞĞrun_execÏß³ÌµÄ²ÎÊı*/
+	/**åˆ†é…ä¸€ä¸ªexec_file_paraç»“æ„ä½“è£…è½½æ‰§è¡Œrun_execçº¿ç¨‹çš„å‚æ•°*/
 	for (new_arg = NULL; new_arg == NULL; )
 		new_arg = kmalloc(sizeof(struct exec_file_para), 0);
 	
-	/**Çå¿Õexec_file_para½á¹¹Ìå·ÀÖ¹Ôì³É¸ÉÈÅ*/
+	/**æ¸…ç©ºexec_file_paraç»“æ„ä½“é˜²æ­¢é€ æˆå¹²æ‰°*/
 	memset(new_arg, 0, sizeof(struct exec_file_para));
 	
-	/**¿½±´ÎÄ¼şÃûĞÅÏ¢½øÈëexec_file_paraÖĞ*/
+	/**æ‹·è´æ–‡ä»¶åä¿¡æ¯è¿›å…¥exec_file_paraä¸­*/
 	strncpy(new_arg->filename, filename, 256);
 	
-	/**Èç¹ûÓĞ²ÎÊıÔòÍ¬Ê±¿½±´²ÎÊı*/
+	/**å¦‚æœæœ‰å‚æ•°åˆ™åŒæ—¶æ‹·è´å‚æ•°*/
 	if (new_arg->para != NULL)
 		strncpy(new_arg->para, para, 256);
 	
-	/**´´½¨ĞÂÏß³ÌÔËĞĞrun_exec*/
+	/**åˆ›å»ºæ–°çº¿ç¨‹è¿è¡Œrun_exec*/
 	new_task(&run_exec, new_arg);
 }
 
-/**»ñµÃÈÎÎñµÄid*/
+/**è·å¾—ä»»åŠ¡çš„id*/
 union task* get_id(void)
 {
 	return current;
 }
 
-/**»ñµÃ¸¸ÈÎÎñµÄid*/
+/**è·å¾—çˆ¶ä»»åŠ¡çš„id*/
 union task* get_pid(void)
 {
 	return current->info.father;;
 }
 
 
-/**ÍË³öÈÎÎñ*/
+/**é€€å‡ºä»»åŠ¡*/
 void exit(int code)
 {
-	/**Ö¸Ïò×ÔÉíµÄ½á¹¹Ìå*/
+	/**æŒ‡å‘è‡ªèº«çš„ç»“æ„ä½“*/
 	union task *my = current;
 	
-	/**½«×Ô¼º´ÓÈÎÎñÁ´±íÖĞ°şÀë*/
+	/**å°†è‡ªå·±ä»ä»»åŠ¡é“¾è¡¨ä¸­å‰¥ç¦»*/
 	my->info.next->info.prev = my->info.prev;
 	my->info.prev->info.next = my->info.next;
 	
-	/**Æô¶¯µ÷¶Èº¯Êı*/
+	/**å¯åŠ¨è°ƒåº¦å‡½æ•°*/
 	schedule();
 	
 finish:
 	goto finish;
 }
 
-/**ÔÊĞíµ÷¶Èº¯Êı*/
+/**å…è®¸è°ƒåº¦å‡½æ•°*/
 void enable_schedule(void)
 {
 	schedule_flag = true;
 }
 
-/**½ûÖ¹µ÷¶Èº¯Êı*/
+/**ç¦æ­¢è°ƒåº¦å‡½æ•°*/
 void disable_schedule(void)
 {
 	schedule_flag = false;
 }
 
-/**ÇĞ»»µ½Ä¿±êÈÎÎñ*/
+/**åˆ‡æ¢åˆ°ç›®æ ‡ä»»åŠ¡*/
 extern void switch_to(union task* id);
 
-/**ÈÎÎñÇĞ»»º¯Êı£¬Ê¹ÓÃËã·¨Ñ¡ÔñÏÂ¸öÈÎÎñ²¢¼ÓÔØ*/
+/**ä»»åŠ¡åˆ‡æ¢å‡½æ•°ï¼Œä½¿ç”¨ç®—æ³•é€‰æ‹©ä¸‹ä¸ªä»»åŠ¡å¹¶åŠ è½½*/
 void schedule(void)
 {
 	union task *new_task;
 	
-	/**ÅĞ¶ÏÊÇ·ñÔÊĞíµ÷¶È*/
+	/**åˆ¤æ–­æ˜¯å¦å…è®¸è°ƒåº¦*/
 	if (schedule_flag == false) return;
 	
-	/**Ñ¡ÔñÏÂÒ»¸öÒªÔËĞĞµÄ½ø³Ì*/
+	/**é€‰æ‹©ä¸‹ä¸€ä¸ªè¦è¿è¡Œçš„è¿›ç¨‹*/
 	new_task = current->info.next;
 		
-	/**·ÖÅäÊ±¼äÆ¬*/
+	/**åˆ†é…æ—¶é—´ç‰‡*/
 	new_task->info.counter = new_task->info.time_limit;
 	
 	
-	/**ÇĞ»»Ò³Ä¿Â¼±í*/
+	/**åˆ‡æ¢é¡µç›®å½•è¡¨*/
 	write_CR3(new_task->info.pptr->cr3);
 	
-	/**ÇĞ»»ÖÁĞÂÈÎÎñ*/
+	/**åˆ‡æ¢è‡³æ–°ä»»åŠ¡*/
 	switch_to(new_task);
 }
 
 
-/**ÈÎÎñ¹ÒÆğº¯Êı*/
+/**ä»»åŠ¡æŒ‚èµ·å‡½æ•°*/
 void sleep(void)
 {
-	/**ÍÑÀëÁ´±í*/
+	/**è„±ç¦»é“¾è¡¨*/
 	current->info.next->info.prev = current->info.prev;
 	current->info.prev->info.next = current->info.next;
 	
-	/**ÉèÖÃË¯ÃßÊôĞÔ*/
+	/**è®¾ç½®ç¡çœ å±æ€§*/
 	current->info.state = TASK_SLEEP;
 	
-	/**µ÷¶ÈÈÎÎñ*/
+	/**è°ƒåº¦ä»»åŠ¡*/
 	schedule();
 }
 
-/**ÈÎÎñ»½ĞÑº¯Êı*/
+/**ä»»åŠ¡å”¤é†’å‡½æ•°*/
 void wakeup(union task* target)
 {
-	/**ÅĞ¶Ï¸ÃÈÎÎñÊÇ·ñÒÑ¾­¹ÒÆğ*/
+	/**åˆ¤æ–­è¯¥ä»»åŠ¡æ˜¯å¦å·²ç»æŒ‚èµ·*/
 	if (target->info.state == TASK_SLEEP)
 	{
-		/**¸Õ¸Õ»½ĞÑµÄÈÎÎñ¼ÓÈëÕı³£¶ÓÁĞ*/
+		/**åˆšåˆšå”¤é†’çš„ä»»åŠ¡åŠ å…¥æ­£å¸¸é˜Ÿåˆ—*/
 		target->info.state = TASK_HIGH;
 		
-		/**¼ÓÈë¶ÓÁĞÖĞ*/
+		/**åŠ å…¥é˜Ÿåˆ—ä¸­*/
 		target->info.prev = current;
 		target->info.next = current->info.next;
 		current->info.next = target;
 		target->info.next->info.prev = target;
 	}
 	
-	/**Õı³£·µ»Ø*/
+	/**æ­£å¸¸è¿”å›*/
 	return;
 }

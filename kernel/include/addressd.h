@@ -1,7 +1,7 @@
 /**
  *Copyright 2013-2015 by 2013-2015 by Explorer OS Developers. All rights reserved.
  * Lab Explorer Developers<1@GhostBirdOS.org>
-Explorer 0.01 ÄÚ´æ·Ö²¼
+Explorer 0.01 å†…å­˜åˆ†å¸ƒ
 File name:Explorer\Kernel\include\address.h
 2014.7.10 2:37 PM
 */
@@ -9,18 +9,18 @@ File name:Explorer\Kernel\include\address.h
 #ifndef ADDRESS_H_
 #define ADDRESS_H_
 
-/*¶Ôµ¥Î»¶¨Òå*/
+/*å¯¹å•ä½å®šä¹‰*/
 #define KB  * 1024
 #define MB	* 1048576
-/*¶ÔÄÚ´æÇø¼äÍ¼µÄ¶¨Òå*/
-#define mem_map_addr	0x30000			/*ÆğÊ¼µØÖ·*/
-#define mem_map_size	128 KB			/*ÄÚ´æ¶Î³¤¶È*/
-#define mem_map_len		(128 KB)/8		/*±íÏî³¤¶È*/
-/*¶ÔÄÚºËÄÚ´æÇø¼äÍ¼µÄ¶¨Òå*/
+/*å¯¹å†…å­˜åŒºé—´å›¾çš„å®šä¹‰*/
+#define mem_map_addr	0x30000			/*èµ·å§‹åœ°å€*/
+#define mem_map_size	128 KB			/*å†…å­˜æ®µé•¿åº¦*/
+#define mem_map_len		(128 KB)/8		/*è¡¨é¡¹é•¿åº¦*/
+/*å¯¹å†…æ ¸å†…å­˜åŒºé—´å›¾çš„å®šä¹‰*/
 #define k_mem_map_addr	0x50000
 #define k_mem_map_size	64 KB
 #define k_mem_map_len	(k_mem_map_size)/8
-/*¶ÔÈ«¾ÖÃèÊö·û±íµÄ¶¨Òå*/
+/*å¯¹å…¨å±€æè¿°ç¬¦è¡¨çš„å®šä¹‰*/
 #define GDT_addr		0x60000
 #define GDT_len			8192
 #define GDT_size		(GDT_len * 8)

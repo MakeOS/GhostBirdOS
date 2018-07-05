@@ -16,44 +16,44 @@
 #include "window.h"
 #include "../layer.h"
 
-/**ÈÎÎñÀ¸µÄ¹æ»®*/
+/**ä»»åŠ¡æ çš„è§„åˆ’*/
 /**Application	Runing_window	Date*/
 
-/**ApplicationÇøÓò³¤¶È*/
+/**ApplicationåŒºåŸŸé•¿åº¦*/
 unsigned long window_Application_length = 11 * 8 + 8;
 
-/**DateÇøÓò³¤¶È*/
+/**DateåŒºåŸŸé•¿åº¦*/
 unsigned long window_Date_length = 15 * 8;
 
-/**windowÏµÍ³Ê±ÖÓË¢ĞÂº¯Êı*/
+/**windowç³»ç»Ÿæ—¶é’Ÿåˆ·æ–°å‡½æ•°*/
 void window_refresh_date(void)
 {
-	/**Ê±¼ä×Ö·ûÊı¾İ»º³åÇø*/
+	/**æ—¶é—´å­—ç¬¦æ•°æ®ç¼“å†²åŒº*/
 	char date_buf[15];
 	
-	/**ÖØ»æÊ±ÖÓÇøÓò*/
+	/**é‡ç»˜æ—¶é’ŸåŒºåŸŸ*/
 	GUI_put_square(taskbar_layer, TASKBAR_COLOR, (Video_Info.xres - window_Date_length), 1, window_Date_length, TASKBAR_WIDTH - 1);			/**Date region*/
 	
-	/**×Ö·û´®¸ñÊ½×ª»»*/
-	if (ms <= 500)					// ÕâÀï¸ù¾İµ±Ç°µÄÎ¢ÃëÅĞ¶Ï£¬ÒÔ0.5ÃëÎª½çÏŞ£¬Ğ¡ÓÚ0.5ÃëÏÔÊ¾":"£¬´óÓÚ0.5ÃëÏÔÊ¾" "£¬¿ÉÒÔ´ïµ½Ò»ÃëÖÓÉÁË¸Ò»´ÎµÄĞ§¹û
+	/**å­—ç¬¦ä¸²æ ¼å¼è½¬æ¢*/
+	if (ms <= 500)					// è¿™é‡Œæ ¹æ®å½“å‰çš„å¾®ç§’åˆ¤æ–­ï¼Œä»¥0.5ç§’ä¸ºç•Œé™ï¼Œå°äº0.5ç§’æ˜¾ç¤º":"ï¼Œå¤§äº0.5ç§’æ˜¾ç¤º" "ï¼Œå¯ä»¥è¾¾åˆ°ä¸€ç§’é’Ÿé—ªçƒä¸€æ¬¡çš„æ•ˆæœ
 	{
 		sprintf(date_buf, "%d:%02d %d/%d/%d", hour, min, mon, day, year);
 	}else{
 		sprintf(date_buf, "%d %02d %d/%d/%d", hour, min, mon, day, year);
 	}
 	
-	/**Êä³öÊ±¼ä*/
+	/**è¾“å‡ºæ—¶é—´*/
 	GUI_put_string(taskbar_layer, TIME_COLOR, (Video_Info.xres - window_Date_length), 4, 0, 0, font("Standard Font"), date_buf);
 }
 
-/**MenuµÄÏîÃèÊöÌå*/
+/**Menuçš„é¡¹æè¿°ä½“*/
 struct window_menu_one
 {
-	char *text;						// ÏîµÄÃû³Æ£¨ÓÃÓÚÏÔÊ¾£©
-	char *filename;					// ÏîÏà¹ØµÄº¯Êı£¨ÓÃÓÚÖ´ĞĞ£©
+	char *text;						// é¡¹çš„åç§°ï¼ˆç”¨äºæ˜¾ç¤ºï¼‰
+	char *filename;					// é¡¹ç›¸å…³çš„å‡½æ•°ï¼ˆç”¨äºæ‰§è¡Œï¼‰
 };
 
-/**MenuµÄÏîÊı×é*/
+/**Menuçš„é¡¹æ•°ç»„*/
 #define WINDOW_NUM_MENU		4
 struct window_menu_one window_menu_lib[WINDOW_NUM_MENU] =
 {
@@ -63,90 +63,90 @@ struct window_menu_one window_menu_lib[WINDOW_NUM_MENU] =
 	{"Application4", "PROGRAM4.BIN"}
 };
 
-/**MenuÇøÓòµÄÑÕÉ«*/
+/**MenuåŒºåŸŸçš„é¢œè‰²*/
 #define WINDOW_MENU_COLOR		TASKBAR_COLOR
 #define WINDOW_MENU_LINE_COLOR	TASKBAR_LINE_COLOR
 
-/**MenuÇøÓòµÄ³¤¿í*/
+/**MenuåŒºåŸŸçš„é•¿å®½*/
 #define WINDOW_MENU_LENGTH	150
 #define WINDOW_MENU_WIDTH	WINDOW_NUM_MENU * 16
 
-/**MenuµÄ´¦Àíº¯Êı*/
+/**Menuçš„å¤„ç†å‡½æ•°*/
 void window_menu_handle(unsigned int y)
 {
 	window_print(GUI_control, "Clicked:%s", window_menu_lib[y / 16].text);
 	run(window_menu_lib[y / 16].filename, NULL, 0);
 }
 
-/**»æÖÆMenuº¯Êı*/
+/**ç»˜åˆ¶Menuå‡½æ•°*/
 void window_show_menu(void)
 {
-		/**ÉèÖÃ¸½¼ÓÍ¼²ãÎªÏÔÊ¾×´Ì¬*/
+		/**è®¾ç½®é™„åŠ å›¾å±‚ä¸ºæ˜¾ç¤ºçŠ¶æ€*/
 		attach_layer->visiable = true;
 		
-		/**ÉèÖÃ¸½¼ÓÍ¼²ãµÄÎ»ÖÃÔÚÈÎÎñÀ¸µÄ×óÉÏ·½*/
+		/**è®¾ç½®é™„åŠ å›¾å±‚çš„ä½ç½®åœ¨ä»»åŠ¡æ çš„å·¦ä¸Šæ–¹*/
 		GUI_set_position(attach_layer, 0, Video_Info.yres - (TASKBAR_WIDTH + WINDOW_MENU_WIDTH));
 		
-		/**ÉèÖÃ¸½¼ÓÍ¼²ãµÄ³¤¿í*/
+		/**è®¾ç½®é™„åŠ å›¾å±‚çš„é•¿å®½*/
 		GUI_set_resolution(attach_layer, WINDOW_MENU_LENGTH, WINDOW_MENU_WIDTH);
 		
-		/**Ìî³ä¾ØĞÎ*/
+		/**å¡«å……çŸ©å½¢*/
 		GUI_put_square(attach_layer, WINDOW_MENU_COLOR, 0, 1, WINDOW_MENU_LENGTH - 1, WINDOW_MENU_WIDTH - 2);
 		
-		/**»æÖÆ±ß¼ÊÏß*/
+		/**ç»˜åˆ¶è¾¹é™…çº¿*/
 		GUI_line(attach_layer, WINDOW_MENU_LINE_COLOR, 0, 0, WINDOW_MENU_LENGTH, 0);
 		GUI_line(attach_layer, WINDOW_MENU_LINE_COLOR, WINDOW_MENU_LENGTH - 1, 1, WINDOW_MENU_LENGTH - 1, WINDOW_MENU_WIDTH - 2);
 		
 		unsigned long y_count;
 		
-		/**»æÖÆÈ«²Ëµ¥ĞÅÏ¢*/
+		/**ç»˜åˆ¶å…¨èœå•ä¿¡æ¯*/
 		for (y_count = 0; y_count < WINDOW_NUM_MENU; y_count ++)
 		{
 			GUI_put_string(attach_layer, 0xff000000, 10, y_count * 16, 0, 0, font("Standard Font"), window_menu_lib[y_count].text);
 		}
 }
 
-/**ApplicationÊÇ·ñÔÚ¹¤×÷µÄ±êÖ¾*/
+/**Applicationæ˜¯å¦åœ¨å·¥ä½œçš„æ ‡å¿—*/
 bool Application_work_flag = false;
 
-/**µã»÷Application´¦Àí³ÌĞò*/
+/**ç‚¹å‡»Applicationå¤„ç†ç¨‹åº*/
 void window_click_Application(void)
 {
-/**ÅĞ¶ÏÊÇ·ñ±»µã»÷¹ı*/
+/**åˆ¤æ–­æ˜¯å¦è¢«ç‚¹å‡»è¿‡*/
 
-	/**Èç¹û±»µã»÷¹ı*/
+	/**å¦‚æœè¢«ç‚¹å‡»è¿‡*/
 	if (Application_work_flag == true)
 	{
-		/**±ê¼ÇÎªÎ´±»µã»÷*/
+		/**æ ‡è®°ä¸ºæœªè¢«ç‚¹å‡»*/
 		Application_work_flag = false;
 		
-		/**»æÖÆÕı³£×´Ì¬µÄApplication*/
+		/**ç»˜åˆ¶æ­£å¸¸çŠ¶æ€çš„Application*/
 		window_draw_Application(TASKBAR_COLOR, 0xff000000);
 		
-		/**ApplicationÒş²ØÆğÀ´*/
+		/**Applicationéšè—èµ·æ¥*/
 		attach_layer->visiable = false;
 		GUI_refresh_block(attach_layer->x, attach_layer->y, attach_layer->length, attach_layer->width);
 		
-	/**Èç¹ûÎ´±»µã»÷¹ı*/
+	/**å¦‚æœæœªè¢«ç‚¹å‡»è¿‡*/
 	}else
 	{
-		/**±ê¼ÇÎªÒÑ¾­µã»÷*/
+		/**æ ‡è®°ä¸ºå·²ç»ç‚¹å‡»*/
 		Application_work_flag = true;
 		
-		/**»æÖÆ¹¤×÷×´Ì¬µÄApplication*/
+		/**ç»˜åˆ¶å·¥ä½œçŠ¶æ€çš„Application*/
 		window_draw_Application(0xff0000ff, 0xffffffff);
 		
-		/**ÏÔÊ¾²Ëµ¥*/
+		/**æ˜¾ç¤ºèœå•*/
 		window_show_menu();
 	}
 }
 
-/**»æÖÆApplication*/
+/**ç»˜åˆ¶Application*/
 void window_draw_Application(unsigned int backcolor, unsigned int fontcolor)
 {
-	/**»æÖÆApplicationÇø*/
+	/**ç»˜åˆ¶ApplicationåŒº*/
 	GUI_put_square(taskbar_layer, backcolor, 0, 1, window_Application_length, 19);
 	
-	/**Ğ´×Ö*/
+	/**å†™å­—*/
 	GUI_put_string(taskbar_layer, fontcolor, 4, 4, 0, 0, font("Standard Font"), "Application");
 }

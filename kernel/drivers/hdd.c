@@ -12,16 +12,16 @@
 #include <stdlib.h>
 #include <memory.h>
 
-/**ÔÚATA±ê×¼ÖÐ£¬IDEÃüÁî¹²ÓÐ30¶à¸ö£¬ÆäÖÐÓÐ10¸öÊÇÍ¨ÓÃÐÍÃüÁî*/
-#define HD_CMD_READ		0x20			//¶ÁÈ¡ÉÈÇøÃüÁî
-#define HD_CMD_WRITE	0x30			//Ð´ÈëÉÈÇøÃüÁî
-#define HD_CMD_CHECK	0x90			//´ÅÅÌÕï¶ÏÃüÁî
+/**åœ¨ATAæ ‡å‡†ä¸­ï¼ŒIDEå‘½ä»¤å…±æœ‰30å¤šä¸ªï¼Œå…¶ä¸­æœ‰10ä¸ªæ˜¯é€šç”¨åž‹å‘½ä»¤*/
+#define HD_CMD_READ		0x20			//è¯»å–æ‰‡åŒºå‘½ä»¤
+#define HD_CMD_WRITE	0x30			//å†™å…¥æ‰‡åŒºå‘½ä»¤
+#define HD_CMD_CHECK	0x90			//ç£ç›˜è¯Šæ–­å‘½ä»¤
 	
-/**²Ù×÷ÉÈÇøÊ±ÔÊÐíµÄ×î¶à³ö´í´ÎÊý*/
+/**æ“ä½œæ‰‡åŒºæ—¶å…è®¸çš„æœ€å¤šå‡ºé”™æ¬¡æ•°*/
 #define MAX_ERRORS	10
 
-/**ATÓ²ÅÌ¿ØÖÆÆ÷¼Ä´æÆ÷¶Ë¿Ú¼°×÷ÓÃ*/
-/**¶ÁÊ±*/
+/**ATç¡¬ç›˜æŽ§åˆ¶å™¨å¯„å­˜å™¨ç«¯å£åŠä½œç”¨*/
+/**è¯»æ—¶*/
 #define HD_DATA			0x1f0
 #define HD_ERROR		0x1f1
 #define HD_NSECTOR		0x1f2
@@ -30,30 +30,30 @@
 #define HD_HCYL			0x1f5
 #define HD_CURRENT		0x1f6
 #define HD_STATUS		0x1f7
-/**Ð´Ê±*/
+/**å†™æ—¶*/
 #define HD_PRECOMP		0x1f1
 #define HD_COMMAND		0x1f7
 
 unsigned int LBA_start;
 
 
-/**³õÊ¼»¯´ÅÅÌ³ÌÐò£¬ÓÉLab Explorer Developers<2322869088@qq.com>ÊµÏÖ
- * ¹¦ÄÜ£º½¨Á¢´ÅÅÌ¿ØÖÆÆ÷µÄÖÐ¶Ï¹ÜÀí£¬¼ì²é´ÅÅÌµÄ·ÖÇøÇé¿ö
+/**åˆå§‹åŒ–ç£ç›˜ç¨‹åºï¼Œç”±Lab Explorer Developers<2322869088@qq.com>å®žçŽ°
+ * åŠŸèƒ½ï¼šå»ºç«‹ç£ç›˜æŽ§åˆ¶å™¨çš„ä¸­æ–­ç®¡ç†ï¼Œæ£€æŸ¥ç£ç›˜çš„åˆ†åŒºæƒ…å†µ
  */
 void init_hdd(void)
 {
-	/**½¨Á¢ÖÐ¶Ï¿ØÖÆÆ÷µÄÖÐ¶Ï´¦Àí³ÌÐò*/
+	/**å»ºç«‹ä¸­æ–­æŽ§åˆ¶å™¨çš„ä¸­æ–­å¤„ç†ç¨‹åº*/
 	register_PIC(0xe, &int_HDC_handle, "Hard Disk Control");
 	
-	/**·ÖÅäÒ»¸öÉÈÇøµÄ¿Õ¼ä*/
+	/**åˆ†é…ä¸€ä¸ªæ‰‡åŒºçš„ç©ºé—´*/
 	void *point;
 	point = vmalloc(512);
-	if (point == NULL) error("HDD:memory allocate error!");		/**·ÖÅäÊ§°Ü¿ØÖÆ*/
+	if (point == NULL) error("HDD:memory allocate error!");		/**åˆ†é…å¤±è´¥æŽ§åˆ¶*/
 	
-	/**¶ÁÈ¡Ó²ÅÌÅäÖÃÐÅÏ¢*/
+	/**è¯»å–ç¡¬ç›˜é…ç½®ä¿¡æ¯*/
 	HD_get_phy_info(point);
 	
-	/**¶ÁÈ¡MBR£¬»ñÈ¡ÓÐÓÃÐÅÏ¢*/
+	/**è¯»å–MBRï¼ŒèŽ·å–æœ‰ç”¨ä¿¡æ¯*/
 	read_disk(0, (unsigned short int*) point, 1);
 	memcpy(&LBA_start, (point + 0x1be + 8), 2);
 	struct Master_Boot_Record *MBR;
@@ -62,54 +62,54 @@ void init_hdd(void)
 	
 	printk("LAB_start:%#X", LBA_start);
 	
-	/**ÊÍ·ÅÕâ¸ö¿Õ¼ä*/
+	/**é‡Šæ”¾è¿™ä¸ªç©ºé—´*/
 	vfree(point);
 }
 
 void read_disk(u32 LBA, u16 *buffer, u32 number)
 {
-	/**»¥³â²Ù×÷£¬²»ÔÊÐíÔÚ¶ÁÈ¡Ê±ÓÐÆäËûÈÎÎñÇÐ»»*/
+	/**äº’æ–¥æ“ä½œï¼Œä¸å…è®¸åœ¨è¯»å–æ—¶æœ‰å…¶ä»–ä»»åŠ¡åˆ‡æ¢*/
 	disable_schedule();
 	u32 offset, i;
-	io_out16(HD_NSECTOR,number);								/**ÊýÁ¿*/
-	io_out8(HD_SECTOR,(LBA & 0xff));							/**LBAµØÖ·7~0*/
-	io_out8(HD_LCYL,((LBA >> 8) & 0xff));						/**LBAµØÖ·15~8*/
-	io_out8(HD_HCYL,((LBA >> 16) & 0xff));						/**LBAµØÖ·23~16*/
-	io_out8(HD_CURRENT,(((LBA >> 24) & 0xff) + 0xe0));			/**LBAµØÖ·27~24 + LBAÄ£Ê½£¬Ö÷Ó²ÅÌ*/
-	io_out8(HD_STATUS,HD_CMD_READ);								/**¶ÁÉÈÇø*/
-	/**Ñ­»·´ÓDATA¶Ë¿Ú¶ÁÈ¡Êý¾Ý*/
+	io_out16(HD_NSECTOR,number);								/**æ•°é‡*/
+	io_out8(HD_SECTOR,(LBA & 0xff));							/**LBAåœ°å€7~0*/
+	io_out8(HD_LCYL,((LBA >> 8) & 0xff));						/**LBAåœ°å€15~8*/
+	io_out8(HD_HCYL,((LBA >> 16) & 0xff));						/**LBAåœ°å€23~16*/
+	io_out8(HD_CURRENT,(((LBA >> 24) & 0xff) + 0xe0));			/**LBAåœ°å€27~24 + LBAæ¨¡å¼ï¼Œä¸»ç¡¬ç›˜*/
+	io_out8(HD_STATUS,HD_CMD_READ);								/**è¯»æ‰‡åŒº*/
+	/**å¾ªçŽ¯ä»ŽDATAç«¯å£è¯»å–æ•°æ®*/
 	for (i = 0; i != number; i ++)
 	{
 		hdd_wait();
 		for (offset = 0; offset < 256; offset ++)
 		{
-			buffer[(i * 256) + offset] = io_in16(HD_DATA);		/**´ÓDATA¶Ë¿ÚÖÐ¶ÁÈ¡Êý¾Ý*/
+			buffer[(i * 256) + offset] = io_in16(HD_DATA);		/**ä»ŽDATAç«¯å£ä¸­è¯»å–æ•°æ®*/
 		}
 	}
-	/**ÔÊÐíµ÷¶È*/
+	/**å…è®¸è°ƒåº¦*/
 	enable_schedule();
 	return;
 }
 
 void hdd_wait(void)
 {
-	/**µÈ´ý´ÎÊý¼ÆÊ±*/
+	/**ç­‰å¾…æ¬¡æ•°è®¡æ—¶*/
 	//unsigned long n;
-	for (; (io_in8(HD_STATUS) & 0x88) != 0x08;);				/**Ñ­»·µÈ´ý*/
+	for (; (io_in8(HD_STATUS) & 0x88) != 0x08;);				/**å¾ªçŽ¯ç­‰å¾…*/
 }
 
 
-/**´ÅÅÌ²ÎÊý»ñÈ¡º¯Êý*/
+/**ç£ç›˜å‚æ•°èŽ·å–å‡½æ•°*/
 static void HD_get_phy_info(struct HD_info *info)
 {
 	
 }
 
 
-/**´ÅÅÌ¿ØÖÆÆ÷ÖÐ¶Ï´¦Àí³ÌÐò*/
+/**ç£ç›˜æŽ§åˆ¶å™¨ä¸­æ–­å¤„ç†ç¨‹åº*/
 void int_HDC_handle(void)
 {
-	/**ÓÉÓÚÄ¿Ç°¶ÔÓÚ´ÅÅÌ¿ØÖÆÆ÷µÄÖÐ¶ÏÎÞ´¦Àí·½·¨£¬Òò´ËÖ»ÊÇ¼òµ¥Êä³öÐÅÏ¢*/
+	/**ç”±äºŽç›®å‰å¯¹äºŽç£ç›˜æŽ§åˆ¶å™¨çš„ä¸­æ–­æ— å¤„ç†æ–¹æ³•ï¼Œå› æ­¤åªæ˜¯ç®€å•è¾“å‡ºä¿¡æ¯*/
 	printk("int HDC.\n");
 	EOI();
 }

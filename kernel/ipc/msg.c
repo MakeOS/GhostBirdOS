@@ -8,12 +8,12 @@
  */
 
 /**
- * ÏûÏ¢»úÖÆÊµÏÖ 2015.
- * ExplorerÏûÏ¢»úÖÆÊôÓÚ½ø³Ì¼äÍ¨ÐÅ·½·¨Ö®Ò»
- * ·¢ËÍÏûÏ¢µÄ½ø³ÌÐèÒªÌá¹©ÏûÏ¢type£¬Õâ¸ö±äÁ¿
- * ÊÇÒ»¸ö32Î»ÎÞ·ûºÅÕûÊý£¬ÓÃÓÚËµÃ÷ÏûÏ¢µÄÀà±ð¡£
- * ÆäÖÐ0x00000000~0x7fffffffÊôÓÚÏµÍ³·¢ËÍÐÅÏ¢£¬
- *     0x80000000~0xffffffffÊôÓÚÆÕÍ¨½ø³Ì·¢ËÍÐÅÏ¢¡£
+ * æ¶ˆæ¯æœºåˆ¶å®žçŽ° 2015.
+ * Exploreræ¶ˆæ¯æœºåˆ¶å±žäºŽè¿›ç¨‹é—´é€šä¿¡æ–¹æ³•ä¹‹ä¸€
+ * å‘é€æ¶ˆæ¯çš„è¿›ç¨‹éœ€è¦æä¾›æ¶ˆæ¯typeï¼Œè¿™ä¸ªå˜é‡
+ * æ˜¯ä¸€ä¸ª32ä½æ— ç¬¦å·æ•´æ•°ï¼Œç”¨äºŽè¯´æ˜Žæ¶ˆæ¯çš„ç±»åˆ«ã€‚
+ * å…¶ä¸­0x00000000~0x7fffffffå±žäºŽç³»ç»Ÿå‘é€ä¿¡æ¯ï¼Œ
+ *     0x80000000~0xffffffffå±žäºŽæ™®é€šè¿›ç¨‹å‘é€ä¿¡æ¯ã€‚
  */
 
 #include <lib/mem.h>
@@ -23,61 +23,61 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-/**ÏûÏ¢ÄÚÈÝµÄ×î´ó³¤¶È*/
+/**æ¶ˆæ¯å†…å®¹çš„æœ€å¤§é•¿åº¦*/
 #define MAX_MSG		4096
 
-/**ÏûÏ¢½á¹¹Ìå*/
+/**æ¶ˆæ¯ç»“æž„ä½“*/
 struct msg
 {
-	struct msg *next;								// Ö¸ÏòÏÂÒ»¸öÏûÏ¢½á¹¹Ìå
-	struct process_struct *sender, *object;			// ·¢ËÍÕßºÍ½ÓÊÕÕß
-	void *message;									// ÏûÏ¢Ö¸Õë
-	size_t size;									// ÏûÏ¢³¤¶È
-	unsigned int type;								// ÏûÏ¢µÄÀà±ð
+	struct msg *next;								// æŒ‡å‘ä¸‹ä¸€ä¸ªæ¶ˆæ¯ç»“æž„ä½“
+	struct process_struct *sender, *object;			// å‘é€è€…å’ŒæŽ¥æ”¶è€…
+	void *message;									// æ¶ˆæ¯æŒ‡é’ˆ
+	size_t size;									// æ¶ˆæ¯é•¿åº¦
+	unsigned int type;								// æ¶ˆæ¯çš„ç±»åˆ«
 };
 
 
-/**ÄÚºË¼¶·¢ËÍÏûÏ¢º¯Êý£¨typeÔÊÐí´Ó0x00000000~0xffffffff£©*/
+/**å†…æ ¸çº§å‘é€æ¶ˆæ¯å‡½æ•°ï¼ˆtypeå…è®¸ä»Ž0x00000000~0xffffffffï¼‰*/
 int send_msg(struct process_struct *object, unsigned int type, void *msg, size_t size)
 {
-	/**·ÖÅäÐÂµÄÇøÓò´æ·ÅÏûÏ¢*/
-	if (size > MAX_MSG) error("msg error!");		/**ÅÐ¶ÏÏûÏ¢³¤¶ÈÊÇ·ñ³¬¹ýÏÞÖÆ*/
+	/**åˆ†é…æ–°çš„åŒºåŸŸå­˜æ”¾æ¶ˆæ¯*/
+	if (size > MAX_MSG) error("msg error!");		/**åˆ¤æ–­æ¶ˆæ¯é•¿åº¦æ˜¯å¦è¶…è¿‡é™åˆ¶*/
 	void *temp_msg;
 	temp_msg = kmalloc(size, 0);
 	if (temp_msg == NULL) error("msg error!");
 	
-	/**·ÖÅäÐÂµÄÏûÏ¢½á¹¹*/
+	/**åˆ†é…æ–°çš„æ¶ˆæ¯ç»“æž„*/
 	struct msg *new_msg;
 	new_msg = kmalloc(sizeof(struct msg), 0);
 	if (new_msg == NULL) error("msg error!");
 	
-	/**¿½±´ÏûÏ¢*/
+	/**æ‹·è´æ¶ˆæ¯*/
 	memcpy(temp_msg, msg, size);
 	
-	/**Ìî³äÏûÏ¢½á¹¹*/
+	/**å¡«å……æ¶ˆæ¯ç»“æž„*/
 	new_msg->sender = current->info.pptr;
 	new_msg->object = object;
 	new_msg->message = temp_msg;
 	new_msg->size = size;
 	new_msg->type = type;
 	
-	/**½«¸ÃÏûÏ¢¼ÓÈëÄ¿±êÈÎÎñµÄÏûÏ¢¶ÓÁÐÉÏ*/
+	/**å°†è¯¥æ¶ˆæ¯åŠ å…¥ç›®æ ‡ä»»åŠ¡çš„æ¶ˆæ¯é˜Ÿåˆ—ä¸Š*/
 	struct msg *list_point;
 	for (list_point = object->msg_list; list_point->next != NULL; list_point = list_point->next);
 	list_point->next = new_msg;
 	new_msg->next = NULL;
 	
-	/**Õý³£·µ»Ø*/
+	/**æ­£å¸¸è¿”å›ž*/
 	return 0;
 }
 
-/**ÏûÏ¢ÏµÍ³µ÷ÓÃ×Ó¹¦ÄÜ¶¨Òå*/
+/**æ¶ˆæ¯ç³»ç»Ÿè°ƒç”¨å­åŠŸèƒ½å®šä¹‰*/
 #define MSG_SEND	1
 
-/**ÓÃ»§¼¶ÏûÏ¢·¢ËÍº¯Êý£¨ÏµÍ³µ÷ÓÃ£©*/
+/**ç”¨æˆ·çº§æ¶ˆæ¯å‘é€å‡½æ•°ï¼ˆç³»ç»Ÿè°ƒç”¨ï¼‰*/
 int sys_msg(struct context context)
 {	
-/**¹¦ÄÜµ÷ÓÃÅÐ¶Ï*/
+/**åŠŸèƒ½è°ƒç”¨åˆ¤æ–­*/
 	switch(context.ebx)
 	{
 		case MSG_SEND	: goto send_msg;
@@ -85,48 +85,48 @@ int sys_msg(struct context context)
 	}
 
 /**
- * ·¢ËÍÏûÏ¢´¦Àí
+ * å‘é€æ¶ˆæ¯å¤„ç†
  * ebx = MSG_SEND, ecx = size of msg, edx = ptr of msg, esi = type, edi = object
- * ·µ»ØÖµ´æ·ÅÔÚeaxÖÐ£¬Îª´¦Àí×´Ì¬
+ * è¿”å›žå€¼å­˜æ”¾åœ¨eaxä¸­ï¼Œä¸ºå¤„ç†çŠ¶æ€
  */
 send_msg:
-	/**¶Ô²ÎÊý½øÐÐÅÐ¶Ï*/
+	/**å¯¹å‚æ•°è¿›è¡Œåˆ¤æ–­*/
 	if (context.esi >= 0x80000000) return -1;
 	
-	/**µ÷ÓÃÏûÏ¢·¢ËÍº¯Êý*/
+	/**è°ƒç”¨æ¶ˆæ¯å‘é€å‡½æ•°*/
 	context.eax = send_msg((struct process_struct *)context.edi, context.esi, (void *)context.edx, context.ecx);
 	
-/**Íê³É´¦Àí*/
+/**å®Œæˆå¤„ç†*/
 finish:
-	/**Õý³£·µ»Ø*/
+	/**æ­£å¸¸è¿”å›ž*/
 	return;
 }
 
 /**
- * ½ÓÊÕÏûÏ¢º¯Êý
- * ¸Ãº¯ÊýÈ¡³öÏûÏ¢²¢´ÓÏûÏ¢¶ÓÁÐÒÆ³ý´ËÏûÏ¢
- * ·µ»ØÖµ£º1 - ³É¹¦£»0 - ÎÞÏûÏ¢£»-1 - ÏûÏ¢¹ý´ó
+ * æŽ¥æ”¶æ¶ˆæ¯å‡½æ•°
+ * è¯¥å‡½æ•°å–å‡ºæ¶ˆæ¯å¹¶ä»Žæ¶ˆæ¯é˜Ÿåˆ—ç§»é™¤æ­¤æ¶ˆæ¯
+ * è¿”å›žå€¼ï¼š1 - æˆåŠŸï¼›0 - æ— æ¶ˆæ¯ï¼›-1 - æ¶ˆæ¯è¿‡å¤§
  */
 int recv_msg(void *ptr, size_t msg_size)
 {
 	struct msg *msg_list = current->info.pptr->msg_list;
 	
-	/**¼ì²éÊÇ·ñ´æÔÚÏûÏ¢*/
+	/**æ£€æŸ¥æ˜¯å¦å­˜åœ¨æ¶ˆæ¯*/
 	if (msg_list == NULL) return 0;
 	
-	/**ÅÐ¶ÏÏûÏ¢µÄ³¤¶ÈÊÇ·ñ³¬¹ý½ÓÊÕÏûÏ¢µÄ³¤¶ÈÏÞÖÆ*/
+	/**åˆ¤æ–­æ¶ˆæ¯çš„é•¿åº¦æ˜¯å¦è¶…è¿‡æŽ¥æ”¶æ¶ˆæ¯çš„é•¿åº¦é™åˆ¶*/
 	if (msg_list->size > msg_size) return -1;
 	
-	/**½«ÏûÏ¢¿½±´³öÀ´*/
+	/**å°†æ¶ˆæ¯æ‹·è´å‡ºæ¥*/
 	memcpy(ptr, msg_list->message, msg_list->size);
 	
-	/**´Óµ±Ç°ÈÎÎñÖÐÒÆ³ýÕâ¸öÏûÏ¢*/
+	/**ä»Žå½“å‰ä»»åŠ¡ä¸­ç§»é™¤è¿™ä¸ªæ¶ˆæ¯*/
 	current->info.pptr->msg_list = msg_list->next;
 	
-	/**»ØÊÕÄÚ´æ*/
+	/**å›žæ”¶å†…å­˜*/
 	kfree(msg_list->message);
 	kfree(msg_list);
 	
-	/**Õý³£·µ»Ø*/
+	/**æ­£å¸¸è¿”å›ž*/
 	return 1;
 }

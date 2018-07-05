@@ -11,16 +11,16 @@
 #include <GUI.h>
 #include "window/window.h"
 
-/**APIÁĞ±í*/
+/**APIåˆ—è¡¨*/
 #define NEW_WINDOW	1
 
-/**GUI APIµ÷ÓÃº¯Êı*/
+/**GUI APIè°ƒç”¨å‡½æ•°*/
 void sys_GUI_API(struct context context)
 {
-	/**²»ÔÊĞíµ÷¶È*/
+	/**ä¸å…è®¸è°ƒåº¦*/
 	disable_schedule();
 	
-	/**·Ö·¢¹¦ÄÜ*/
+	/**åˆ†å‘åŠŸèƒ½*/
 	switch(context.ebx)
 	{
 		case NEW_WINDOW: goto new_window;
@@ -28,21 +28,21 @@ void sys_GUI_API(struct context context)
 	}
 	
 /**
- * ĞÂ´°¿ÚÇëÇó´¦Àí³ÌĞò
+ * æ–°çª—å£è¯·æ±‚å¤„ç†ç¨‹åº
  * ebx = 1, ecx = ptr of title, edx = style, esi = length, edi = width
- * ·µ»ØÖµ´æ·ÅÔÚeaxÖĞ£¬ÎªĞÂ´°¿ÚµÄ½á¹¹Ö¸Õë
+ * è¿”å›å€¼å­˜æ”¾åœ¨eaxä¸­ï¼Œä¸ºæ–°çª—å£çš„ç»“æ„æŒ‡é’ˆ
  */
 new_window:
 
-	/**µ÷ÓÃ³ÌĞò*/
+	/**è°ƒç”¨ç¨‹åº*/
 	context.eax = (int) GUI_window((char *)context.ecx, context.edx,0 , 0, context.esi, context.edi);
 	goto finish;
 	
-/**½áÊøÏµÍ³µ÷ÓÃ*/
+/**ç»“æŸç³»ç»Ÿè°ƒç”¨*/
 finish:
-	/**ÔÊĞíµ÷¶È*/
+	/**å…è®¸è°ƒåº¦*/
 	enable_schedule();
 	
-	/**Õı³£·µ»Ø*/
+	/**æ­£å¸¸è¿”å›*/
 	return;
 }

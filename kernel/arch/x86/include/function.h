@@ -1,7 +1,7 @@
 /**
  * Copyright 2013-2015 by 2013-2015 by Explorer OS Developers. All rights reserved.
  * made by Lab Explorer Developers<1@GhostBirdOS.org>
- * Explorer 0.01 x86Æ½Ì¨Ó²¼ş³éÏó²ãÍ·ÎÄ¼ş
+ * Explorer 0.01 x86å¹³å°ç¡¬ä»¶æŠ½è±¡å±‚å¤´æ–‡ä»¶
  * Explorer/Kernel/include/HAL/x86/function.h
  * 7/14/2014 1:49 PM
  */
@@ -11,11 +11,11 @@
 
 #include <types.h>
 
-/**´úÂë¶Î¡¢Êı¾İ¶Î¡¢TSS¶ÎµÄÑ¡Ôñ×Ó*/
+/**ä»£ç æ®µã€æ•°æ®æ®µã€TSSæ®µçš„é€‰æ‹©å­*/
 u32 code_0_selector, data_0_selector, TSS_selector;
 u32 code_3_selector, data_3_selector;
 
-/**TSS½á¹¹Ìå*/
+/**TSSç»“æ„ä½“*/
 struct TSS_32
 {
 	u32 backlink;
@@ -46,12 +46,12 @@ struct TSS_32
 	u32 iomap;
 	u8 ioend;
 };
-//fun_c.cº¯Êı
+//fun_c.cå‡½æ•°
 void init_arch(void);
 void inti_GDT(void);
 void goto_paging(u32 pdt_addr);
 
-//ÖĞ¶ÏÃèÊö·û±íÊôĞÔ
+//ä¸­æ–­æè¿°ç¬¦è¡¨å±æ€§
 #define IDT_P		0x8000
 #define IDT_DPL_0	0x00
 #define IDT_DPL_1	0x2000
@@ -63,49 +63,49 @@ void goto_paging(u32 pdt_addr);
 #define interrupt_gate	0x600
 
 u32 IDT_len, *IDT_addr, IDT_size;
-//fun_asm.asmº¯Êı
-//È«¾ÖÃèÊö·û±íÊôĞÔ
+//fun_asm.asmå‡½æ•°
+//å…¨å±€æè¿°ç¬¦è¡¨å±æ€§
 #define GDT_G		0x800000
 #define GDT_P		0x8000
 #define GDT_DPL_0	0x00
 #define GDT_DPL_1	0x2000
 #define GDT_DPL_2	0x4000
 #define GDT_DPL_3	0x6000
-/*×¢Òâ:¶¼Îª¿É¶ÁµÄ´úÂë¶Î*/
+/*æ³¨æ„:éƒ½ä¸ºå¯è¯»çš„ä»£ç æ®µ*/
 #define GDT_code_32_conforming		0x401E00
 #define GDT_code_32_non_conforming	0x401A00
-/*ÎªÏòÉÏµÄÊı¾İ¶Î£¬ÏòÏÂµÄÊı¾İ¶ÎÓĞ·çÏÕ£¬²»¿ÉÊ¹ÓÃ*/
+/*ä¸ºå‘ä¸Šçš„æ•°æ®æ®µï¼Œå‘ä¸‹çš„æ•°æ®æ®µæœ‰é£é™©ï¼Œä¸å¯ä½¿ç”¨*/
 #define GDT_data_32 0x401200
-/*ÏµÍ³¶Î*/
+/*ç³»ç»Ÿæ®µ*/
 #define GDT_TSS_data 0x900
-//¶ÁÈ¡tsc¼Ä´æÆ÷º¯Êı//
+//è¯»å–tscå¯„å­˜å™¨å‡½æ•°//
 unsigned long long int read_tsc(void);
-//³õÊ¼»¯¶Î¼Ä´æÆ÷º¯Êı
+//åˆå§‹åŒ–æ®µå¯„å­˜å™¨å‡½æ•°
 void init_seg_reg(u16 selector);
-//ÃèÊö·û±í¼Ä´æÆ÷²Ù×÷º¯Êı
+//æè¿°ç¬¦è¡¨å¯„å­˜å™¨æ“ä½œå‡½æ•°
 void write_IDTR(u32 base, u16 size);
 void write_TR(u16 select);
 void write_GDTR(u32 base, u16 size);
-//GDT²Ù×÷º¯Êı
+//GDTæ“ä½œå‡½æ•°
 void clean_GDT(void);
 u16 set_GDT(u32 base_addr, u32 length, u32 attribute);
-//IDT²Ù×÷º¯Êı
+//IDTæ“ä½œå‡½æ•°
 void clean_IDT(void);
 
 /**
- * ´´½¨ÖĞ¶ÏÃèÊö·ûº¯Êı
- * numberÎªÒª´´½¨µÄÖĞ¶ÏÃèÊö·ûµÄÖĞ¶ÏºÅ
- * selectorÎª¸ÃÃèÊö·ûµÄÑ¡Ôñ×Ó
- * offsetÎªÖĞ¶Ï´¦Àíº¯ÊıÖ¸Õë
- * attributeÎªÖĞ¶ÏµÄÏà¹ØÊôĞÔ
+ * åˆ›å»ºä¸­æ–­æè¿°ç¬¦å‡½æ•°
+ * numberä¸ºè¦åˆ›å»ºçš„ä¸­æ–­æè¿°ç¬¦çš„ä¸­æ–­å·
+ * selectorä¸ºè¯¥æè¿°ç¬¦çš„é€‰æ‹©å­
+ * offsetä¸ºä¸­æ–­å¤„ç†å‡½æ•°æŒ‡é’ˆ
+ * attributeä¸ºä¸­æ–­çš„ç›¸å…³å±æ€§
  */
 void create_IDT(u32 number, u32 selector, void *offset, u32 attribute);
-//¿ØÖÆ¼Ä´æÆ÷¶ÁĞ´
+//æ§åˆ¶å¯„å­˜å™¨è¯»å†™
 u32 read_cr0(void);
 void write_CR0(u32 cr0);
 u32 read_cr3(void);
 void write_CR3(u32 cr0);
-//ÌØÊâ´óĞ¡ÄÚ´æ¶ÁĞ´º¯Êı
+//ç‰¹æ®Šå¤§å°å†…å­˜è¯»å†™å‡½æ•°
 void write_mem24(u32 addr, u32 data);
 
 

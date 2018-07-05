@@ -14,178 +14,178 @@
 #include <lib/mem.h>
 #include <../include/page.h>
 
-/**ÄÚ´æĞÅÏ¢*/
+/**å†…å­˜ä¿¡æ¯*/
 unsigned int all_mem = 0, real_mem = 0;
 
-/**ÄÚºËÇøÓò´óĞ¡*/
+/**å†…æ ¸åŒºåŸŸå¤§å°*/
 #define RANG_KERNEL_SIZE		268435456
 
-/**ÄÚºËÄÚ´æ×Ö½ÚÒ³Í¼*/
+/**å†…æ ¸å†…å­˜å­—èŠ‚é¡µå›¾*/
 #define KER_MEM_BYTEMAP_PTR		0x100000
 #define KER_MEM_BYTEMAP_SIZE	RANG_KERNEL_SIZE / 4096
 unsigned char *ker_mem_bytemap = (unsigned char *) KER_MEM_BYTEMAP_PTR;
 
-/**ÔÊĞí·ÖÅä»ØÊÕµÄÄÚºËÇøÓòÆğÊ¼Î»ÖÃ*/
+/**å…è®¸åˆ†é…å›æ”¶çš„å†…æ ¸åŒºåŸŸèµ·å§‹ä½ç½®*/
 #define KERNEL_ALLOC_START		KER_MEM_BYTEMAP_PTR + KER_MEM_BYTEMAP_SIZE
 
-/**ÄÚºËÄÚ´æ×Ö½ÚÒ³Í¼ÖĞÃ¿ÏîµÄÖµµÄº¬Òå*/
-#define KER_MEM_BYTEMAP_FREE	0b00000000			// ¿ÕÏĞÒ³
-#define KER_MEM_BYTEMAP_USED	0b00000001			// ÒÑ¾­Ê¹ÓÃµÄÄÚ´æ¿é
-#define KER_MEM_BYTEMAP_START	0b00000010			// ÒÑ¾­Ê¹ÓÃµÄÄÚ´æ¿éµÄÆğÊ¼Ò³
-#define KER_MEM_BYTEMAP_END		0b00000100			// ÒÑ¾­Ê¹ÓÃµÄÄÚ´æ¿éµÄÄ©Î²Ò³
+/**å†…æ ¸å†…å­˜å­—èŠ‚é¡µå›¾ä¸­æ¯é¡¹çš„å€¼çš„å«ä¹‰*/
+#define KER_MEM_BYTEMAP_FREE	0b00000000			// ç©ºé—²é¡µ
+#define KER_MEM_BYTEMAP_USED	0b00000001			// å·²ç»ä½¿ç”¨çš„å†…å­˜å—
+#define KER_MEM_BYTEMAP_START	0b00000010			// å·²ç»ä½¿ç”¨çš„å†…å­˜å—çš„èµ·å§‹é¡µ
+#define KER_MEM_BYTEMAP_END		0b00000100			// å·²ç»ä½¿ç”¨çš„å†…å­˜å—çš„æœ«å°¾é¡µ
 
-/**ÎïÀíÄÚ´æÎ»Ò³Í¼*/
+/**ç‰©ç†å†…å­˜ä½é¡µå›¾*/
 #define PHY_MEM_ALLOC_START		RANG_KERNEL_SIZE
 #define PHY_MEM_BITMAP_PTR		0x30000
 #define PHY_MEM_BITMAP_SIZE		(4294967296 / PAGE_SIZE) / 8
 unsigned int *phy_mem_bitmap = (unsigned int *) PHY_MEM_BITMAP_PTR;
 
 
-/**NOTICE£ºphy_mem_bitmapÊÇ¸ö32Î»Êı¾İÖ¸Õë£¬ËùÒÔphy_mem_bitmap×÷ÎªÊı×é£¬Ã¿Ò»¸öÔªËØ¶¼ÄÜ±íÊ¾32¸öÒ³£¬¼´2^5*/
+/**NOTICEï¼šphy_mem_bitmapæ˜¯ä¸ª32ä½æ•°æ®æŒ‡é’ˆï¼Œæ‰€ä»¥phy_mem_bitmapä½œä¸ºæ•°ç»„ï¼Œæ¯ä¸€ä¸ªå…ƒç´ éƒ½èƒ½è¡¨ç¤º32ä¸ªé¡µï¼Œå³2^5*/
 
 
-/**ÉèÖÃÒ³Ê¹ÓÃº¯Êı*/
+/**è®¾ç½®é¡µä½¿ç”¨å‡½æ•°*/
 void set_phy_page_used(unsigned long ptr)
 {
 	phy_mem_bitmap[ptr >> 17] = phy_mem_bitmap[ptr >> 17] | (1 << ((ptr >> 12) & 0b11111));
 }
 
-/**ÉèÖÃÒ³×ÔÓÉº¯Êı*/
+/**è®¾ç½®é¡µè‡ªç”±å‡½æ•°*/
 void set_phy_page_free(unsigned long ptr)
 {
 	phy_mem_bitmap[ptr >> 17] = phy_mem_bitmap[ptr >> 17] & ~(1 << ((ptr >> 12) & 0b11111));
 }
 
-/**ÉèÖÃÄÚºËÄÚ´æ×Ö½ÚÒ³Í¼º¯Êı*/
+/**è®¾ç½®å†…æ ¸å†…å­˜å­—èŠ‚é¡µå›¾å‡½æ•°*/
 void set_ker_bytemap(unsigned long ptr, char flag)
 {
 	ker_mem_bytemap[ptr >> 12] = flag;
 }
 
-/**³õÊ¼»¯ÄÚ´æ¹ÜÀíµ¥Ôªº¯Êı*/
+/**åˆå§‹åŒ–å†…å­˜ç®¡ç†å•å…ƒå‡½æ•°*/
 void init_MMU(struct boot_info *boot_info)
 {
 	unsigned long n;
 	unsigned int BaseAddr, Length;
 	
-	/**ÄÚºËÇøÓò´óĞ¡±ØĞëÎª4MBµÄÕûÊı±¶*/
+	/**å†…æ ¸åŒºåŸŸå¤§å°å¿…é¡»ä¸º4MBçš„æ•´æ•°å€*/
 	if ((RANG_KERNEL_SIZE % 4194304) != 0) reset();
 	
-	/**³õÊ¼»¯ÎïÀíÄÚ´æÎ»Ò³Í¼*/
+	/**åˆå§‹åŒ–ç‰©ç†å†…å­˜ä½é¡µå›¾*/
 	for (n = 0; n < (PHY_MEM_BITMAP_SIZE / sizeof(unsigned int)); n ++)
 	{
-		/**1´ú±íÒÑ¾­±»Õ¼ÓÃ*/
+		/**1ä»£è¡¨å·²ç»è¢«å ç”¨*/
 		phy_mem_bitmap[n] = 0xffffffff;
 	}
 	
-	/**³õÊ¼»¯ÄÚºËÄÚ´æ×Ö½ÚÒ³Í¼*/
+	/**åˆå§‹åŒ–å†…æ ¸å†…å­˜å­—èŠ‚é¡µå›¾*/
 	for (n = 0; n < KER_MEM_BYTEMAP_SIZE; n ++)
 	{
 		ker_mem_bytemap[n] == KER_MEM_BYTEMAP_USED | KER_MEM_BYTEMAP_START | KER_MEM_BYTEMAP_END;
 	}
 	
-	/**Ñ­»·¶ÁÈ¡Address Range Descriptor Structure £¬
-	 * ½¨Á¢ÎïÀíÄÚ´æÎ»Ò³Í¼
+	/**å¾ªç¯è¯»å–Address Range Descriptor Structure ï¼Œ
+	 * å»ºç«‹ç‰©ç†å†…å­˜ä½é¡µå›¾
 	 */
 	for (n = 0; n < BOOT_ARDS_NUM; n ++)
 	{
-		/**×ÜÄÚ´æ¼ÆÊı*/
+		/**æ€»å†…å­˜è®¡æ•°*/
 		all_mem += boot_info->ARDS[n].LengthLow;
 		
-		/**ÅĞ¶ÏÊÇ·ñÊÇ¸ßÓÚ4GBµÄ·¶Î§*/
+		/**åˆ¤æ–­æ˜¯å¦æ˜¯é«˜äº4GBçš„èŒƒå›´*/
 		if (boot_info->ARDS[n].BaseAddrHigh != 0) break;
 		
-		/**4KB¶ÔÆë*/
+		/**4KBå¯¹é½*/
 		boot_info->ARDS[n].BaseAddrLow = boot_info->ARDS[n].BaseAddrLow & 0xfffff000;
 		boot_info->ARDS[n].LengthLow = boot_info->ARDS[n].LengthLow & 0xfffff000;
 		
-		/**ÅĞ¶Ï¸ÃARDSÊÇ·ñ¿ÉÓÃ*/
+		/**åˆ¤æ–­è¯¥ARDSæ˜¯å¦å¯ç”¨*/
 		if (boot_info->ARDS[n].Type != ARDS_FREE) continue;
 		
-		/**ÅĞ¶Ï¸ÃARDSµÄ·¶Î§ÊÇ·ñÎª0*/
+		/**åˆ¤æ–­è¯¥ARDSçš„èŒƒå›´æ˜¯å¦ä¸º0*/
 		if (boot_info->ARDS[n].LengthLow == 0) continue;
 		
-		/**¹éÄÉĞÅÏ¢*/
+		/**å½’çº³ä¿¡æ¯*/
 		BaseAddr = boot_info->ARDS[n].BaseAddrLow;
 		Length = boot_info->ARDS[n].LengthLow;
 		real_mem += Length;
 		
-		/**´òÓ¡¸Ã·¶Î§ĞÅÏ¢*/
+		/**æ‰“å°è¯¥èŒƒå›´ä¿¡æ¯*/
 		//printk("available memory:%#x~%#x.\n", BaseAddr, BaseAddr + Length);
 		
-		/**ÖÆ×÷ÏàÓ¦µÄÎïÀíÄÚ´æÎ»Ò³Í¼ºÍÄÚºËÄÚ´æ×Ö½ÚÒ³Í¼*/
+		/**åˆ¶ä½œç›¸åº”çš„ç‰©ç†å†…å­˜ä½é¡µå›¾å’Œå†…æ ¸å†…å­˜å­—èŠ‚é¡µå›¾*/
 		while (Length != 0)
 		{
-			/**ÉèÖÃ¿ÕÏĞ*/
+			/**è®¾ç½®ç©ºé—²*/
 			set_phy_page_free(BaseAddr);
 			
-			/**ÅĞ¶ÏÊÇ·ñÔÚÄÚºËÄÚ´æÇøÖĞ*/
+			/**åˆ¤æ–­æ˜¯å¦åœ¨å†…æ ¸å†…å­˜åŒºä¸­*/
 			if (BaseAddr < RANG_KERNEL_SIZE)
 			{
 				set_ker_bytemap(BaseAddr, KER_MEM_BYTEMAP_FREE);
 			}
 			
-			/**¼ÆÊıÔö¼Ó*/
+			/**è®¡æ•°å¢åŠ */
 			BaseAddr += PAGE_SIZE;
 			Length -= PAGE_SIZE;
 		}
 	}
 	
-	/**´òÓ¡ĞÅÏ¢*/
+	/**æ‰“å°ä¿¡æ¯*/
 	//printk("Register memory done.\n");
 	//printk("Installed memory(RAM):%dMB(%dMB is available).\n", all_mem / 1048576, real_mem / 1048576);
 	
-	/**ÉÙÓÚ256MBµÄÇé¿ö²»ÄÜÏÂÒ»²½³õÊ¼»¯*/
+	/**å°‘äº256MBçš„æƒ…å†µä¸èƒ½ä¸‹ä¸€æ­¥åˆå§‹åŒ–*/
 	if (all_mem < 268435456)
 	{
 		printk("Not enough memory!Please make sure the memory more than 256MB.");
 		reset();
 	}
 	
-	/**Õı³£·µ»Ø*/
+	/**æ­£å¸¸è¿”å›*/
 	return;
 }
 
-/**Ò³Ä¿Â¼±í*/
+/**é¡µç›®å½•è¡¨*/
 unsigned long *pdt, *pt;
 
-/**³õÊ¼»¯·ÖÒ³Ä£Ê½º¯Êı*/
+/**åˆå§‹åŒ–åˆ†é¡µæ¨¡å¼å‡½æ•°*/
 void init_paging(void)
 {
 	unsigned long ptr;
 	
-	/**·ÖÅäÒ³Ä¿Â¼±í*/
+	/**åˆ†é…é¡µç›®å½•è¡¨*/
 	for (pdt = NULL; pdt == NULL; )
 		pdt = vmalloc(PAGE_SIZE);
 	
-	/**·ÖÅäÒ³±í*/
+	/**åˆ†é…é¡µè¡¨*/
 	for (pt = NULL; pt == NULL; )
 		pt = vmalloc((RANG_KERNEL_SIZE / PAGE_SIZE) * sizeof(pt));
 	
-	/**½«ËùÓĞÒ³±í¶¼×¢²áµ½Ò³Ä¿Â¼±í*/
+	/**å°†æ‰€æœ‰é¡µè¡¨éƒ½æ³¨å†Œåˆ°é¡µç›®å½•è¡¨*/
 	for (ptr = 0; ptr < (RANG_KERNEL_SIZE / 4194304); ptr ++)
 	{
 		pdt[ptr] = (ptr * PAGE_SIZE) + (int)pt + 0x7;
 	}
 	
-	/**½«ËùÓĞÄÚ´æÇøÓòµÄÒ³¶¼×¢²áµ½Ò³±íÖĞ*/
+	/**å°†æ‰€æœ‰å†…å­˜åŒºåŸŸçš„é¡µéƒ½æ³¨å†Œåˆ°é¡µè¡¨ä¸­*/
 	for (ptr = 0; ptr < RANG_KERNEL_SIZE / 4096; ptr ++)
 	{
 		pt[ptr] = ptr * PAGE_SIZE + 0x7;
 	}
 	
-	/**½øÈë·ÖÒ³Ä£Ê½*/
+	/**è¿›å…¥åˆ†é¡µæ¨¡å¼*/
 	goto_paging(pdt);
 }
 
-/**ĞéÄâ¿Õ¼äÓ³Éäº¯Êı*/
+/**è™šæ‹Ÿç©ºé—´æ˜ å°„å‡½æ•°*/
 unsigned int kmap(unsigned int vir_addr, unsigned int phy_addr, unsigned int size)
 {
-	/**Èç¹ûĞéÄâµØÖ·ºÍÎïÀíµØÖ··Ç4KB¶ÔÆë£¬Ôò´íÎó·µ»Ø*/
+	/**å¦‚æœè™šæ‹Ÿåœ°å€å’Œç‰©ç†åœ°å€é4KBå¯¹é½ï¼Œåˆ™é”™è¯¯è¿”å›*/
 	if ((vir_addr & 0xfff) != 0) return 1;
 	if ((phy_addr & 0xfff) != 0) return 2;
 	
-	/**Èç¹ûÓ³Éä³¤¶È·Ç4KB¶ÔÆë£¬Ò²´íÎó·µ»Ø*/
+	/**å¦‚æœæ˜ å°„é•¿åº¦é4KBå¯¹é½ï¼Œä¹Ÿé”™è¯¯è¿”å›*/
 	if ((size & 0xfff) != 0) return 3;
 
 	for (;size != 0;size -= PAGE_SIZE)
@@ -195,188 +195,188 @@ unsigned int kmap(unsigned int vir_addr, unsigned int phy_addr, unsigned int siz
 		vir_addr += PAGE_SIZE;
 	}
 	
-	/**Õı³£·µ»Ø*/
+	/**æ­£å¸¸è¿”å›*/
 	return 0;
 }
 
-/**´´½¨ĞÂÒ³Ä¿Â¼º¯Êı*/
+/**åˆ›å»ºæ–°é¡µç›®å½•å‡½æ•°*/
 unsigned long new_pdt(void)
 {
 	unsigned long ptr;
 	unsigned long *new_pdt;
 	
-	/**·ÖÅäÄÚ´æ´´½¨ĞÂµÄÒ³Ä¿Â¼±í*/
+	/**åˆ†é…å†…å­˜åˆ›å»ºæ–°çš„é¡µç›®å½•è¡¨*/
 	for (new_pdt = NULL; new_pdt == NULL; )
 		new_pdt = vmalloc(PAGE_SIZE);
 	
-	/**½«ÒÑ¾­³öÀ´µÄÒ³Ä¿Â¼±íµÄËùÓĞÒ³±í¶¼¿½±´µ½ĞÂÒ³Ä¿Â¼±íÖĞ*/
+	/**å°†å·²ç»å‡ºæ¥çš„é¡µç›®å½•è¡¨çš„æ‰€æœ‰é¡µè¡¨éƒ½æ‹·è´åˆ°æ–°é¡µç›®å½•è¡¨ä¸­*/
 	for (ptr = 0; ptr < (RANG_KERNEL_SIZE / 4194304); ptr ++)
 	{
 		new_pdt[ptr] = pdt[ptr];
 	}
 }
 
-/**»ñÈ¡Ò»¸öÎïÀíÒ³º¯Êı
- * ·µ»ØÖµ£ºNULL´ú±í»ñÈ¡¿ÕÏĞÎïÀíÒ³Ê§°Ü£¬·ÇNULL´ú±í»ñÈ¡³É¹¦¡£
+/**è·å–ä¸€ä¸ªç‰©ç†é¡µå‡½æ•°
+ * è¿”å›å€¼ï¼šNULLä»£è¡¨è·å–ç©ºé—²ç‰©ç†é¡µå¤±è´¥ï¼ŒéNULLä»£è¡¨è·å–æˆåŠŸã€‚
  */
 void *get_free_page(void)
 {
 	unsigned long n, n2, new_page;
 	unsigned int bitmap;
 	
-	/**ÏÈÅĞ¶Ïphy_mem_bitmapÊı×éÖĞÊÇ·ñÓĞ¸ö32Î»ÔªËØ²»Îª0xffffffff*/
+	/**å…ˆåˆ¤æ–­phy_mem_bitmapæ•°ç»„ä¸­æ˜¯å¦æœ‰ä¸ª32ä½å…ƒç´ ä¸ä¸º0xffffffff*/
 	// for (n = 0; n < PHY_MEM_BITMAP_SIZE / sizeof(unsigned int); n ++)
 	for (n = PHY_MEM_ALLOC_START / (PAGE_SIZE * 32); n < PHY_MEM_BITMAP_SIZE / sizeof(unsigned int); n ++)
 	{
 		if (phy_mem_bitmap[n] != 0xffffffff)
 		{
-			/**Èç¹ûÄ³¸öÔªËØÖĞ±íÊ¾µÄÒ³¼¯ÖĞÓĞ¿ÕÏĞµÄÒ³£¬Ôò´ÓÖĞÑ°ÕÒ*/
+			/**å¦‚æœæŸä¸ªå…ƒç´ ä¸­è¡¨ç¤ºçš„é¡µé›†ä¸­æœ‰ç©ºé—²çš„é¡µï¼Œåˆ™ä»ä¸­å¯»æ‰¾*/
 			bitmap = phy_mem_bitmap[n];
 			
-			/**Ñ­»·¿´Õâ¸öÒ³¼¯ÖĞÄÄ¸öÒ³ÊÇ¿ÕÏĞµÄ*/
+			/**å¾ªç¯çœ‹è¿™ä¸ªé¡µé›†ä¸­å“ªä¸ªé¡µæ˜¯ç©ºé—²çš„*/
 			for (n2 = 0; n2 < 32; n2 ++)
 			{
-				/**½øĞĞÅĞ¶ÏÏàÓ¦ÃèÊöµÄÎ»ÊÇ·ñÎª0*/
+				/**è¿›è¡Œåˆ¤æ–­ç›¸åº”æè¿°çš„ä½æ˜¯å¦ä¸º0*/
 				if (((bitmap >> n2) & 1) == 0)
 				{
-					/**Õâ¸öÒ³µÄÊµ¼ÊµØÖ·¼ÆËã³öÀ´*/
+					/**è¿™ä¸ªé¡µçš„å®é™…åœ°å€è®¡ç®—å‡ºæ¥*/
 					new_page = (n * 32 * PAGE_SIZE) + (n2 * PAGE_SIZE);
 					
-					/**ÉèÖÃÕâ¸öÒ³ÎªÕ¼ÓÃ*/
+					/**è®¾ç½®è¿™ä¸ªé¡µä¸ºå ç”¨*/
 					set_phy_page_used(new_page);
 					
-					/**·µ»ØÕâ¸öÒ³*/
+					/**è¿”å›è¿™ä¸ªé¡µ*/
 					return (void *)new_page;
 				}
 			}
 		}
 	}
 	
-	/**µ±ÔËĞĞµ½ÕâÀïµÄÊ±ºò£¬´ú±í±éÀúÁËÒ³Î»Í¼È´ÎŞºÏÊÊµÄÒ³£¬ÔİÊ±Ö»ÄÜ·µ»ØNULLÖµ£¬ÒÔºó¿ÉÒÔÔÚÕâÀïÊµÏÖÒ³½»»»*/
+	/**å½“è¿è¡Œåˆ°è¿™é‡Œçš„æ—¶å€™ï¼Œä»£è¡¨éå†äº†é¡µä½å›¾å´æ— åˆé€‚çš„é¡µï¼Œæš‚æ—¶åªèƒ½è¿”å›NULLå€¼ï¼Œä»¥åå¯ä»¥åœ¨è¿™é‡Œå®ç°é¡µäº¤æ¢*/
 	
-	/**ÎŞĞ§·µ»Ø*/
+	/**æ— æ•ˆè¿”å›*/
 	return NULL;
 }
 
-/**ÊÍ·ÅÒ»¸öÎïÀíÒ³º¯Êı*/
+/**é‡Šæ”¾ä¸€ä¸ªç‰©ç†é¡µå‡½æ•°*/
 void free_page(void *addr)
 {
-	/**½«¸ÃÒ³ÉèÖÃÎª×ÔÓÉ*/
+	/**å°†è¯¥é¡µè®¾ç½®ä¸ºè‡ªç”±*/
 	set_phy_page_free((unsigned long)addr);
 }
 
-/**´ó¿éÄÚ´æ·ÖÅäº¯Êı*/
+/**å¤§å—å†…å­˜åˆ†é…å‡½æ•°*/
 void *vmalloc(size_t size)
 {
-	/**Í£Ö¹µ÷¶È*/
+	/**åœæ­¢è°ƒåº¦*/
 	disable_schedule();
 	
-	/**ÅĞ¶Ï³¤¶ÈÊÇ·ñÎª0*/
+	/**åˆ¤æ–­é•¿åº¦æ˜¯å¦ä¸º0*/
 	if (size == 0)
 	{
-		/**ÔÊĞíµ÷¶È*/
+		/**å…è®¸è°ƒåº¦*/
 		enable_schedule();
 		return NULL;
 	}
 	
 	unsigned long n = (KERNEL_ALLOC_START >> 12), l;
 	
-	/**¶Ô²ÎÊı»¯Õû*/
+	/**å¯¹å‚æ•°åŒ–æ•´*/
 	if ((size & 0xfff) != 0) size += 0x1000;
 	size = size & 0xfffff000;
 	
-/**nÎªÕıÔÚÅĞ¶ÏµÄ¿ÕÏĞ¿éµÄÊ×Ò³£¬lÎªÕıÔÚÅĞ¶ÏµÄÒ³*/
-	/**Ñ°ÕÒ×ã¹»³¤µÄÄÚ´æÇøÓò*/
+/**nä¸ºæ­£åœ¨åˆ¤æ–­çš„ç©ºé—²å—çš„é¦–é¡µï¼Œlä¸ºæ­£åœ¨åˆ¤æ–­çš„é¡µ*/
+	/**å¯»æ‰¾è¶³å¤Ÿé•¿çš„å†…å­˜åŒºåŸŸ*/
 	for (;;)
 	{
-		/**Ñ°ÕÒµ½¿ÕÏĞÇøÓò*/
+		/**å¯»æ‰¾åˆ°ç©ºé—²åŒºåŸŸ*/
 		if (ker_mem_bytemap[n] == KER_MEM_BYTEMAP_FREE)
 		{
-			/**Ñ­»·¼ì²é¸Ã¿ÕÏĞ¿é³¤¶È*/
+			/**å¾ªç¯æ£€æŸ¥è¯¥ç©ºé—²å—é•¿åº¦*/
 			for (l = n;;l ++)
 			{
-				/**Èç¹ûÕâ¸ö¿ÕÏĞ¿éµ½ÕâÀïÎªÖ¹ÇÒ²»¹»´óĞ¡*/
+				/**å¦‚æœè¿™ä¸ªç©ºé—²å—åˆ°è¿™é‡Œä¸ºæ­¢ä¸”ä¸å¤Ÿå¤§å°*/
 				if (ker_mem_bytemap[l] != KER_MEM_BYTEMAP_FREE)
 				{
-					/**·µ»Ø²¢ÇÒ´ÓÏÂÒ»¸öÒ³¿ªÊ¼ÕÒ*/
+					/**è¿”å›å¹¶ä¸”ä»ä¸‹ä¸€ä¸ªé¡µå¼€å§‹æ‰¾*/
 					n = l + 1;
 					break;
 				}
 				
-				/**Èç¹û³¤¶È·ûºÏÒªÇó*/
+				/**å¦‚æœé•¿åº¦ç¬¦åˆè¦æ±‚*/
 				if ((l - n + 1) == (size >> 12))
 				{
-					/**³¤¶ÈºÏÊÊÌø×ªµ½·ÖÅäÄ£¿é*/
+					/**é•¿åº¦åˆé€‚è·³è½¬åˆ°åˆ†é…æ¨¡å—*/
 					goto allocate;
 				}
 			}
 			
 		}
 		
-		/**Ñ°ÕÒÏÂÒ»¸öÄÚ´æ¿é*/
+		/**å¯»æ‰¾ä¸‹ä¸€ä¸ªå†…å­˜å—*/
 		n ++;
 		
-		/**ÅĞ¶ÏÑ°ÕÒÊÇ·ñ³¬¹ıÄÚºËÄÚ´æÇøÓò*/
+		/**åˆ¤æ–­å¯»æ‰¾æ˜¯å¦è¶…è¿‡å†…æ ¸å†…å­˜åŒºåŸŸ*/
 		if (n >= KER_MEM_BYTEMAP_SIZE)
 		{
-			/**ÔÊĞíµ÷¶È*/
+			/**å…è®¸è°ƒåº¦*/
 			enable_schedule();
-			/**³¬¹ıÁËÔò·ÖÅäÊ§°Ü*/
+			/**è¶…è¿‡äº†åˆ™åˆ†é…å¤±è´¥*/
 			return NULL;
 		}
 		
-		/**ÅĞ¶ÏÊ£ÓàÄÚºËÄÚ´æ¿é³¤¶ÈÊÇ·ñÂú×ãÒªÇó*/
+		/**åˆ¤æ–­å‰©ä½™å†…æ ¸å†…å­˜å—é•¿åº¦æ˜¯å¦æ»¡è¶³è¦æ±‚*/
 		if ((KER_MEM_BYTEMAP_SIZE - n) < (size >> 12))
 		{
-			/**ÔÊĞíµ÷¶È*/
+			/**å…è®¸è°ƒåº¦*/
 			enable_schedule();
 			return NULL;
 		}
 	}
 	
-/**·ÖÅäÄ£¿é£¬¸ÃÄ£¿é½«Ïà¹ØÄÚ´æ¿éÉèÖÃÎªÒÑ¾­Ê¹ÓÃ*/
-/**nÎª¿ÉÓÃµÄ×ÔÓÉÄÚ´æ¿éÊ×µØÖ·£¬lÎªÆ«ÒÆ*/
+/**åˆ†é…æ¨¡å—ï¼Œè¯¥æ¨¡å—å°†ç›¸å…³å†…å­˜å—è®¾ç½®ä¸ºå·²ç»ä½¿ç”¨*/
+/**nä¸ºå¯ç”¨çš„è‡ªç”±å†…å­˜å—é¦–åœ°å€ï¼Œlä¸ºåç§»*/
 allocate:
-	/**Ê×ÏÈ¶ÔÊ×Î»½øĞĞÌØ±ğ±ê¼Ç*/
+	/**é¦–å…ˆå¯¹é¦–ä½è¿›è¡Œç‰¹åˆ«æ ‡è®°*/
 	ker_mem_bytemap[n] = KER_MEM_BYTEMAP_START | KER_MEM_BYTEMAP_USED;
 	ker_mem_bytemap[n + (size >> 12) - 1] = ker_mem_bytemap[n + (size >> 12) - 1] | KER_MEM_BYTEMAP_END | KER_MEM_BYTEMAP_USED;
 	
-	/**½«Ïà¹ØÄÚ´æ¿é¶¼±ê¼ÇÎªÕ¼ÓÃ*/
+	/**å°†ç›¸å…³å†…å­˜å—éƒ½æ ‡è®°ä¸ºå ç”¨*/
 	for (l = n; (l - n + 1) != (size >> 12); l ++)
 	{
 		ker_mem_bytemap[l] = ker_mem_bytemap[l] | KER_MEM_BYTEMAP_USED;
 	}
 	
-	/**ÔÊĞíµ÷¶È*/
+	/**å…è®¸è°ƒåº¦*/
 	enable_schedule();
 	
-	/**Õı³£·µ»Ø*/
+	/**æ­£å¸¸è¿”å›*/
 	return (void *) (n << 12);
 }
 
 
-/**´ó¿éÄÚ´æÊÍ·Åº¯Êı*/
+/**å¤§å—å†…å­˜é‡Šæ”¾å‡½æ•°*/
 void vfree(void *addr)
 {
-	/**ÅĞ¶Ï¸ÃµØÖ·ÊÇ·ñÎªÕâ¸ö±»·ÖÅäµÄÄÚ´æ¿éµÄÊ×µØÖ·*/
+	/**åˆ¤æ–­è¯¥åœ°å€æ˜¯å¦ä¸ºè¿™ä¸ªè¢«åˆ†é…çš„å†…å­˜å—çš„é¦–åœ°å€*/
 	if ((ker_mem_bytemap[(unsigned long) addr >> 12] & KER_MEM_BYTEMAP_START) != KER_MEM_BYTEMAP_START)
 	{
-		/**Êä³ö´íÎóĞÅÏ¢*/
+		/**è¾“å‡ºé”™è¯¯ä¿¡æ¯*/
 		printk("free the memory is error: this address is not the head of the block\n");
 	}
 	unsigned long n;
 	
-	/**Ñ­»·»ØÊÕÄÚ´æ¿é*/
+	/**å¾ªç¯å›æ”¶å†…å­˜å—*/
 	for (n = ((unsigned long) addr >> 12); ((ker_mem_bytemap[n] & KER_MEM_BYTEMAP_END) != KER_MEM_BYTEMAP_END); n ++)
 	{
-		/**»ØÊÕÄÚ´æ¿é*/
+		/**å›æ”¶å†…å­˜å—*/
 		ker_mem_bytemap[n] = KER_MEM_BYTEMAP_FREE;
 	}
 	
-	/**»ØÊÕÄ©Î²µÄÄÚ´æ¿é*/
+	/**å›æ”¶æœ«å°¾çš„å†…å­˜å—*/
 	ker_mem_bytemap[n] = KER_MEM_BYTEMAP_FREE;
 	
-	/**Õı³£ÍË³ö*/
+	/**æ­£å¸¸é€€å‡º*/
 	return;
 }
 

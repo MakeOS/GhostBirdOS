@@ -10,7 +10,7 @@
 		void test_C_plus_plus(void);
 	}
 #endif  
-
+/**
 void *operator new (size_t size)
 {
 	void *ptr;
@@ -19,7 +19,8 @@ void *operator new (size_t size)
 	memset(ptr, '\0', size);
 	return ptr;
 }
-
+*/
+/*
 void *operator new[](size_t size)
 {
 	void *ptr;
@@ -28,12 +29,12 @@ void *operator new[](size_t size)
 	memset(ptr, '\0', size);
 	return ptr;
 }
-
+*/
 void operator delete(void* p)
 {
 	kfree(p);
 }
-
+/**
 void test_C_plus_plus(void)
 {
 	int i; 
@@ -45,3 +46,4 @@ void test_C_plus_plus(void)
 	printk("it is made by C++.\n word:%s.\n", a);
 	delete a;
 }
+*/

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Copyright 2013-2015 by Explorer Developers.
  * made by Lab Explorer Developers<1@GhostBirdOS.org>
  * made by Rize<heseri@ghostbirdos.org>

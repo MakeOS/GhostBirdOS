@@ -14,111 +14,111 @@
 
 struct HD_info
 {
-	unsigned short wGenConfig;				// WORD 0: »ù±¾ĞÅÏ¢×Ö
-	unsigned short wNumCyls;				// WORD 1: ÖùÃæÊı
-	unsigned short wReserved2;				// WORD 2: ±£Áô
-	unsigned short wNumHeads;				// WORD 3: ´ÅÍ·Êı
-	unsigned short wReserved4;				// WORD 4: ±£Áô
-	unsigned short wReserved5;				// WORD 5: ±£Áô
-	unsigned short wNumSectorsPerTrack;		// WORD 6: Ã¿´ÅµÀÉÈÇøÊı
-	unsigned short wVendorUnique[3];		// WORD 7-9: ³§¼ÒÉè¶¨Öµ
-	char sSerialNumber[20];					// WORD 10-19:ĞòÁĞºÅ
-	unsigned short  wBufferType;			// WORD 20: »º³åÀàĞÍ
-	unsigned short  wBufferSize;			// WORD 21: »º³å´óĞ¡
-	unsigned short  wECCSize;				// WORD 22: ECCĞ£Ñé´óĞ¡
-	char sFirmwareRev[8];					// WORD 23-26: ¹Ì¼ş°æ±¾
-	char sModelNumber[40];					// WORD 27-46: ÄÚ²¿ĞÍºÅ
-	unsigned short  wMoreVendorUnique;		// WORD 47: ³§¼ÒÉè¶¨Öµ
-	unsigned short  wReserved48;			// WORD 48: ±£Áô
+	unsigned short wGenConfig;				// WORD 0: åŸºæœ¬ä¿¡æ¯å­—
+	unsigned short wNumCyls;				// WORD 1: æŸ±é¢æ•°
+	unsigned short wReserved2;				// WORD 2: ä¿ç•™
+	unsigned short wNumHeads;				// WORD 3: ç£å¤´æ•°
+	unsigned short wReserved4;				// WORD 4: ä¿ç•™
+	unsigned short wReserved5;				// WORD 5: ä¿ç•™
+	unsigned short wNumSectorsPerTrack;		// WORD 6: æ¯ç£é“æ‰‡åŒºæ•°
+	unsigned short wVendorUnique[3];		// WORD 7-9: å‚å®¶è®¾å®šå€¼
+	char sSerialNumber[20];					// WORD 10-19:åºåˆ—å·
+	unsigned short  wBufferType;			// WORD 20: ç¼“å†²ç±»å‹
+	unsigned short  wBufferSize;			// WORD 21: ç¼“å†²å¤§å°
+	unsigned short  wECCSize;				// WORD 22: ECCæ ¡éªŒå¤§å°
+	char sFirmwareRev[8];					// WORD 23-26: å›ºä»¶ç‰ˆæœ¬
+	char sModelNumber[40];					// WORD 27-46: å†…éƒ¨å‹å·
+	unsigned short  wMoreVendorUnique;		// WORD 47: å‚å®¶è®¾å®šå€¼
+	unsigned short  wReserved48;			// WORD 48: ä¿ç•™
 	struct {
 		unsigned short  reserved1:8;
-		unsigned short  DMA:1;				// 1=Ö§³ÖDMA
-		unsigned short  LBA:1;				// 1=Ö§³ÖLBA
-		unsigned short  DisIORDY:1;			// 1=¿É²»Ê¹ÓÃIORDY
-		unsigned short  IORDY:1;			// 1=Ö§³ÖIORDY
-		unsigned short  SoftReset:1;		// 1=ĞèÒªATAÈíÆô¶¯
-		unsigned short  Overlap:1;			// 1=Ö§³ÖÖØµş²Ù×÷
-		unsigned short  Queue:1;			// 1=Ö§³ÖÃüÁî¶ÓÁĞ
-		unsigned short  InlDMA:1;			// 1=Ö§³Ö½»²æ´æÈ¡DMA
-	}wCapabilities;							// WORD 49: Ò»°ãÄÜÁ¦
-	unsigned short  wReserved1;				// WORD 50: ±£Áô
-	unsigned short  wPIOTiming;				// WORD 51: PIOÊ±Ğò
-	unsigned short  wDMATiming;				// WORD 52: DMAÊ±Ğò
+		unsigned short  DMA:1;				// 1=æ”¯æŒDMA
+		unsigned short  LBA:1;				// 1=æ”¯æŒLBA
+		unsigned short  DisIORDY:1;			// 1=å¯ä¸ä½¿ç”¨IORDY
+		unsigned short  IORDY:1;			// 1=æ”¯æŒIORDY
+		unsigned short  SoftReset:1;		// 1=éœ€è¦ATAè½¯å¯åŠ¨
+		unsigned short  Overlap:1;			// 1=æ”¯æŒé‡å æ“ä½œ
+		unsigned short  Queue:1;			// 1=æ”¯æŒå‘½ä»¤é˜Ÿåˆ—
+		unsigned short  InlDMA:1;			// 1=æ”¯æŒäº¤å‰å­˜å–DMA
+	}wCapabilities;							// WORD 49: ä¸€èˆ¬èƒ½åŠ›
+	unsigned short  wReserved1;				// WORD 50: ä¿ç•™
+	unsigned short  wPIOTiming;				// WORD 51: PIOæ—¶åº
+	unsigned short  wDMATiming;				// WORD 52: DMAæ—¶åº
 	struct {
-		unsigned short  CHSNumber:1;		// 1=WORD 54-58ÓĞĞ§
-		unsigned short  CycleNumber:1;		// 1=WORD 64-70ÓĞĞ§
-		unsigned short  UnltraDMA:1;		// 1=WORD 88ÓĞĞ§
+		unsigned short  CHSNumber:1;		// 1=WORD 54-58æœ‰æ•ˆ
+		unsigned short  CycleNumber:1;		// 1=WORD 64-70æœ‰æ•ˆ
+		unsigned short  UnltraDMA:1;		// 1=WORD 88æœ‰æ•ˆ
 		unsigned short  reserved:13;
-	}wFieldValidity;						// WORD 53: ºóĞø×Ö¶ÎÓĞĞ§ĞÔ±êÖ¾
-	unsigned short  wNumCurCyls;			// WORD 54: CHS¿ÉÑ°Ö·µÄÖùÃæÊı
-	unsigned short  wNumCurHeads;			// WORD 55: CHS¿ÉÑ°Ö·µÄ´ÅÍ·Êı
-	unsigned short  wNumCurSectorsPerTrack;	// WORD 56: CHS¿ÉÑ°Ö·Ã¿´ÅµÀÉÈÇøÊı
-	unsigned short  wCurSectorsLow;			// WORD 57: CHS¿ÉÑ°Ö·µÄÉÈÇøÊıµÍÎ»×Ö
-	unsigned short  wCurSectorsHigh;		// WORD 58: CHS¿ÉÑ°Ö·µÄÉÈÇøÊı¸ßÎ»×Ö
+	}wFieldValidity;						// WORD 53: åç»­å­—æ®µæœ‰æ•ˆæ€§æ ‡å¿—
+	unsigned short  wNumCurCyls;			// WORD 54: CHSå¯å¯»å€çš„æŸ±é¢æ•°
+	unsigned short  wNumCurHeads;			// WORD 55: CHSå¯å¯»å€çš„ç£å¤´æ•°
+	unsigned short  wNumCurSectorsPerTrack;	// WORD 56: CHSå¯å¯»å€æ¯ç£é“æ‰‡åŒºæ•°
+	unsigned short  wCurSectorsLow;			// WORD 57: CHSå¯å¯»å€çš„æ‰‡åŒºæ•°ä½ä½å­—
+	unsigned short  wCurSectorsHigh;		// WORD 58: CHSå¯å¯»å€çš„æ‰‡åŒºæ•°é«˜ä½å­—
 	struct {
-		unsigned short  CurNumber:8;		// µ±Ç°Ò»´ÎĞÔ¿É¶ÁĞ´ÉÈÇøÊı
-		unsigned short  Multi:1;			// 1=ÒÑÑ¡Ôñ¶àÉÈÇø¶ÁĞ´
+		unsigned short  CurNumber:8;		// å½“å‰ä¸€æ¬¡æ€§å¯è¯»å†™æ‰‡åŒºæ•°
+		unsigned short  Multi:1;			// 1=å·²é€‰æ‹©å¤šæ‰‡åŒºè¯»å†™
 		unsigned short  reserved1:7;
-	}wMultSectorStuff;						// WORD 59: ¶àÉÈÇø¶ÁĞ´Éè¶¨
-	unsigned long  dwTotalSectors;			// WORD 60-61: LBA¿ÉÑ°Ö·µÄÉÈÇøÊı
-	unsigned short  wSingleWordDMA;			// WORD 62: µ¥×Ö½ÚDMAÖ§³ÖÄÜÁ¦
+	}wMultSectorStuff;						// WORD 59: å¤šæ‰‡åŒºè¯»å†™è®¾å®š
+	unsigned long  dwTotalSectors;			// WORD 60-61: LBAå¯å¯»å€çš„æ‰‡åŒºæ•°
+	unsigned short  wSingleWordDMA;			// WORD 62: å•å­—èŠ‚DMAæ”¯æŒèƒ½åŠ›
 	struct {
-		unsigned short Mode0:1;				// 1=Ö§³ÖÄ£Ê½0 (4.17Mb/s)
-		unsigned short Mode1:1;				// 1=Ö§³ÖÄ£Ê½1 (13.3Mb/s)
-		unsigned short Mode2:1;				// 1=Ö§³ÖÄ£Ê½2 (16.7Mb/s)
+		unsigned short Mode0:1;				// 1=æ”¯æŒæ¨¡å¼0 (4.17Mb/s)
+		unsigned short Mode1:1;				// 1=æ”¯æŒæ¨¡å¼1 (13.3Mb/s)
+		unsigned short Mode2:1;				// 1=æ”¯æŒæ¨¡å¼2 (16.7Mb/s)
 		unsigned short  Reserved1:5;
-		unsigned short Mode0Sel:1;			// 1=ÒÑÑ¡ÔñÄ£Ê½0
-		unsigned short Mode1Sel:1;			// 1=ÒÑÑ¡ÔñÄ£Ê½1
-		unsigned short Mode2Sel:1;			// 1=ÒÑÑ¡ÔñÄ£Ê½2
+		unsigned short Mode0Sel:1;			// 1=å·²é€‰æ‹©æ¨¡å¼0
+		unsigned short Mode1Sel:1;			// 1=å·²é€‰æ‹©æ¨¡å¼1
+		unsigned short Mode2Sel:1;			// 1=å·²é€‰æ‹©æ¨¡å¼2
 		unsigned short  Reserved2:5;
-	}wMultiWordDMA;							// WORD 63: ¶à×Ö½ÚDMAÖ§³ÖÄÜÁ¦
+	}wMultiWordDMA;							// WORD 63: å¤šå­—èŠ‚DMAæ”¯æŒèƒ½åŠ›
 	struct {
-		unsigned short  AdvPOIModes:8;		// Ö§³Ö¸ß¼¶POIÄ£Ê½Êı
+		unsigned short  AdvPOIModes:8;		// æ”¯æŒé«˜çº§POIæ¨¡å¼æ•°
 		unsigned short  reserved:8;
-	}wPIOCapacity;							// WORD 64: ¸ß¼¶PIOÖ§³ÖÄÜÁ¦
-	unsigned short wMinMultiWordDMACycle;	// WORD 65: ¶à×Ö½ÚDMA´«ÊäÖÜÆÚµÄ×îĞ¡Öµ
-	unsigned short wRecMultiWordDMACycle;	// WORD 66: ¶à×Ö½ÚDMA´«ÊäÖÜÆÚµÄ½¨ÒéÖµ
-	unsigned short wMinPIONoFlowCycle;		// WORD 67: ÎŞÁ÷¿ØÖÆÊ±PIO´«ÊäÖÜÆÚµÄ×îĞ¡Öµ
-	unsigned short wMinPOIFlowCycle;		// WORD 68: ÓĞÁ÷¿ØÖÆÊ±PIO´«ÊäÖÜÆÚµÄ×îĞ¡Öµ
-	unsigned short wReserved69[11];			// WORD 69-79: ±£Áô
+	}wPIOCapacity;							// WORD 64: é«˜çº§PIOæ”¯æŒèƒ½åŠ›
+	unsigned short wMinMultiWordDMACycle;	// WORD 65: å¤šå­—èŠ‚DMAä¼ è¾“å‘¨æœŸçš„æœ€å°å€¼
+	unsigned short wRecMultiWordDMACycle;	// WORD 66: å¤šå­—èŠ‚DMAä¼ è¾“å‘¨æœŸçš„å»ºè®®å€¼
+	unsigned short wMinPIONoFlowCycle;		// WORD 67: æ— æµæ§åˆ¶æ—¶PIOä¼ è¾“å‘¨æœŸçš„æœ€å°å€¼
+	unsigned short wMinPOIFlowCycle;		// WORD 68: æœ‰æµæ§åˆ¶æ—¶PIOä¼ è¾“å‘¨æœŸçš„æœ€å°å€¼
+	unsigned short wReserved69[11];			// WORD 69-79: ä¿ç•™
 	struct {
 		unsigned short Reserved1:1;
-		unsigned short ATA1:1;				// 1=Ö§³ÖATA-1
-		unsigned short ATA2:1;				// 1=Ö§³ÖATA-2
-		unsigned short ATA3:1;				// 1=Ö§³ÖATA-3
-		unsigned short ATA4:1;				// 1=Ö§³ÖATA/ATAPI-4
-		unsigned short ATA5:1;				// 1=Ö§³ÖATA/ATAPI-5
-		unsigned short ATA6:1;				// 1=Ö§³ÖATA/ATAPI-6
-		unsigned short ATA7:1;				// 1=Ö§³ÖATA/ATAPI-7
-		unsigned short ATA8:1;				// 1=Ö§³ÖATA/ATAPI-8
-		unsigned short ATA9:1;				// 1=Ö§³ÖATA/ATAPI-9
-		unsigned short ATA10:1;				// 1=Ö§³ÖATA/ATAPI-10
-		unsigned short ATA11:1;				// 1=Ö§³ÖATA/ATAPI-11
-		unsigned short ATA12:1;				// 1=Ö§³ÖATA/ATAPI-12
-		unsigned short ATA13:1;				// 1=Ö§³ÖATA/ATAPI-13
-		unsigned short ATA14:1;				// 1=Ö§³ÖATA/ATAPI-14
+		unsigned short ATA1:1;				// 1=æ”¯æŒATA-1
+		unsigned short ATA2:1;				// 1=æ”¯æŒATA-2
+		unsigned short ATA3:1;				// 1=æ”¯æŒATA-3
+		unsigned short ATA4:1;				// 1=æ”¯æŒATA/ATAPI-4
+		unsigned short ATA5:1;				// 1=æ”¯æŒATA/ATAPI-5
+		unsigned short ATA6:1;				// 1=æ”¯æŒATA/ATAPI-6
+		unsigned short ATA7:1;				// 1=æ”¯æŒATA/ATAPI-7
+		unsigned short ATA8:1;				// 1=æ”¯æŒATA/ATAPI-8
+		unsigned short ATA9:1;				// 1=æ”¯æŒATA/ATAPI-9
+		unsigned short ATA10:1;				// 1=æ”¯æŒATA/ATAPI-10
+		unsigned short ATA11:1;				// 1=æ”¯æŒATA/ATAPI-11
+		unsigned short ATA12:1;				// 1=æ”¯æŒATA/ATAPI-12
+		unsigned short ATA13:1;				// 1=æ”¯æŒATA/ATAPI-13
+		unsigned short ATA14:1;				// 1=æ”¯æŒATA/ATAPI-14
 		unsigned short Reserved2:1;
-	}wMajorVersion;							// WORD 80: Ö÷°æ±¾
-	unsigned short wMinorVersion;			// WORD 81: ¸±°æ±¾
-	unsigned short wReserved82[6];			// WORD 82-87: ±£Áô
+	}wMajorVersion;							// WORD 80: ä¸»ç‰ˆæœ¬
+	unsigned short wMinorVersion;			// WORD 81: å‰¯ç‰ˆæœ¬
+	unsigned short wReserved82[6];			// WORD 82-87: ä¿ç•™
 	struct {
-		unsigned short Mode0:1;				// 1=Ö§³ÖÄ£Ê½0 (16.7Mb/s)
-		unsigned short Mode1:1;				// 1=Ö§³ÖÄ£Ê½1 (25Mb/s)
-		unsigned short Mode2:1;				// 1=Ö§³ÖÄ£Ê½2 (33Mb/s)
-		unsigned short Mode3:1;				// 1=Ö§³ÖÄ£Ê½3 (44Mb/s)
-		unsigned short Mode4:1;				// 1=Ö§³ÖÄ£Ê½4 (66Mb/s)
-		unsigned short Mode5:1;				// 1=Ö§³ÖÄ£Ê½5 (100Mb/s)
-		unsigned short Mode6:1;				// 1=Ö§³ÖÄ£Ê½6 (133Mb/s)
-		unsigned short Mode7:1;				// 1=Ö§³ÖÄ£Ê½7 (166Mb/s) ???
-		unsigned short Mode0Sel:1;			// 1=ÒÑÑ¡ÔñÄ£Ê½0
-		unsigned short Mode1Sel:1;			// 1=ÒÑÑ¡ÔñÄ£Ê½1
-		unsigned short Mode2Sel:1;			// 1=ÒÑÑ¡ÔñÄ£Ê½2
-		unsigned short Mode3Sel:1;			// 1=ÒÑÑ¡ÔñÄ£Ê½3
-		unsigned short Mode4Sel:1;			// 1=ÒÑÑ¡ÔñÄ£Ê½4
-		unsigned short Mode5Sel:1;			// 1=ÒÑÑ¡ÔñÄ£Ê½5
-		unsigned short Mode6Sel:1;			// 1=ÒÑÑ¡ÔñÄ£Ê½6
-		unsigned short Mode7Sel:1;			// 1=ÒÑÑ¡ÔñÄ£Ê½7
-	}wUltraDMA;								// WORD 88:  Ultra DMAÖ§³ÖÄÜÁ¦
+		unsigned short Mode0:1;				// 1=æ”¯æŒæ¨¡å¼0 (16.7Mb/s)
+		unsigned short Mode1:1;				// 1=æ”¯æŒæ¨¡å¼1 (25Mb/s)
+		unsigned short Mode2:1;				// 1=æ”¯æŒæ¨¡å¼2 (33Mb/s)
+		unsigned short Mode3:1;				// 1=æ”¯æŒæ¨¡å¼3 (44Mb/s)
+		unsigned short Mode4:1;				// 1=æ”¯æŒæ¨¡å¼4 (66Mb/s)
+		unsigned short Mode5:1;				// 1=æ”¯æŒæ¨¡å¼5 (100Mb/s)
+		unsigned short Mode6:1;				// 1=æ”¯æŒæ¨¡å¼6 (133Mb/s)
+		unsigned short Mode7:1;				// 1=æ”¯æŒæ¨¡å¼7 (166Mb/s) ???
+		unsigned short Mode0Sel:1;			// 1=å·²é€‰æ‹©æ¨¡å¼0
+		unsigned short Mode1Sel:1;			// 1=å·²é€‰æ‹©æ¨¡å¼1
+		unsigned short Mode2Sel:1;			// 1=å·²é€‰æ‹©æ¨¡å¼2
+		unsigned short Mode3Sel:1;			// 1=å·²é€‰æ‹©æ¨¡å¼3
+		unsigned short Mode4Sel:1;			// 1=å·²é€‰æ‹©æ¨¡å¼4
+		unsigned short Mode5Sel:1;			// 1=å·²é€‰æ‹©æ¨¡å¼5
+		unsigned short Mode6Sel:1;			// 1=å·²é€‰æ‹©æ¨¡å¼6
+		unsigned short Mode7Sel:1;			// 1=å·²é€‰æ‹©æ¨¡å¼7
+	}wUltraDMA;								// WORD 88:  Ultra DMAæ”¯æŒèƒ½åŠ›
 	unsigned short wReserved89[167];		// WORD 89-255
 };
 
@@ -138,7 +138,7 @@ void inti_hdd(void);
 void read_disk(u32 LBA, u16 *buffer, u32 number);
 void hdd_wait(void);
 
-/**´ÅÅÌ²ÎÊı»ñÈ¡º¯Êı*/
+/**ç£ç›˜å‚æ•°è·å–å‡½æ•°*/
 static void HD_get_phy_info(struct HD_info *info);
 
 void int_HDC_handle(void);

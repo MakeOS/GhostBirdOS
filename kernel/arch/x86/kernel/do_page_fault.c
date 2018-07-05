@@ -1,7 +1,7 @@
 /**
  * Copyright 2013-2015 by Explorer Developers.
  * made by Lab Explorer Developers<1@GhostBirdOS.org>
- * Explorer Ò³¹ÊÕÏ´¦Àí³ÌĞò
+ * Explorer é¡µæ•…éšœå¤„ç†ç¨‹åº
  * Explorer/arch/x86/kernel/do_page_fault.c
  * version:Alpha
  * 8/7/2014 10:46 AM
@@ -15,12 +15,12 @@
 
 int rentry = 0;
 
-/**Ò³¹ÊÕÏ´¦Àíº¯Êı*/
+/**é¡µæ•…éšœå¤„ç†å‡½æ•°*/
 void do_page_fault(int error_code)
 {
 	u32 cr2, *pdt, *pt, *new_page;
 	
-	/**ÅĞ¶ÏÊÇ·ñÖØÈë*/
+	/**åˆ¤æ–­æ˜¯å¦é‡å…¥*/
 	if (rentry != 0)
 	{
 		printk("rentry!!!");
@@ -29,48 +29,48 @@ void do_page_fault(int error_code)
 		rentry = 1;
 	}
 	
-	/**¶ÁÈ¡CR2ĞÅÏ¢*/
+	/**è¯»å–CR2ä¿¡æ¯*/
 	cr2 = read_CR2();
 	pdt = (u32 *) (read_CR3() & 0xfffff000);
 	
 		
-	/**ÅĞ¶ÏÊÇ·ñÊÇÈ±Ò³Òı·¢µÄÖĞ¶Ï*/
+	/**åˆ¤æ–­æ˜¯å¦æ˜¯ç¼ºé¡µå¼•å‘çš„ä¸­æ–­*/
 	if ((error_code == 2) | (error_code == 0))
 	{
 		printk("do page fault address:%#X.\n", cr2);
 		
-		/**Èç¹û¹ÊÕÏÔ­ÒòÊÇÃ»ÓĞÒ³±í*/
+		/**å¦‚æœæ•…éšœåŸå› æ˜¯æ²¡æœ‰é¡µè¡¨*/
 		if ((pdt[(cr2 >> 22)] & 1) == 0)
 		{
-			/**»ñÈ¡Ò»¸öĞÂÒ³*/
+			/**è·å–ä¸€ä¸ªæ–°é¡µ*/
 			for (new_page = NULL; new_page == NULL; )
 				new_page = vmalloc(PAGE_SIZE);
 			
-			/**·ÅÖÃĞÂÒ³×÷ÎªÒ³±í£¨Ò³Ä¿Â¼±íºÍÒ³±í¾ùÔÚÄÚºËÌ¬¿Õ¼äÖĞ£©*/
+			/**æ”¾ç½®æ–°é¡µä½œä¸ºé¡µè¡¨ï¼ˆé¡µç›®å½•è¡¨å’Œé¡µè¡¨å‡åœ¨å†…æ ¸æ€ç©ºé—´ä¸­ï¼‰*/
 			pdt[(cr2 >> 22)] = ((unsigned int)new_page | 0x7);
 			
-			/**Çå¿ÕÕâ¸öÒ³£¬±£Ö¤²»»á³öÏÖ¸ÉÈÅ*/
+			/**æ¸…ç©ºè¿™ä¸ªé¡µï¼Œä¿è¯ä¸ä¼šå‡ºç°å¹²æ‰°*/
 			memset((u8 *) (pdt[(cr2 >> 22)]), 0x00, ((4096 - 256) / 4));
 		}
 		
-		/**ÏÈ»ñÈ¡Ò³±íµØÖ·*/
+		/**å…ˆè·å–é¡µè¡¨åœ°å€*/
 		pt = (u32 *)(pdt[(cr2 >> 22)] & 0xfffff000);
 		
-		/**ÎŞÂÛÊÇ·ñ³öÏÖÈ±Ò³±íµÄÇé¿ö£¬Ò»¶¨È±ÉÙÒ³*/
+		/**æ— è®ºæ˜¯å¦å‡ºç°ç¼ºé¡µè¡¨çš„æƒ…å†µï¼Œä¸€å®šç¼ºå°‘é¡µ*/
 		pt[(cr2 & 0x3FF000) >> 12] = (get_free_page() | 0x7);
 		
-		/*ÏÔÊ¾ĞÅÏ¢¼°·µ»Ø*/
+		/*æ˜¾ç¤ºä¿¡æ¯åŠè¿”å›*/
 		//printk("Page fault:allocated.%X",pdt[(cr2 >> 22)]);
 		
 		goto finish;
 	}else{
-		/**¿ªÆôshell*/
+		/**å¼€å¯shell*/
 		enable_shell();
 		
-		/**¹Ø±Õshell*/
+		/**å…³é—­shell*/
 		printk("Page fault:(Unknown)error code:0x%X", error_code);
 		
-		/**Í£»úÖ¸Áî*/
+		/**åœæœºæŒ‡ä»¤*/
 		io_hlt();
 	}
 	

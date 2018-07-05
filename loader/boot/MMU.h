@@ -4,7 +4,7 @@
 #ifndef MMU_H_
 #define MMU_H_
 
-/**不可回收内存分配函数*/
+/**涓嶅彲鍥炴敹鍐呭瓨鍒嗛厤鍑芥暟*/
 void *bmalloc(unsigned long size);
 
 #endif

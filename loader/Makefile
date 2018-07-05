@@ -19,10 +19,8 @@ install:
 	cd boot && make install
 	
 clean:
-	#$(RM) boot/BOOT
-	#$(RM) mbr/MBR.bin
-	#$(RM) boot/*.o
-	#$(RM) boot/*.bin
+	cd mbr && make clean
+	cd boot && make clean
 	
 	
 # part of functions
