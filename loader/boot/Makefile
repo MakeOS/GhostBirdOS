@@ -24,9 +24,6 @@ TARGET = BOOT
 
 sinclude $(OBJS:.o=.d)
 
-test:
-	echo $(OBJS)
-
 install:BOOT
 	$(GFR) -ws $(TARGET) $(image) 2
 
