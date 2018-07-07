@@ -1,6 +1,6 @@
 /**
  * Copyright2013-2015 by Explorer OS Developers. All rights reserved.
- * made by Rise<amazingrise@163.com>
+ * made by Rise<amazingrise@126.com>
  * Explorer loader VI Header
  */
  
