@@ -13,6 +13,7 @@ Reserved Sector boot section of Explorer kernel loader program.
 本目录下存在的文件或文件夹：
 \Makefile：提供Boot的编译、调试描述。
 \README：本文件。用于描述、说明Boot部分。
+\lib：整个boot需要的一些库
 
 设计思路及实现原理：
 主引导程序（MBR）将保留扇区引导程序加载到内存后，
@@ -50,3 +51,8 @@ Reserved Sector boot section of Explorer kernel loader program.
 开发者提示：进行新型外部储存器的接口开发时，务
 必保证至少下列功能的完整实现：读取/写入、初始化
 操作。
+
+注意事项: MBR.basm而不是MBR.asm，通过这种方法
+在本项目的其他 Makefile中区分生成二进制文件的汇
+编程序和生成ELF格 式的汇编程序，后者与其他生成同
+样格式的汇编文件、C及 C++文件链接。
