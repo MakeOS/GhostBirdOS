@@ -10,6 +10,7 @@
 
 # There are some command different among OS
 
+
 all:
 	cd mbr && make all
 	cd boot && make all

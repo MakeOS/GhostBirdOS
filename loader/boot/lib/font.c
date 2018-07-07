@@ -8,7 +8,7 @@
  */
 
 #include "font.h"
- 
+
 unsigned char font[FONTDATAMAX] = {
 
 	/* 0 0x00 '^@' */

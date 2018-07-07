@@ -29,7 +29,7 @@ start:
 	mov		[es:si],ax
 	add		si,2
 	loop	.moveloop
-	
+
 	; 跳转至0x1000:load
 	jmp		0x1000:load
 	

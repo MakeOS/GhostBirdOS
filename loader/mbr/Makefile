@@ -12,7 +12,7 @@ all:
 	make MBR.bin
 	
 install:MBR.bin
-	$(gfr) -ws MBR.bin $(image) 1
+	$(GFR) -ws MBR.bin $(image) 1
 	
 clean:
 	$(RM) MBR.bin

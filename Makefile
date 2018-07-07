@@ -13,23 +13,23 @@ CXX     = g++
 NS      = nasm
 LD      = ld
 OBJCOPY = objcopy
+GFR     = gfr
 qemu = qemu-system-i386
 image = $(CURDIR)/image/image.vhd
 compress = makecab
 depress = expand
 
-export CC NS LD OBJCOPY
+export CC NS LD OBJCOPY GFR
 export image qemu
 
+export PATH += :$(CURDIR)/tools/gfr
 
 .PHONY:gfr
 .PHONY:loader kernel
 .PHONY:$(image)
 .PHONY:help
 .PHONY:clean
-.PHONY:run
-.PHONY:install
-.PHONY:all
+.PHONY:all install run
 
 gfr:
 	cd tools/gfr && make all
@@ -42,7 +42,16 @@ kernel:
 
 prepare:$(image:.vhd = .zip) $(image)
 	$(depress) $(image:.vhd=.zip) $(image)
-		
+
+clean_loader:
+	cd loader && make clean
+
+clean_gfr:
+	cd tools/gfr && make clean
+
+clean_kernel:
+	cd kernel && make clean
+
 clean:
 	cd loader && make clean
 	cd tools/gfr && make clean

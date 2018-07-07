@@ -11,16 +11,12 @@
 # Note that there is a boota.asm, which is boota.o in the first element
 # of $(OBJ), because it has entry "_start"
 
-DIRS := $(shell find . -maxdepth 9 -type d)
-C_SRCS := $(foreach dir, $(DIRS), $(wildcard $(dir)/*.c))
-ASM_SRCS := $(foreach dir, $(DIRS), $(wildcard $(dir)/*.asm))
-
-OBJS := $(patsubst %.c, %.o, $(C_SRCS))
-OBJS += $(patsubst %.asm, %.o, $(ASM_SRCS))
+OBJS := ./boota.o ./MMU.o  ./bootc.o  ./VI.o  ./fs.o  ./storage.o \
+./lib/string.o  ./lib/font.o  ./lib/vsprintf.o  ./lib/mem.o
 
 OBJCOPYFLAGS := -R .note -R .comment -S
 
-LDFLAGS  := -m elf_i386
+LDFLAGS  := -m elf_i386 -e _start
 CFLAGS   := -fno-stack-protector -I $(CURDIR)/include
 ASMFLAGS := -f elf
 
@@ -28,8 +24,11 @@ TARGET = BOOT
 
 sinclude $(OBJS:.o=.d)
 
+test:
+	echo $(OBJS)
+
 install:BOOT
-	$(gfr) -ws $(TARGET) $(image) 2
+	$(GFR) -ws $(TARGET) $(image) 2
 
 all: $(TARGET)
 	
@@ -39,7 +38,7 @@ $(TARGET):setup.bin boot.bin
 	cat setup.bin boot.bin > $(TARGET)
 	
 boot.bin:boot.o
-	$(OBJCOPY) -O binary boot.o boot.bin
+	$(OBJCOPY) $(OBJCOPYFLAGS) -O binary boot.o boot.bin
 	
 boot.o:$(OBJS)
 	$(LD) $(LDFLAGS) -o $@ -Ttext 0x11000 $(OBJS)

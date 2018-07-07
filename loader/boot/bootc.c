@@ -404,6 +404,9 @@ void keyboard_handle(void)
 	
 	/**F2键触发*/
 	if (key_val == 0x3C) VI_active(VI_page_select);
+
+	/**Enter*/
+	if (key_val == 0x1C) select_press();
 	
 	/**Esc键触发*/
 	if (key_val == 0x1) reset();
@@ -429,11 +432,34 @@ void int_auto_return(void)
 
 int callback(int n, int type)
 {
-	if (n == 0)
+	if (type == VI_DO_OVER)
 	{
-		
+		switch (n)
+		{
+			case 0:
+				printi("A muti-task, Graphical Operating System with window support.");
+				break;
+			case 1:
+				printi("A mysterious Operating System.");
+				break;
+			case 2:
+				printi("Another mysterious Operating System.");
+				break;
+		}
 	}else{
-		
+		switch (n)
+		{
+			case 0:
+				printk("Select Ghost Bird OS 0.02(Explorer kernel).\n");
+				break;
+			case 1:
+				printk("Select Dragon 0.40 Beta.\n");
+				break;
+			case 2:
+				printk("Select DolphinOS.\n");
+				break;
+		}
+		VI_active(VI_page_output);
 	}
 }
 
@@ -500,10 +526,14 @@ void BOOT_main(const struct boot_info *boot_info)
 	
 	// Example
 	printak("<0xaaaaff>Hello, This is Explorer loader!\n</>");
-	select_register(0, callback, "show 'Hello, world!'");
-	select_register(1, callback, "show 'Explorer loader'");
-	io_hlt();
+	select_register(0, callback, "Ghost Bird OS 0.02(Explorer kernel)");
+	select_register(1, callback, "Dragon 0.40 Beta");
+	select_register(2, callback, "DolphinOS");
 	
+	VI_active(VI_page_select);
+
+	io_hlt();
+	fin:goto fin;
 	/**加载内核*/
 	read_file(0, 0, KERNEL_NAME, KERNEL_ADDR, 1);
 	

@@ -37,7 +37,7 @@ VIDEO_VMWARE_800_600	EQU	0x4140
 	org		0x10200			;loaded into 0x10200
 [bits 16]
 
-entry:
+setup:
 	; init for registers
 	mov		ax,cs
 	mov		ds,ax
@@ -87,6 +87,7 @@ entry:
 	mov		ax,0x4F02		;VBE/set video mode
 	mov		bx,vbe_mode		;800*600*24bit
 	int		0x10
+
 	; close the interruption
 	cli
 	; load GDTR
@@ -118,15 +119,20 @@ entry:
 	mov		word[code_sel], 0x08
 	mov		word[data_sel], 0x10
 	mov		eax, boot_info
-	; running body
-	jmp		_start
 	
+	jmp		section_entry
 
-; 数据区
+error:
+	hlt
+	jmp		error
+
+; data part
+
+
 ; boot info
 boot_info:
 	; boot info header
-	db		"EBI",0x00									;启动信息结构特殊标识
+	db		"EBI",0x00							;启动信息结构特殊标识
 	dd		boot_info_end - boot_info					;启动信息结构的长度
 	
 	; 32-bit 0-4GB Code Segment Descriptor Seletor
@@ -184,6 +190,6 @@ stack:
 
 
 ; loader program's body
-_start:
+section_entry:
 	; this function is in /arch/x86/kernel/_start.asm,
 	; running in 32-bit Protect-mode.
