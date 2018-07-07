@@ -10,23 +10,23 @@
 #ifndef STORAGE_H_
 #define STORAGE_H_
 
-/**¶¨ÒåÉÈÇø´óĞ¡*/
+/**å®šä¹‰æ‰‡åŒºå¤§å°*/
 #define SECTOR_SIZE 512
 
-/**´¢´æÆ÷ºÅ·ÖÅä*/
+/**å‚¨å­˜å™¨å·åˆ†é…*/
 #define SD_IDE_00 0
 #define SD_IDE_01 1
 #define SD_IDE_10 2
 #define SD_IDE_11 3
 #define SD_NUM (SD_IDE_11 + 1)
 
-/**´¢´æÆ÷ÃèÊö½á¹¹ËùĞèÒªµÄÄÚ´æ´óĞ¡*/
-#define storage_SD_size SD_MAX * sizeof(struct Storage_Description)					// ´¢´æÆ÷ÃèÊö·û±í´óĞ¡
+/**å‚¨å­˜å™¨æè¿°ç»“æ„æ‰€éœ€è¦çš„å†…å­˜å¤§å°*/
+#define storage_SD_size SD_MAX * sizeof(struct Storage_Description)					// å‚¨å­˜å™¨æè¿°ç¬¦è¡¨å¤§å°
 
-#pragma pack(push)					// ±£´æµ±Ç°¶ÔÆëĞÅÏ¢
-#pragma pack(1)						// Éè¶¨½á¹¹ÌåÒÔÒ»¸ö×Ö½ÚÎªµ¥Î»¶ÔÆë
+#pragma pack(push)					// ä¿å­˜å½“å‰å¯¹é½ä¿¡æ¯
+#pragma pack(1)						// è®¾å®šç»“æ„ä½“ä»¥ä¸€ä¸ªå­—èŠ‚ä¸ºå•ä½å¯¹é½
 
-/**´¢´æÆ÷·ÖÇø½á¹¹Ìå*/
+/**å‚¨å­˜å™¨åˆ†åŒºç»“æ„ä½“*/
 struct Storage_Partition{
 	unsigned char active;
 	unsigned char CHS_start[3];
@@ -36,14 +36,14 @@ struct Storage_Partition{
 	unsigned int size_sector;
 };
 
-#pragma pack(pop)					// »Ö¸´Ô­À´µÄ¶ÔÆëµ¥Î»
+#pragma pack(pop)					// æ¢å¤åŸæ¥çš„å¯¹é½å•ä½
 
 #ifndef STORAGE_C_
 
-/**´æ·ÅÉÈÇøÄÚ´æÖ¸Õë*/
+/**å­˜æ”¾æ‰‡åŒºå†…å­˜æŒ‡é’ˆ*/
 extern void *sector_buffer;
 
-/**´¢´æÆ÷ÃèÊö·û±í*/
+/**å‚¨å­˜å™¨æè¿°ç¬¦è¡¨*/
 struct Storage_Description
 {
 	_Bool exist;
@@ -53,17 +53,17 @@ extern struct Storage_Description *SD;
 
 #endif
 
-/**·µ»ØÖµÇé¿ö*/
-#define STORAGE_RETVAL_NORMAL 0				// ²»Ö§³Ö
-#define STORAGE_RETVAL_ERR_NOT_SUPPORT -1	// ²»Ö§³Ö
+/**è¿”å›å€¼æƒ…å†µ*/
+#define STORAGE_RETVAL_NORMAL 0				// ä¸æ”¯æŒ
+#define STORAGE_RETVAL_ERR_NOT_SUPPORT -1	// ä¸æ”¯æŒ
 
-/**¶Á´¢´æÆ÷ÉÈÇøº¯Êı*/
+/**è¯»å‚¨å­˜å™¨æ‰‡åŒºå‡½æ•°*/
 int storage_read(unsigned long storage_number, void *dest, unsigned long LBA_addr, unsigned long n);
 
-/**·µ»Ø»î¶¯·ÖÇøµÄÊıÁ¿*/
+/**è¿”å›æ´»åŠ¨åˆ†åŒºçš„æ•°é‡*/
 unsigned long storage_active_partition(void);
 
-/**³õÊ¼»¯´¢´æÆ÷¹ÜÀíº¯Êı*/
+/**åˆå§‹åŒ–å‚¨å­˜å™¨ç®¡ç†å‡½æ•°*/
 unsigned int init_storage(void);
 
 #endif

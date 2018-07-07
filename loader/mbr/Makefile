@@ -5,13 +5,15 @@
 # compile all the MBR
 
 	
-MBR.bin: MBR.asm
-	$(AS) MBR.asm -o MBR.bin
+MBR.bin: MBR.basm
+	$(NS) MBR.basm -o MBR.bin
 	
 all:
 	make MBR.bin
 	
 install:MBR.bin
-	$(gfr) -ws MBR.bin $(image) 1
+	$(GFR) -ws MBR.bin $(image) 1
 	
+clean:
+	$(RM) MBR.bin
 	

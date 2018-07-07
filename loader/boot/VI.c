@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Copyright 2013-2015 by Explorer Developers.
  * made by Hu Wenjie<1@hwj.me>
  * made by Rise<amazingrise@163.com>
@@ -36,7 +36,8 @@ char *VI_output_buf, *VI_introduce_buf;
 unsigned int *VI_output_back_buf;
 
 /**各区域起始位置*/
-unsigned long VI_x, VI_title_y, VI_page_y, VI_notice_y, VI_introduce_x, VI_introduce_y, VI_select_x, VI_select_y;
+unsigned long	VI_x, VI_title_y, VI_page_y, VI_notice_y, \
+		VI_introduce_x, VI_introduce_y, VI_select_x, VI_select_y;
 
 /**活动选项，0xffffffff代表未选择*/
 unsigned long select_active;
@@ -52,9 +53,12 @@ struct VI_select
 }*VI_select;
 
 // VI相关数据储存所需要的内存
-#define		VI_output_buf_size		VI_output_line * VI_output_column							// 输出储存大小
-#define		VI_introduce_buf_size	VI_introduce_line * VI_introduce_column						// 说明储存大小
-#define		VI_select_buf_size		VI_select_number * sizeof(struct VI_select)					// 选择结构体大小
+#define		VI_output_buf_size \
+		VI_output_line * VI_output_column		// 输出储存大小
+#define		VI_introduce_buf_size \
+		VI_introduce_line * VI_introduce_column		// 说明储存大小
+#define		VI_select_buf_size \
+		VI_select_number * sizeof(struct VI_select)	// 选择结构体大小
 
 /**输出页的字符颜色*/
 unsigned long output_font_color;
@@ -262,6 +266,18 @@ int select_register(const unsigned long n, int (*callback)(int n, int type), con
 	/**防止空指针引发危险*/
 	va_end(arg);
 	
+	if (select_active == n)
+	{
+		/**Before calling the callback function, we have to check if pointer 
+		callback equal (void *)0*/
+		if (!VI_select[select_active].callback)
+		{
+			select_default_callback(n, VI_DO_OVER);
+		}else{
+			VI_select[select_active].callback(n, VI_DO_OVER);
+		}
+	}
+
 	/**若之前无选项则默认选择这个*/
 	if (select_active == 0xffffffff)
 	{
@@ -310,23 +326,62 @@ int select_set_active(unsigned long n)
 		rectangle(VI_select_x, VI_select_y + (n * FONTHEIGHT), VI_select_width, FONTHEIGHT, select_back_color);
 		outtextxy(VI_select_x, VI_select_y + (n * FONTHEIGHT), select_font_color, VI_select[n].text);
 	}
-	
+
 	/**设置新的活动选择*/
 	select_active = n;
 	
+	/**Before calling the callback function, we have to check if pointer 
+	callback equal (void *)0*/
+	if (!VI_select[select_active].callback)
+	{
+		select_default_callback(n, VI_DO_OVER);
+	}else{
+		VI_select[select_active].callback(n, VI_DO_OVER);
+	}
+
 	/**正常返回*/
 	return n;
+}
+
+/**Default operating handle*/
+int select_default_callback(int n, int type)
+{
+	printak("<0xadff2f>Vistual Information:</>");
+
+	switch (type)
+	{
+		case VI_DO_PRES:
+			printak("<0xcc2222>Pressed key ENTER on selection No.%d.\n</>", n);
+			break;
+
+		case VI_DO_OVER:
+			printak("<0x2222cc>Over the selection No.%d.\n</>", n);
+			break;
+
+		default:
+			printak("<0x666666>Unknown No.%d.\n</>", n);
+			break;
+	}
+	
+	return 0;
 }
 
 /**确定选择函数*/
 void select_press(void)
 {
+	if (VI_current_page != VI_page_select) return;
+
 	/**判断是否越界*/
 	if (select_active == 0xffffffff) return;
-	if (select_active == 0) return;
 	
-	/**调用*/
-	VI_select[select_active].callback(select_active, VI_DO_PRES);
+	/**Before calling the callback function, we have to check if pointer 
+	callback equal (void *)0*/
+	if (!VI_select[select_active].callback)
+	{
+		select_default_callback(select_active, VI_DO_PRES);
+	}else{
+		VI_select[select_active].callback(select_active, VI_DO_PRES);
+	}
 }
 
 /**向上选择函数*/
@@ -334,15 +389,14 @@ void select_up(void)
 {
 	long n;
 	
+	if (VI_current_page != VI_page_select) return;
+	
 	/**判断是否越界*/
 	if (select_active == 0xffffffff) return;
 	if (select_active == 0) return;
 	
 	/**活动选项上移*/
 	for (n = -1; select_set_active(select_active + n) == -2; n --);
-	
-	/**调用*/
-	VI_select[select_active].callback(select_active, VI_DO_OVER);
 }
 
 /**向下选择函数*/
@@ -350,14 +404,13 @@ void select_down(void)
 {
 	long n;
 	
+	if (VI_current_page != VI_page_select) return;
+
 	/**判断是否越界*/
 	if (select_active == 0xffffffff) return;
 	
 	/**活动选项下移*/
 	for (n = 1; select_set_active(select_active + n) == -2; n ++);
-	
-	/**调用*/
-	VI_select[select_active].callback(select_active, VI_DO_OVER);
 }
 
 /**打印函数集合*/
@@ -491,6 +544,9 @@ int printi(const char *fmt, ...)
 	/**选择页的光标*/
 	unsigned long introduce_cursor_x, introduce_cursor_y;
 	
+	/**Clean the notice erea*/
+	memset(VI_introduce_buf, 0, VI_introduce_buf_size * VI_output_page_number);
+	
 	/**format*/
 	va_start(arg, fmt);/*init argument point*/
 	vsprintf(buffer, fmt, arg);/*write format & get length*/
@@ -613,7 +669,13 @@ int warning(unsigned int warncode, const char *fmt, ...)
 
 /**初始化可视化界面*/
 void init_VI(void)
-{	
+{
+	unsigned int actual_width, actual_height;
+	
+	/**Calculate the actual width and height, if video resolution small
+	than minimum, loader stop; Larger than the maximum, the actual 
+	resolution is the largest; Otherwise actual = video.*/
+	
 	/**计算起始坐标，保持可视化界面在正中央*/
 	VI_x = (Video_Info.xres - VI_width) / 2;
 	VI_title_y = (Video_Info.yres - (title_height + VI_page_height + notice_height)) / 2;
@@ -667,7 +729,7 @@ void init_VI(void)
 	
 	/**输出必要信息*/
 	// printi("Use the %c and %c to select one Operating System and use the Enter to start it.", 24, 25);
-	printi("No Option can be selected.", 24, 25);
+	// printi("No Option can be selected.", 24, 25);
 	printn("F1 output page            F2 select page            Esc reset");
 	printak("<0xFF0000>" copyright "</> <0xFF4500>" author "</>.\n<0x87CEFF>" software_name "</> <0xffff00>" version "</> <0xEE9A00>" build "</>\n" info "\n");
 	

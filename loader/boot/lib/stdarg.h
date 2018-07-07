@@ -12,8 +12,8 @@
 typedef char* va_list;
 
 #define _INTSIZEOF(n) ((sizeof(n)+sizeof(int)-1)&~(sizeof(int) - 1) )
-#define va_start(ap,v) ( ap = (va_list)&v + _INTSIZEOF(v) )					//µÚÒ»¸ö¿ÉÑ¡²ÎÊıµØÖ·
-#define va_arg(ap,t) ( *(t *)((ap += _INTSIZEOF(t)) - _INTSIZEOF(t)) ) 		//ÏÂÒ»¸ö²ÎÊıµØÖ·
-#define va_end(ap) ( ap = (va_list)0 ) 										// ½«Ö¸ÕëÖÃÎªÎŞĞ§
+#define va_start(ap,v) ( ap = (va_list)&v + _INTSIZEOF(v) )					//ç¬¬ä¸€ä¸ªå¯é€‰å‚æ•°åœ°å€
+#define va_arg(ap,t) ( *(t *)((ap += _INTSIZEOF(t)) - _INTSIZEOF(t)) ) 		//ä¸‹ä¸€ä¸ªå‚æ•°åœ°å€
+#define va_end(ap) ( ap = (va_list)0 ) 										// å°†æŒ‡é’ˆç½®ä¸ºæ— æ•ˆ
 
 #endif

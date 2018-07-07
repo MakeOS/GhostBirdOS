@@ -8,11 +8,26 @@
 # Copyright (c) 2017, Ghost Bird Operating System Project Developers.
 # All rights reserved.
 
+DIRS := $(shell find . -maxdepth 9 -type d)
+SRCS := $(foreach dir, $(DIRS), $(wildcard $(dir)/*.c))
+OBJS := $(patsubst %.c, %.o, $(SRCS))
 LDFLAGS := -Wall -O2
-CFLAGS := -I C:/MinGW/include
+CFLAGS := -fno-stack-protector
+GFR = gfr
 
-all:
-	$(CC) gfr.c -o gfr.exe $(LDFLAGS) $(CFLAGS)
-	
+EXEC_NAME = $(GFR)
+
+sinclude $(SRCS:.c=.d)
+
+all: $(EXEC_NAME)
+
+
+$(EXEC_NAME): $(OBJS)
+	$(CC) $(LDFLAGS) -o $(EXEC_NAME) $(OBJS)
+
+%.d: %.c
+	@$(CC) -M $(CFLAGS) $< > $@; \
+	sed -i 's,$(notdir $*)\.o[ :]*,$*.o $@ : ,g' $@;
+
 clean:
-	$(RM) gfr.exe
+	$(RM) $(EXEC_NAME) *.exe $(OBJS) $(SRCS:.c=.d)

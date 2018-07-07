@@ -10,6 +10,7 @@
 
 # There are some command different among OS
 
+
 all:
 	cd mbr && make all
 	cd boot && make all
@@ -19,10 +20,8 @@ install:
 	cd boot && make install
 	
 clean:
-	$(RM) boot/BOOT
-	$(RM) mbr/MBR.bin
-	$(RM) boot/*.o
-	$(RM) boot/*.bin
+	cd mbr && make clean
+	cd boot && make clean
 	
 	
 # part of functions

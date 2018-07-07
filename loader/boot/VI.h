@@ -7,6 +7,12 @@
 #ifndef VI_H_
 #define VI_H_
 
+/**The minimum and maxmum resolution*/
+#define		VI_min_width
+#define		VI_min_height
+#define		VI_min_width
+#define		VI_min_height
+
 /**页号*/
 #define		VI_page_output 0
 #define		VI_page_select 1

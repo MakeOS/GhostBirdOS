@@ -45,15 +45,16 @@ global	create_ID
 
 
 
-; 代码区
-[section .text]
 [bits 32]
+; Code section
+
+[section .text]
 
 _start:
 	; 将EAX作为参数调用BOOT_main
 	push	eax
 	call	BOOT_main
-	add		esp,4
+	add	esp,4
 	
 	; 休机
 	call	io_hlt
@@ -180,7 +181,8 @@ int_0x2E:
 int_0x2F:
 	call	i8259A_auto_return
 	iret
-	
+
+; Data section
 [section .data]
 
 ;IDTR

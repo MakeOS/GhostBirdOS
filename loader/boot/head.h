@@ -6,7 +6,7 @@
 #define HEAD_H_
 
 
-// Í¼ĞÎĞÅÏ¢
+// å›¾å½¢ä¿¡æ¯
 struct Video_Info
 {
 	unsigned char *vram;
@@ -17,40 +17,40 @@ struct Video_Info
 
 extern struct Video_Info Video_Info;
 
-/**»æÖÆÏñËØº¯Êı*/
+/**ç»˜åˆ¶åƒç´ å‡½æ•°*/
 void (*putpixel)(unsigned int x, unsigned int y, unsigned int color);
 
-/**»ñÈ¡ÏñËØº¯Êı*/
+/**è·å–åƒç´ å‡½æ•°*/
 unsigned int (*getpixel)(unsigned int x, unsigned int y);
 
 #define FONTDATAMAX 4096
 extern unsigned char font[FONTDATAMAX];
 
 
-/**Í£»úº¯Êı
- * ¸Ãº¯ÊıÖ´ĞĞÊµÌåÊÇ»ã±àÖ¸Áîhlt
- * Ö´ĞĞ¸Ãº¯Êıºó£¬¼ÆËã»ú»áÒ»Ö±´¦ÓÚÍ£»ú×´Ì¬(µÍ¹¦ºÄ)£¬
- * Ö±µ½ÓĞÓ²¼şÖĞ¶ÏµÄ·¢Éú
+/**åœæœºå‡½æ•°
+ * è¯¥å‡½æ•°æ‰§è¡Œå®ä½“æ˜¯æ±‡ç¼–æŒ‡ä»¤hlt
+ * æ‰§è¡Œè¯¥å‡½æ•°åï¼Œè®¡ç®—æœºä¼šä¸€ç›´å¤„äºåœæœºçŠ¶æ€(ä½åŠŸè€—)ï¼Œ
+ * ç›´åˆ°æœ‰ç¡¬ä»¶ä¸­æ–­çš„å‘ç”Ÿ
  */
 void io_hlt(void);
 
-/**¹Ø±Õ´ò¿ªÖĞ¶ÏÎ»º¯Êı
- * ÕâÁ½¸öº¯ÊıÖ´ĞĞÊµÌåÊÇ»ã±àÖ¸ÁîcliºÍsti
- * io_cliº¯ÊıÖ´ĞĞºó£¬»á½«PSW¼Ä´æÆ÷µÄÖĞ¶ÏÎ»ÖÃ0£¬¹Ø±ÕÓ²¼şÖĞ¶Ï
- * io_stiº¯ÊıÖ´ĞĞºó£¬»á½«PSW¼Ä´æÆ÷µÄÖĞ¶ÏÎ»ÖÃ1£¬½ÓÊÕÓ²¼şÖĞ¶Ï
+/**å…³é—­æ‰“å¼€ä¸­æ–­ä½å‡½æ•°
+ * è¿™ä¸¤ä¸ªå‡½æ•°æ‰§è¡Œå®ä½“æ˜¯æ±‡ç¼–æŒ‡ä»¤cliå’Œsti
+ * io_cliå‡½æ•°æ‰§è¡Œåï¼Œä¼šå°†PSWå¯„å­˜å™¨çš„ä¸­æ–­ä½ç½®0ï¼Œå…³é—­ç¡¬ä»¶ä¸­æ–­
+ * io_stiå‡½æ•°æ‰§è¡Œåï¼Œä¼šå°†PSWå¯„å­˜å™¨çš„ä¸­æ–­ä½ç½®1ï¼Œæ¥æ”¶ç¡¬ä»¶ä¸­æ–­
  */
 void io_cli(void);
 void io_sti(void);
 
-/**ÊäÈëº¯Êı*/
+/**è¾“å…¥å‡½æ•°*/
 unsigned char io_in8(unsigned long port);
 unsigned short io_in16(unsigned long port);
 unsigned long io_in32(unsigned long port);
 
-#pragma pack(push)					//±£´æµ±Ç°¶ÔÆëĞÅÏ¢
-#pragma pack(1)						//Éè¶¨½á¹¹ÌåÒÔÒ»¸ö×Ö½ÚÎªµ¥Î»¶ÔÆë
+#pragma pack(push)					//ä¿å­˜å½“å‰å¯¹é½ä¿¡æ¯
+#pragma pack(1)						//è®¾å®šç»“æ„ä½“ä»¥ä¸€ä¸ªå­—èŠ‚ä¸ºå•ä½å¯¹é½
 
-/**µØÖ··¶Î§ÃèÊö·û½á¹¹Ìå*/
+/**åœ°å€èŒƒå›´æè¿°ç¬¦ç»“æ„ä½“*/
 #define ARDS_FREE	1
 #define ARDS_RESV	2
 struct Address_Range_Descriptor_Structure
@@ -62,7 +62,7 @@ struct Address_Range_Descriptor_Structure
 	unsigned int Type;
 };
 
-/**VBEĞÅÏ¢¿é½á¹¹Ìå*/
+/**VBEä¿¡æ¯å—ç»“æ„ä½“*/
 #define VBE_SIGN_NUM	4
 struct VbeInfoBlock
 {
@@ -143,32 +143,32 @@ struct ModeInfoBlock
 
 #define BOOT_FLAG_MAX	4
 #define BOOT_ARDS_NUM	8
-/**Æô¶¯ĞÅÏ¢½á¹¹Ìå*/
+/**å¯åŠ¨ä¿¡æ¯ç»“æ„ä½“*/
 struct boot_info
 {
-	/**ĞÅÏ¢Ò»¶¨ÒªÊÇ"EBI"(Explorer Boot Information)*/
+	/**ä¿¡æ¯ä¸€å®šè¦æ˜¯"EBI"(Explorer Boot Information)*/
 	char flag[BOOT_FLAG_MAX];
-	/**Æô¶¯ĞÅÏ¢³¤¶È*/
+	/**å¯åŠ¨ä¿¡æ¯é•¿åº¦*/
 	unsigned int size;
 	
-	/**±£»¤Ä£Ê½ 32Î» 0-4GB ´úÂë¶Î¶ÎÑ¡Ôñ×Ó*/
+	/**ä¿æŠ¤æ¨¡å¼ 32ä½ 0-4GB ä»£ç æ®µæ®µé€‰æ‹©å­*/
 	unsigned short code_sel;
 	
-	/**±£»¤Ä£Ê½ 32Î» 0-4GB Êı¾İ¶Î¶ÎÑ¡Ôñ×Ó*/
+	/**ä¿æŠ¤æ¨¡å¼ 32ä½ 0-4GB æ•°æ®æ®µæ®µé€‰æ‹©å­*/
 	unsigned short data_sel;
 	
-	/**ÄÚ´æ·Ö²¼ĞÅÏ¢*/
+	/**å†…å­˜åˆ†å¸ƒä¿¡æ¯*/
 	struct Address_Range_Descriptor_Structure ARDS[BOOT_ARDS_NUM];
 	
-	/**VBEĞÅÏ¢¿é½á¹¹Ìå*/
+	/**VBEä¿¡æ¯å—ç»“æ„ä½“*/
 	struct VbeInfoBlock VbeInfoBlock;
-	/**VBEÄ£Ê½ĞÅÏ¢½á¹¹Ìå*/
+	/**VBEæ¨¡å¼ä¿¡æ¯ç»“æ„ä½“*/
 	struct ModeInfoBlock ModeInfoBlock;
 };
 
-#pragma pack(pop)					//»Ö¸´Ô­À´µÄ¶ÔÆëµ¥Î»
+#pragma pack(pop)					//æ¢å¤åŸæ¥çš„å¯¹é½å•ä½
 
-// ÖĞ¶ÏÃèÊö·û±íÊôĞÔ
+// ä¸­æ–­æè¿°ç¬¦è¡¨å±æ€§
 #define IDT_P		0x8000
 #define IDT_DPL_0	0x00
 #define IDT_DPL_1	0x2000
@@ -179,7 +179,7 @@ struct boot_info
 #define trap_gate		0x700
 #define interrupt_gate	0x600
 
-// Ö÷´ÓPICµÄ¼Ä´æÆ÷¶Ë¿Ú¶¨Òå
+// ä¸»ä»PICçš„å¯„å­˜å™¨ç«¯å£å®šä¹‰
 #define PIC0_ICW1		0x0020
 #define PIC0_OCW2		0x0020
 #define PIC0_IMR		0x0021
