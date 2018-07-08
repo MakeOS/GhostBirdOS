@@ -1,13 +1,18 @@
 # How To Run #
 
-To make a great project, we try our best to support developers work no matter what platform they are using, such as Windows and Linux, Runing Ghost Bird OS needs steps as follow:
+We tried our best to support developers' working on all kinds of platforms.
+The new kernel is quite different from the older one, because of the improvement in cross-platform compiling.
 
-1. Get a stable version of source(release better).
-2. Install toolchain, virtual macthine and some other tools you need.
+Four steps to be done (if you are new here)
+1. Get a stable version of source code(release better).
+2. Install the toolkit.
 3. Prepare virtual image.
-4. Compile the code.
+4. Compile.
 
-## Get a stable version of source ##
+**If you have run it before, just follow the fourth step!**
+(Thanks to the great tool, _in /tools/GFR_)
+
+## Get a stable version of source code ##
 
 You can easily download and participate in the development of Ghost Bird Operating System Project by the following way:
 
