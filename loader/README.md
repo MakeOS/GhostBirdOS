@@ -2,9 +2,7 @@ Copyright 2018 GhostBird OS
 
 Lab Explorer Loader
 
-(本引导程序所使用的许可证类型尚不明朗。)
-
-(The lisence still remains uncertain.)
+GhostBird OS is licensed under the BSD 2-Clause "Simplified" License.
 
 功能描述：这个程序用于从磁盘上提供包括引导探索者内核启动在内的多个功能。
 
