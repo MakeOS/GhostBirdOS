@@ -14,8 +14,9 @@
 #define		VI_min_height
 
 /**页号*/
-#define		VI_page_output 0
-#define		VI_page_select 1
+#define		VI_page_init 0
+#define		VI_page_output 1
+#define		VI_page_select 2
 
 /**回调函数的参数定义*/
 #define		VI_DO_PRES 1

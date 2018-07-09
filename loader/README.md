@@ -1,92 +1,93 @@
-Copyright 2018 GhostBird OS
+Copyright 2016 Explorer developers.
+éºãˆ¢å‚¨é‘°å‘­å”´éç¨¿ç´©ç€µè‚©â–¼æ´ï¿½
+Explorer kernel loader program.
 
 Lab Explorer Loader
 
 GhostBird OS is licensed under the BSD 2-Clause "Simplified" License.
 
-¹¦ÄÜÃèÊö£ºÕâ¸ö³ÌĞòÓÃÓÚ´Ó´ÅÅÌÉÏÌá¹©°üÀ¨Òıµ¼Ì½Ë÷ÕßÄÚºËÆô¶¯ÔÚÄÚµÄ¶à¸ö¹¦ÄÜ¡£
+åŠŸèƒ½æè¿°ï¼šè¿™ä¸ªç¨‹åºç”¨äºä»ç£ç›˜ä¸Šæä¾›åŒ…æ‹¬å¼•å¯¼æ¢ç´¢è€…å†…æ ¸å¯åŠ¨åœ¨å†…çš„å¤šä¸ªåŠŸèƒ½ã€‚
 
 Description: The program is used to boot Lab Explorer from Hard Disk, including other relevant functions.
 
 
-ÅäÖÃÒªÇó£º±¾Òıµ¼³ÌĞòÔËĞĞÔÚIntel x86 ´¦ÀíÆ÷¼Ü¹¹ÉÏ£¬ÒªÇó´¦ÀíÆ÷±ØĞëÊÇ80386»òÒÔÉÏ¼¶±ğ£¬ÄÚ´æ×îÉÙ²»µÃÉÙÓÚ4MB£¨²»°üÀ¨¼ÓÔØÄÚºËËùĞè¿Õ¼ä£©£¬IDEÍ¨µÀµÄÓ²ÅÌÉÏÓĞÖÁÉÙÒ»¸öFAT32»î¶¯·ÖÇø£¬ÓÃÓÚ×°ÔØÅäÖÃÎÄ¼ş¡£Èç¹ûÓĞ¿ÉÄÜ£¬Çë¾¡¿ÉÄÜµÄÔÚĞéÄâ»úÖĞ¿ªÆôĞéÄâ»¯¼¼ÊõVT-x/AMD-V¡£ÉÏÊöÓ²¼şÅäÖÃÒªÇó²¢²»Ò»¶¨ÊÇÒ»³É²»±äµÄ£¬ÔÚºóĞøµÄ¿ª·¢ÖĞÒ»Ğ©ÏŞÖÆ¿ÉÄÜ»áÂ½Ğø·Å¿í¡£
+é…ç½®è¦æ±‚ï¼šæœ¬å¼•å¯¼ç¨‹åºè¿è¡Œåœ¨Intel x86 å¤„ç†å™¨æ¶æ„ä¸Šï¼Œè¦æ±‚å¤„ç†å™¨å¿…é¡»æ˜¯80386æˆ–ä»¥ä¸Šçº§åˆ«ï¼Œå†…å­˜æœ€å°‘ä¸å¾—å°‘äº4MBï¼ˆä¸åŒ…æ‹¬åŠ è½½å†…æ ¸æ‰€éœ€ç©ºé—´ï¼‰ï¼ŒIDEé€šé“çš„ç¡¬ç›˜ä¸Šæœ‰è‡³å°‘ä¸€ä¸ªFAT32æ´»åŠ¨åˆ†åŒºï¼Œç”¨äºè£…è½½é…ç½®æ–‡ä»¶ã€‚å¦‚æœæœ‰å¯èƒ½ï¼Œè¯·å°½å¯èƒ½çš„åœ¨è™šæ‹Ÿæœºä¸­å¼€å¯è™šæ‹ŸåŒ–æŠ€æœ¯VT-x/AMD-Vã€‚ä¸Šè¿°ç¡¬ä»¶é…ç½®è¦æ±‚å¹¶ä¸ä¸€å®šæ˜¯ä¸€æˆä¸å˜çš„ï¼Œåœ¨åç»­çš„å¼€å‘ä¸­ä¸€äº›é™åˆ¶å¯èƒ½ä¼šé™†ç»­æ”¾å®½ã€‚
 
 Requirements: The loader runs on Intel x86 architectures(at least 80386), requiring a memory of greater than 4MB. An IDE hard disk with a FAT32 active partition(used to storage configurations) is also needed. Please enable virtualization(such as VT-x/AMD-V) when running in virtual machine. The requirements mentioned above is not always still, and some restrictions may be liberalized in the further development.
 
 
-ÌáÊ¾£º±¾Òıµ¼³ÌĞò¿ÉÄÜÃ»ÓĞ¾­¹ı×ÛºÏ¼ìÑé£¬Ç¿ÁÒ½¨Òé±¾Òıµ¼³ÌĞòµÄÊ¹ÓÃÕßÔÚĞéÄâ»úÏÂÊ¹ÓÃ±¾Òıµ¼³ÌĞò¡£
+æç¤ºï¼šæœ¬å¼•å¯¼ç¨‹åºå¯èƒ½æ²¡æœ‰ç»è¿‡ç»¼åˆæ£€éªŒï¼Œå¼ºçƒˆå»ºè®®æœ¬å¼•å¯¼ç¨‹åºçš„ä½¿ç”¨è€…åœ¨è™šæ‹Ÿæœºä¸‹ä½¿ç”¨æœ¬å¼•å¯¼ç¨‹åºã€‚
 
 
 Notes: This program hasn't tested under complex circunstances. We insist that users should run the loader in the VMs.
 
 
-°æ±¾ÃèÊö£ºloaderµÄ°æ±¾ĞÅÏ¢½öÔÚ/comfigure.hÖĞ¶¨Òå³Éversion£¬Ò»°ã¸ñÊ½Îª¡°A.b type c¡±£¬ÆäÖĞAÎªÖ÷°æ±¾ºÅ£¬bÎª´Î°æ±¾ºÅ£¬typeÎªÀàĞÍ£¬Í¨³£ÓĞ³£¹æ£¨General£©£¬¿ª·¢£¨Building£©£¬ÄÚ²â£¨Alpha£©ÒÔ¼°¹«²â£¨Beta£©¡£
+ç‰ˆæœ¬æè¿°ï¼šloaderçš„ç‰ˆæœ¬ä¿¡æ¯ä»…åœ¨/comfigure.hä¸­å®šä¹‰æˆversionï¼Œä¸€èˆ¬æ ¼å¼ä¸ºâ€œA.b type câ€ï¼Œå…¶ä¸­Aä¸ºä¸»ç‰ˆæœ¬å·ï¼Œbä¸ºæ¬¡ç‰ˆæœ¬å·ï¼Œtypeä¸ºç±»å‹ï¼Œé€šå¸¸æœ‰å¸¸è§„ï¼ˆGeneralï¼‰ï¼Œå¼€å‘ï¼ˆBuildingï¼‰ï¼Œå†…æµ‹ï¼ˆAlphaï¼‰ä»¥åŠå…¬æµ‹ï¼ˆBetaï¼‰ã€‚
 
 Version description: The version information is only defined as "version" in /comfigure.h, the normal format is "A.b type c".
 A is the main version, b is the secondary version, type normally includes General/Building/Alpha/Beta.
 
 
-ÎÄ¼şÃèÊö£º±¾Òıµ¼³ÌĞòµÄÔ´´úÂëÎÄ¼ş¼ĞÖĞÍ¨³£»á³ä³âÒÔÏÂÀàĞÍµÄÎÄ¼ş£º
+æ–‡ä»¶æè¿°ï¼šæœ¬å¼•å¯¼ç¨‹åºçš„æºä»£ç æ–‡ä»¶å¤¹ä¸­é€šå¸¸ä¼šå……æ–¥ä»¥ä¸‹ç±»å‹çš„æ–‡ä»¶ï¼š
 
 File description: The source code folder is ordinarily filled with files with these types:
 
-.CÎÄ¼ş£ºCÓïÑÔ±àĞ´µÄÔ´´úÂëÎÄ¼ş Source code written in C
+.Cæ–‡ä»¶ï¼šCè¯­è¨€ç¼–å†™çš„æºä»£ç æ–‡ä»¶ Source code written in C
 
-.hÎÄ¼ş£ºCÓïÑÔ±àĞ´Ê±Ô¤±àÒëÍ·ÎÄ¼ş Header files when writting in C
+.hæ–‡ä»¶ï¼šCè¯­è¨€ç¼–å†™æ—¶é¢„ç¼–è¯‘å¤´æ–‡ä»¶ Header files when writting in C
 
-.asmÎÄ¼ş£º»ã±àÓïÑÔ±àĞ´Ê±µÄÔ´´úÂëÎÄ¼ş Source code written in Assembly Language
+.asmæ–‡ä»¶ï¼šæ±‡ç¼–è¯­è¨€ç¼–å†™æ—¶çš„æºä»£ç æ–‡ä»¶ Source code written in Assembly Language
 
-.OÎÄ¼ş£º±àÒëÊ±²úÉúµÄÄ¿±êÎÄ¼ş Object Files when compiling
+.Oæ–‡ä»¶ï¼šç¼–è¯‘æ—¶äº§ç”Ÿçš„ç›®æ ‡æ–‡ä»¶ Object Files when compiling
 
-.binÎÄ¼ş£ºÎŞ¸ñÊ½¶ş½øÖÆ±àÂëÎÄ¼ş Raw Binary Files
+.binæ–‡ä»¶ï¼šæ— æ ¼å¼äºŒè¿›åˆ¶ç¼–ç æ–‡ä»¶ Raw Binary Files
 
 
-±¾¼¶½á¹¹£º³ıÒ»Ğ©È«¾ÖĞÔµÄÎÄ¼şÖ®Íâ£¬±¾¼¶Ä¿Â¼ÖĞ´æÔÚÌ½Ë÷ÕßÄÚºËÒıµ¼³ÌĞò×é³ÉµÄÁ½´ó²¿·Ö£¬¼´Ö÷Òıµ¼¼ÇÂ¼Ô´´úÂë²¿·Ö£¨/mbr£©ºÍ±£ÁôÉÈÇøÔ´´úÂë²¿·Ö£¨/boot£©²¿·Ö¡£
+æœ¬çº§ç»“æ„ï¼šé™¤ä¸€äº›å…¨å±€æ€§çš„æ–‡ä»¶ä¹‹å¤–ï¼Œæœ¬çº§ç›®å½•ä¸­å­˜åœ¨æ¢ç´¢è€…å†…æ ¸å¼•å¯¼ç¨‹åºç»„æˆçš„ä¸¤å¤§éƒ¨åˆ†ï¼Œå³ä¸»å¼•å¯¼è®°å½•æºä»£ç éƒ¨åˆ†ï¼ˆ/mbrï¼‰å’Œä¿ç•™æ‰‡åŒºæºä»£ç éƒ¨åˆ†ï¼ˆ/bootï¼‰éƒ¨åˆ†ã€‚
 
 Structure in this directory: Apart from global files, this class of directory contains the two main parts of kernel loader: Master Boot Record (/mbr) and source code used in reserved sectors(/boot).
 
 
-ÌáÊ¾£º±¾Òıµ¼³ÌĞòµÄ¸÷¼¶ÎÄ¼ş¼ĞÖĞ´ó¶àÊıÓĞÕë¶Ô±¾¼¶Ô´´úÂë¡¢±¾¼¶ÎÄ¼ş¡¢±¾¼¶Éè¼ÆË¼Â·¼°ÊµÏÖÔ­ÀíµÄÏà¹ØÃèÊö£¬¾´ÇëÁôÒâ¡£
+æç¤ºï¼šæœ¬å¼•å¯¼ç¨‹åºçš„å„çº§æ–‡ä»¶å¤¹ä¸­å¤§å¤šæ•°æœ‰é’ˆå¯¹æœ¬çº§æºä»£ç ã€æœ¬çº§æ–‡ä»¶ã€æœ¬çº§è®¾è®¡æ€è·¯åŠå®ç°åŸç†çš„ç›¸å…³æè¿°ï¼Œæ•¬è¯·ç•™æ„ã€‚
 
 Notes: Please pay attention to READMEs, mostly distributed in every class of directories, which describe source code, files, designs and realization principles in the same class.
 
 
-±¾Ä¿Â¼ÏÂ´æÔÚµÄÎÄ¼ş»òÎÄ¼ş¼Ğ£º
+æœ¬ç›®å½•ä¸‹å­˜åœ¨çš„æ–‡ä»¶æˆ–æ–‡ä»¶å¤¹ï¼š
 
 Folders and Files in this directory:
 
-\boot£º±£ÁôÉÈÇøµÄÒıµ¼³ÌĞòÔ´´úÂëÎÄ¼ş¼Ğ Folder of the source code of loader program in reserved sectors
+\bootï¼šä¿ç•™æ‰‡åŒºçš„å¼•å¯¼ç¨‹åºæºä»£ç æ–‡ä»¶å¤¹ Folder of the source code of loader program in reserved sectors
 
-\mbr£ºÖ÷Òıµ¼¼ÇÂ¼µÄÔ´´úÂëÎÄ¼ş¼Ğ Folder of the MBR source code 
+\mbrï¼šä¸»å¼•å¯¼è®°å½•çš„æºä»£ç æ–‡ä»¶å¤¹ Folder of the MBR source code 
 
-\configure.h£ºÅäÖÃÎÄ¼ş¡£ÒÔÍ·ÎÄ¼şµÄĞÎÊ½±»ÒıÓÃ Configuration Files. (Refered as a header file)
+\configure.hï¼šé…ç½®æ–‡ä»¶ã€‚ä»¥å¤´æ–‡ä»¶çš„å½¢å¼è¢«å¼•ç”¨ Configuration Files. (Refered as a header file)
 
-\Makefile£ºÌá¹©È«¾ÖµÄ±àÒë¡¢µ÷ÊÔÃèÊö¡£ It is just a makefile ;)
+\Makefileï¼šæä¾›å…¨å±€çš„ç¼–è¯‘ã€è°ƒè¯•æè¿°ã€‚ It is just a makefile ;)
 
-\README.md£º±¾ÎÄ¼ş¡£ÓÃÓÚÃèÊö¡¢ËµÃ÷±¾Òıµ¼³ÌĞò¡£ You're reading.
+\README.mdï¼šæœ¬æ–‡ä»¶ã€‚ç”¨äºæè¿°ã€è¯´æ˜æœ¬å¼•å¯¼ç¨‹åºã€‚ You're reading.
 
-\RGB card£ºRGB±í£¬Ñ¡É«Ê±µÄ²Î¿¼¡£ RGB table for reference.
+\RGB cardï¼šRGBè¡¨ï¼Œé€‰è‰²æ—¶çš„å‚è€ƒã€‚ RGB table for reference.
 
 
-Éè¼ÆË¼Â·¼°ÊµÏÖÔ­Àí£º
+è®¾è®¡æ€è·¯åŠå®ç°åŸç†ï¼š
 
 Design and Realization Principle
 
-Ö÷Òıµ¼³ÌĞò£¨MBR£©½«±£ÁôÉÈÇøÒıµ¼³ÌĞò¼ÓÔØµ½ÄÚ´æºó£¬ÓÉ±£ÁôÉÈÇøÒıµ¼³ÌĞò½øĞĞÉè±¸¡¢ÄÚ´æ¡¢´¦ÀíÆ÷µÄ³õÊ¼»¯ÒÔ¼°ÆäËûÏà¹ØµÄ³õÊ¼»¯²¢Ìá¹©¿ÉÊÓ»¯²Ù×÷½çÃæ£¬×îºó¼ÓÔØ´æÔÚÓÚ·ÖÇøÖĞµÄÒıµ¼ÅäÖÃÎÄ¼ş£¬ÓÉÒıµ¼ÅäÖÃÎÄ¼şËµÃ÷ÄÚºË´æÔÚÎ»ÖÃ£¬×îºó½«ÄÚºË¼ÓÔØµ½Ö¸¶¨ÄÚ´æ¡£
+ä¸»å¼•å¯¼ç¨‹åºï¼ˆMBRï¼‰å°†ä¿ç•™æ‰‡åŒºå¼•å¯¼ç¨‹åºåŠ è½½åˆ°å†…å­˜åï¼Œç”±ä¿ç•™æ‰‡åŒºå¼•å¯¼ç¨‹åºè¿›è¡Œè®¾å¤‡ã€å†…å­˜ã€å¤„ç†å™¨çš„åˆå§‹åŒ–ä»¥åŠå…¶ä»–ç›¸å…³çš„åˆå§‹åŒ–å¹¶æä¾›å¯è§†åŒ–æ“ä½œç•Œé¢ï¼Œæœ€ååŠ è½½å­˜åœ¨äºåˆ†åŒºä¸­çš„å¼•å¯¼é…ç½®æ–‡ä»¶ï¼Œç”±å¼•å¯¼é…ç½®æ–‡ä»¶è¯´æ˜å†…æ ¸å­˜åœ¨ä½ç½®ï¼Œæœ€åå°†å†…æ ¸åŠ è½½åˆ°æŒ‡å®šå†…å­˜ã€‚
 
 After the loader in reserved sectors loaded to the memory by MBR, the initialization of devices, memory, processor and other hardwares will be done. And a visual operation interface will be provided. Finally, it will read configuration in the partition, which gives the location of the kernel on the hard disk, and load the kernel into memory.
 
 
-ĞèÒªµÄÈí¼ş¡¢¹¤¾ß£º
+éœ€è¦çš„è½¯ä»¶ã€å·¥å…·ï¼š
 Toolkits needed:
 
 GCC
 
 Nasm
 
-Ò»¸öÊ®Áù½øÖÆ±à¼­Æ÷ A Hex Editior
+ä¸€ä¸ªåå…­è¿›åˆ¶ç¼–è¾‘å™¨ A Hex Editior
 
-Ò»¸öÖ§³Ö¸ßÁÁµÄ´úÂë±à¼­Æ÷£¨¿ÉÑ¡£¬WindowsÏÂÍÆ¼öNotepad++£©  A code editior supporting highlight.
+ä¸€ä¸ªæ”¯æŒé«˜äº®çš„ä»£ç ç¼–è¾‘å™¨ï¼ˆå¯é€‰ï¼ŒWindowsä¸‹æ¨èNotepad++ï¼‰  A code editior supporting highlight.
 
-VirtualBoxĞéÄâ»ú£¨¾¡Á¿Ê¹ÓÃ¾ÉµÄ¡¢ÎÈ¶¨°æ±¾£© VirtualBox (Old version is more stable)
-
+VirtualBoxè™šæ‹Ÿæœºï¼ˆå°½é‡ä½¿ç”¨æ—§çš„ã€ç¨³å®šç‰ˆæœ¬ï¼‰ VirtualBox (Old version is more stable)
