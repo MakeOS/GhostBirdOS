@@ -7,6 +7,4 @@
 /** 字库数据大小*/
 #define FONTDATAMAX 4096
 
-extern unsigned char font[FONTDATAMAX];
-
 #endif
