@@ -6,7 +6,7 @@ A lightweight, multi-tasking graphical operating system, **JUST FOR FUN!**
 
 If you want to have a try, [click here: "How to run"](docs/HowTo/Run/index.md "docs/HowTo/Run/index.md").
 
-Former Ghostbird OS:(**button is mistyped**)
+Former Ghostbird OS:
 
 **NOTE:**All of the following mentioned Ghost Bird OS is the abbreviation of Ghost Bird Opreating System Project.
 ![Old version](docs/old.png "An old version of Ghost Bird Operating System.")
