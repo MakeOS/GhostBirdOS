@@ -1,9 +1,9 @@
 /**
  * Copyright 2013-2015 by Explorer Developers.
  * made by Hu Wenjie<1@hwj.me>
- * made by Rize<heseri@ghostbirdos.org>
- * Explorer Loader Visual Interface
- * /loader/boot/shell.c
+ * made by Rise<amazingrise@126.com>
+ * Explorer load Visual Interface
+ * boot/shell.c
  * version:4.0.0
  * 7/5/2014 7:08 PM
  */
