@@ -12,8 +12,7 @@
 # of $(OBJ), because it has entry "_start"
 
 OBJS := ./boota.o ./MMU.o  ./bootc.o  ./VI.o  ./fs.o  ./storage.o \
-./lib/string.o  ./lib/font.o  ./lib/vsprintf.o  ./lib/mem.o ./script.o \
-./lib/graphics.o ./lib/math.o
+./lib/string.o  ./lib/font.o  ./lib/vsprintf.o  ./lib/mem.o
 
 OBJCOPYFLAGS := -R .note -R .comment -S
 
