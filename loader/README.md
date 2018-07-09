@@ -1,5 +1,4 @@
-Copyright 2016 Explorer developers.
-鎺㈢储鑰呭唴鏍稿紩瀵肩▼搴�
+Copyright 2018 Lab Explorer developers.
 Explorer kernel loader program.
 
 Lab Explorer Loader
