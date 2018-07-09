@@ -4,14 +4,13 @@ Copyright 2014-2017 Ghost Bird Operating System Project Developers. All rights r
 
 A lightweight, multi-tasking graphical operating system, **JUST FOR FUN!**
 
-![Old version](docs/old.png "Former Ghostbird OS")
-If you want to have a try, [click here: "How to run"](docs/HowTo/Run/index.md "docs/HowTo/Run/index.md").
+
+**If you want to have a try, [click here: "How to run"](docs/HowTo/Run/index.md "docs/HowTo/Run/index.md").**
 
 Former Ghostbird OS:
-
-**NOTE:**All of the following mentioned Ghost Bird OS is the abbreviation of Ghost Bird Opreating System Project.
-![Old version](docs/old.png "An old version of Ghost Bird Operating System.")
-For further information about the old version, please click [here](https://github.com/MakeOS/GhostBirdOS/blob/master/docs/PreviousVersion.md).
+![Old version](docs/old.png "Former Ghostbird OS")
+**NOTE:All of the following mentioned Ghost Bird OS is the abbreviation of Ghost Bird Opreating System Project.
+For further information about the old version, please click [here](https://github.com/MakeOS/GhostBirdOS/blob/master/docs/PreviousVersion.md).**
 
 ## How To ##
 
