@@ -36,15 +36,15 @@ VI的界面信息都是可以配置的。该界面的各种元素，如字体颜
 
 提供信息输出功能，包括如下两个函数：
 
-```/**标准内核信息打印函数*/
-int printk(const char *fmt, ...);```
-
-```/**高级内核信息打印函数*/
-int printak(const char *fmt, ...);```
+    /**标准内核信息打印函数*/
+    int printk(const char *fmt, ...);
+    
+    /**高级内核信息打印函数*/
+    int printak(const char *fmt, ...);
 
 其中高级内核信息打印函数与前者相比，可以输出不同颜色的信息，便于使用者分析。其用法如下：
 
-`printak("<color_hex>Text here\n</>");`
+    printak("<color_hex>Text here\n</>");
 
 其中的**color_hex**是带有"0x"前缀的24-32位RGB色号，可以参考*/docs/RGB card.png*。
 
