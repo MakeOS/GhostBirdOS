@@ -1,13 +1,13 @@
 # How To Run #
 
-To make a great project, we try our best to support developers work no matter what platform they are using, such as Windows and Linux, Runing Ghost Bird OS needs steps as follow:
+To make a great project, we try our best to support developers work no matter what platform they are using, such as Windows and Linux. With several steps below, you can easily run our funny OS:
 
-1. Get a stable version of source(release better).
+1. Get a stable version of source([release version](https://github.com/MakeOS/GhostBirdOS/releases "release version on our github") better).
 2. Install toolchain, virtual macthine and some other tools you need.
 3. Prepare virtual image.
-4. Compile the code.
+4. Compiling code and writing to the virtual image.
 
-## Get a stable version of source ##
+## 1.Get a stable version of source ##
 
 You can easily download and participate in the development of Ghost Bird Operating System Project by the following way:
 
@@ -22,7 +22,19 @@ In the above site, you can download source code or clone repository to the local
 
 **NOTE:** this is the root of GhostBirdOS project.
 
-## Install everything you need ##
+## 2.Install toolchain, virtual macthine and others ##
+
+
+> Tips Toolchain is a set of programming tools that are used to perform a complex software development task or to create a software product, which is typically another computer program or a set of related programs. --Wikipedia
+
+According to our previous exprience, Ghost Bird OS project needs the following kinds of tools:
+
+- File and Project processing:git, zip/unzip, make
+- Code editor: The editor support ASM, C, C++, Makefile better
+- Compiler and assembler: ASM\C\C++ Compiler toolchain
+- Image editor: Hex editor, gfr
+- Virtual Machine:i386 support
+
 
 We need to use a lot of tools to help us read, write and debug our OS. For example, we need an excllent **code editor** which support highlight and some other extensions to make our develop comfortably, some free license **compiler** and tools to compile, link our C\C++\Assembly language code, after that, we need load our OS files into a virtual image, Ghost Bird File System Reader(or **gfr**) is required, then we need a convenient **virtual machine** to run our system, we can find out some problems, if there are some problem we can't figure out, maybe we need analyze some binary files through **hex editor**, or reverse Engineering through **disassembler**. Notice that it is possible that some compilers are a collection of tool chains(eg. GCC compiler). Besides, A kind of Markdown reader is necessary.
 
@@ -42,7 +54,7 @@ You need not only download, unzip and install tools and QEMU, but also add their
 
 Installing other tools such as code editor or hex editor depands on what you need.
 
-## Prepare virtual image ##
+## 3.Prepare virtual image ##
 
 We use the VHD format virtual disk as our system files carrier. This is an excellent format that is widely used by multiple virtual machines, such as QEMU, Oracle VirtualBox, VMware, VirtualPC, etc. Here is introduction from [MSDN-About VHD](https://msdn.microsoft.com/en-us/library/windows/desktop/dd323654(v=vs.85).aspx "About VHD").
 
@@ -57,7 +69,7 @@ before we run OS, *image.vhd* need to be unzip from *image.zip*, you can open  *
 
 you will get *image.vhd* at */GhostBirdOS/image/*.
 
-## Compile the code ##
+## 4.Compiling code and writing to the virtual image ##
 
 First of all, Ghost Bird OS isn't a single project, in fact, this is a collection of multiple items, some of the project that make up Ghost Bird OS are as follows:
 
