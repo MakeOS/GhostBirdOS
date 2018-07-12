@@ -24,9 +24,14 @@ void io_cli(void);
 void io_sti(void);
 
 /**输入函数*/
-unsigned char io_in8(unsigned long port);
-unsigned short io_in16(unsigned long port);
-unsigned long io_in32(unsigned long port);
+unsigned char  io_in8 (unsigned int port);
+unsigned short io_in16(unsigned int port);
+unsigned long  io_in32(unsigned int port);
+
+/**输出函数*/
+void io_out8 (unsigned int port, unsigned int data);
+void io_out16(unsigned int port, unsigned int data);
+void io_out32(unsigned int port, unsigned int data);
 
 #pragma pack(push)					//保存当前对齐信息
 #pragma pack(1)						//设定结构体以一个字节为单位对齐
