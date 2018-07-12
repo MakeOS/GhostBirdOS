@@ -70,7 +70,8 @@ io_sti:
 ; 输入输出函数
 io_hlt:
 	hlt
-	jmp		io_hlt
+	ret
+	
 io_in8:
 	mov		edx,[esp+4]
 	xor		eax,eax

@@ -26,15 +26,7 @@ void reset(void)
 /**停机函数*/
 void halt(void)
 {
-	io_hlt();
-}
-
-/**持续停机函数*/
-void stillhalt(void)
-{
-	loop:
-		io_hlt();
-	goto loop;
+	for (;;) io_hlt();
 }
 
 extern int_0x20, int_0x21, int_0x22, int_0x23;
@@ -355,8 +347,8 @@ void BOOT_main(const struct boot_info *boot_info)
 	
 	
 	printk("CONFIG.LDR size = %dBytes.\n", loaderconfig_file_info.size);
-	io_hlt();
-	io_hlt();
+	halt();
+	halt();
 	fin:goto fin;
 	/**加载内核*/
 	read_file(0, 0, KERNEL_NAME, KERNEL_ADDR, 1);

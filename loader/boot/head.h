@@ -70,6 +70,8 @@ void io_out32(unsigned int port, unsigned int data);
 
 /**bootc.c*/
 
+/**停止函数*/
+void halt(void);
 
 
 
