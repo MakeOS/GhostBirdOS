@@ -46,15 +46,23 @@ void io_out32(unsigned int port, unsigned int data);
  * 息的标准
  */
 
+#pragma pack(push)					// 保存当前对齐信息
+#pragma pack(1)						// 设定结构体以一个字节为单位对齐
+
 /**地址范围描述符结构体*/
-#define ARDS_FREE	1
-#define ARDS_RESV	2
+#define ARDS_FREE	1				// 可用内存区间
+#define ARDS_RESV	2				// 保留内存区间
 struct Address_Range_Descriptor_Structure
 {
+	/**基地址（64bit）*/
 	unsigned int BaseAddrLow;
 	unsigned int BaseAddrHigh;
+	
+	/**长度（64bit）*/
 	unsigned int LengthLow;
 	unsigned int LengthHigh;
+	
+	/**类型，分ARDS_FREE和ARDS_RESV两种*/
 	unsigned int Type;
 };
 
@@ -78,6 +86,7 @@ struct VbeInfoBlock
 	unsigned char OemData[256];
 };
 
+/**VBE显示模式信息块*/
 struct ModeInfoBlock
 {
 	/**Mandatory information for all VBE revisions*/
@@ -143,26 +152,27 @@ struct ModeInfoBlock
 struct boot_info
 {
 	/**信息一定要是"EBI"(Explorer Boot Information)*/
-	char flag[BOOT_FLAG_MAX];
+	const char flag[BOOT_FLAG_MAX];
 	/**启动信息长度*/
-	unsigned int size;
+	const unsigned int size;
 	
 	/**保护模式 32位 0-4GB 代码段段选择子*/
-	unsigned short code_sel;
+	const unsigned short code_sel;
 	
 	/**保护模式 32位 0-4GB 数据段段选择子*/
-	unsigned short data_sel;
+	const unsigned short data_sel;
 	
 	/**内存分布信息*/
-	struct Address_Range_Descriptor_Structure ARDS[BOOT_ARDS_NUM];
+	const struct Address_Range_Descriptor_Structure ARDS[BOOT_ARDS_NUM];
 	
 	/**VBE信息块结构体*/
-	struct VbeInfoBlock VbeInfoBlock;
-	/**VBE模式信息结构体*/
-	struct ModeInfoBlock ModeInfoBlock;
+	const struct VbeInfoBlock VbeInfoBlock;
+	
+	/**VBE显示模式信息结构体*/
+	const struct ModeInfoBlock ModeInfoBlock;
 };
 
-#pragma pack(pop)					//恢复原来的对齐单位
+#pragma pack(pop)					// 恢复原来的对齐单位
 
 // 中断描述符表属性
 #define IDT_P		0x8000
