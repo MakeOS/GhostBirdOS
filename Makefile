@@ -25,9 +25,9 @@ qemu = "C:\Program Files\qemu\qemu-system-i386.exe"
 
 # Virtual image. After depressing or before pushing, use command 'make dist'
 # to compress /image/image.vhd into image.zip
-image = $(CURDIR)/image/image.vhd
+image = image.vhd
 
-compress = makecab
+compress = zip
 depress = unzip
 
 export CC NS LD OBJCOPY GFR
@@ -52,7 +52,7 @@ kernel:
 	cd kernel && make all
 
 prepare:$(image:.vhd = .zip) $(image)
-	$(depress) $(image:.vhd=.zip)
+	cd image && $(depress) $(image:.vhd=.zip)
 
 clean_loader:
 	cd loader && make clean
@@ -67,9 +67,9 @@ clean:
 	cd loader && make clean
 	cd tools/gfr && make clean
 	cd kernel && make clean
-
+	
 dist:clean
-	$(compress) $(image) $(image:.vhd=.zip)
+	cd image && $(compress) -q $(image:.vhd=.zip) $(image) && \
 	$(RM) $(image)
 	
 install:
