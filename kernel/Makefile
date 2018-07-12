@@ -20,9 +20,16 @@ OBJS += $(patsubst %.asm, %.o, $(ASM_SRCS))
 
 OBJCOPYFLAGS := -R .note -R .comment -S
 
-LDFLAGS  := -m elf_i386
-CFLAGS   := -fno-stack-protector -I $(CURDIR)/include
-CPPFLAGS := -fno-stack-protector -I $(CURDIR)/include
+# For Linux
+# LDFLAGS  := -m elf_i386 -e _start
+# CFLAGS   := -fno-stack-protector -I $(CURDIR)/include
+# CPPFLAGS := -fno-stack-protector -I $(CURDIR)/include
+
+# For Windows
+LDFLAGS  := -m i386pe -e _start
+CFLAGS   := -m32 -fno-leading-underscore -fno-stack-protector -I $(CURDIR)/include
+CPPFLAGS := -m32 -fno-leading-underscore -fno-stack-protector -I $(CURDIR)/include
+
 ASMFLAGS := -f elf
 
 TARGET = KERNEL
@@ -42,7 +49,7 @@ kernel.o: $(OBJS)
 
 %.d: %.asm
 	@$(NS) -M $(ASMFLAGS) $< > $@; \
-	sed -i 's,^:,$*.o $@:,g' $@;
+	sed -i 's, :,$*.o $@ :,g' $@;
 
 %.d: %.c
 	@$(CC) -M $(CFLAGS) $< > $@; \
