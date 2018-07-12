@@ -1,6 +1,9 @@
 // Explorer Boot
 // /boot/head.h
-// consisting all the definition of Boot
+// Consisting:
+// boota.asm function defination
+// bootc.c function defination
+// Explorer Boot Information defination
 
 #ifndef HEAD_H_
 #define HEAD_H_
