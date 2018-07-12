@@ -639,7 +639,7 @@ int error(unsigned int errcode, const char *fmt, ...)
 	va_end(arg);
 	
 	/**不可返回*/
-	stillhalt();
+	halt();
 }
 
 /**警告输出函数*/
