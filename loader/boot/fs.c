@@ -115,7 +115,7 @@ void init_FS(void)
 
 /*NOTES:由于目前完成的功能有限，下列函数中很多应有返回值来确定成功与失败，但是未实现*/
 
-/*made by Lab Explorer Developers<1@GhostBirdOS.org>
+/*made by HuWenJie<1@hwj.me>
  *open file function
  *entry:(path)file name, address
  *NOTE:目前获取元数据的函数仅仅支持根目录下的大写文件，且是8个字符的文件名+3个字符的后缀名！
