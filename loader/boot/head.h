@@ -8,6 +8,8 @@
 #ifndef HEAD_H_
 #define HEAD_H_
 
+/**Boota.asm*/
+
 /**重置函数*/
 void reset(void);
 
@@ -38,6 +40,11 @@ void io_out32(unsigned int port, unsigned int data);
 
 #pragma pack(push)					//保存当前对齐信息
 #pragma pack(1)						//设定结构体以一个字节为单位对齐
+/**bootc.c*/
+/**启动信息结构体（Explorer Boot Information）是一套
+ * 关于Explorer loader向被加载操作系统提供系统环境信
+ * 息的标准
+ */
 
 /**地址范围描述符结构体*/
 #define ARDS_FREE	1
