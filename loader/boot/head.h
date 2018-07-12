@@ -44,6 +44,13 @@ void io_out8 (unsigned int port, unsigned int data);
 void io_out16(unsigned int port, unsigned int data);
 void io_out32(unsigned int port, unsigned int data);
 
+/**写IDTR寄存器函数*/
+void write_IDTR(void *base, unsigned short size);
+
+/**创建中断描述符表函数*/
+void create_ID
+(unsigned int number, unsigned short selector, void *offset, unsigned int attribute);
+
 // 中断描述符表属性
 #define IDT_P		0x8000
 #define IDT_DPL_0	0x00

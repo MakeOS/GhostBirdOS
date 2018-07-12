@@ -50,7 +50,6 @@ void clean_IDT(void)
 /**中断初始化函数*/
 void init_interrupt(void)
 {
-	extern void write_IDTR(void *base, unsigned short size);
 	/**若分配内存不成功则输出错误信息*/
 	IDT_base = bmalloc(IDT_size);
 	if (IDT_base == NULL) error (ERR_NO_MEM_FOR_ID, "No memory for Interrupt Description Table.");

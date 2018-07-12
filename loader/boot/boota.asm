@@ -104,7 +104,7 @@ io_out32:
 
 ; 操作IDTR函数
 write_IDTR:
-;void write_IDT(unsigned int base, unsigned short size)
+; void write_IDTR(void *base, unsigned short size)
 	mov		eax,[esp+4]
 	mov		[IDTR.base],eax
 	mov		ax,[esp+8]
@@ -114,7 +114,8 @@ write_IDTR:
 	
 ; 创建一个中断描述符函数*/
 create_ID:
-;void create_ID(u32 number, u32 selector, u32 offset, u32 attribute)
+; create_ID(unsigned int number, unsigned short selector,
+; void *offset, unsigned int attribute);
 	xor		eax,eax
 	mov		al,[esp+4]	;number参数
 	shl		eax,3		;相当于乘8
