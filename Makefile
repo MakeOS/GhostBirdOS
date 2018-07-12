@@ -8,16 +8,27 @@
 # Copyright (c) 2017, Ghost Bird Operating System Project Developers.
 # All rights reserved.
 
+# GNU GCC toolchain
 CC      = gcc
 CXX     = g++
 NS      = nasm
 LD      = ld
 OBJCOPY = objcopy
+
+# GFR is a tool made by us, before compile loader & kernel, make it by
+# command 'make gfr'
+
 GFR     = gfr
-qemu = qemu-system-i386
+
+# qemu-system-i386
+qemu = "C:\Program Files\qemu\qemu-system-i386.exe"
+
+# Virtual image. After depressing or before pushing, use command 'make dist'
+# to compress /image/image.vhd into image.zip
 image = $(CURDIR)/image/image.vhd
+
 compress = makecab
-depress = expand
+depress = unzip
 
 export CC NS LD OBJCOPY GFR
 export image qemu
@@ -41,7 +52,7 @@ kernel:
 	cd kernel && make all
 
 prepare:$(image:.vhd = .zip) $(image)
-	$(depress) $(image:.vhd=.zip) $(image)
+	$(depress) $(image:.vhd=.zip)
 
 clean_loader:
 	cd loader && make clean
