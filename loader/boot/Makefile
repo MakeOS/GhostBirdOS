@@ -12,12 +12,19 @@
 # of $(OBJ), because it has entry "_start"
 
 OBJS := ./boota.o ./MMU.o  ./bootc.o  ./VI.o  ./fs.o  ./storage.o \
-./lib/string.o  ./lib/font.o  ./lib/vsprintf.o  ./lib/mem.o
+./lib/string.o  ./lib/font.o  ./lib/vsprintf.o  ./lib/mem.o ./script.o \
+./lib/graphics.o ./lib/math.o
 
 OBJCOPYFLAGS := -R .note -R .comment -S
 
-LDFLAGS  := -m elf_i386 -e _start
-CFLAGS   := -fno-stack-protector -I $(CURDIR)/include
+# For Linux
+# LDFLAGS  := -m elf_i386 -e _start
+# CFLAGS   := -fno-stack-protector -I $(CURDIR)/include
+
+# For Windows
+LDFLAGS  := -m i386pe -e _start
+CFLAGS   := -m32 -fno-leading-underscore -fno-stack-protector -I $(CURDIR)/include
+
 ASMFLAGS := -f elf
 
 TARGET = BOOT
@@ -28,9 +35,9 @@ install:BOOT
 	$(GFR) -ws $(TARGET) $(image) 2
 
 all: $(TARGET)
-	
+
 # compile files
-	
+
 $(TARGET):setup.bin boot.bin
 	cat setup.bin boot.bin > $(TARGET)
 	
@@ -48,7 +55,7 @@ setup.bin:setup.basm
 
 %.d: %.asm
 	@$(NS) -M $(ASMFLAGS) $< > $@; \
-	sed -i 's,^:,$*.o $@:,g' $@;
+	sed -i 's, :,$*.o $@ :,g' $@;
 
 %.d: %.c
 	@$(CC) -M $(CFLAGS) $< > $@; \
@@ -56,4 +63,3 @@ setup.bin:setup.basm
 
 clean:
 	$(RM) BOOT $(OBJS) $(OBJS:.o=.d) boot.o *.bin
-
