@@ -38,9 +38,41 @@ void io_out8 (unsigned int port, unsigned int data);
 void io_out16(unsigned int port, unsigned int data);
 void io_out32(unsigned int port, unsigned int data);
 
-#pragma pack(push)					//保存当前对齐信息
-#pragma pack(1)						//设定结构体以一个字节为单位对齐
+// 中断描述符表属性
+#define IDT_P		0x8000
+#define IDT_DPL_0	0x00
+#define IDT_DPL_1	0x2000
+#define IDT_DPL_2	0x4000
+#define IDT_DPL_3	0x6000
+#define IDT_16		0x00
+#define IDT_32		0x800
+#define trap_gate		0x700
+#define interrupt_gate	0x600
+
+// 主从PIC的寄存器端口定义
+#define PIC0_ICW1		0x0020
+#define PIC0_OCW2		0x0020
+#define PIC0_IMR		0x0021
+#define PIC0_ICW2		0x0021
+#define PIC0_ICW3		0x0021
+#define PIC0_ICW4		0x0021
+#define PIC1_ICW1		0x00a0
+#define PIC1_OCW2		0x00a0
+#define PIC1_IMR		0x00a1
+#define PIC1_ICW2		0x00a1
+#define PIC1_ICW3		0x00a1
+#define PIC1_ICW4		0x00a1
+
+#define PIC0_intr_offset	0x20
+#define PIC1_intr_offset	PIC0_intr_offset + 0x8
+
+#endif
+
 /**bootc.c*/
+
+
+
+
 /**启动信息结构体（Explorer Boot Information）是一套
  * 关于Explorer loader向被加载操作系统提供系统环境信
  * 息的标准
@@ -174,32 +206,3 @@ struct boot_info
 
 #pragma pack(pop)					// 恢复原来的对齐单位
 
-// 中断描述符表属性
-#define IDT_P		0x8000
-#define IDT_DPL_0	0x00
-#define IDT_DPL_1	0x2000
-#define IDT_DPL_2	0x4000
-#define IDT_DPL_3	0x6000
-#define IDT_16		0x00
-#define IDT_32		0x800
-#define trap_gate		0x700
-#define interrupt_gate	0x600
-
-// 主从PIC的寄存器端口定义
-#define PIC0_ICW1		0x0020
-#define PIC0_OCW2		0x0020
-#define PIC0_IMR		0x0021
-#define PIC0_ICW2		0x0021
-#define PIC0_ICW3		0x0021
-#define PIC0_ICW4		0x0021
-#define PIC1_ICW1		0x00a0
-#define PIC1_OCW2		0x00a0
-#define PIC1_IMR		0x00a1
-#define PIC1_ICW2		0x00a1
-#define PIC1_ICW3		0x00a1
-#define PIC1_ICW4		0x00a1
-
-#define PIC0_intr_offset	0x20
-#define PIC1_intr_offset	PIC0_intr_offset + 0x8
-
-#endif
