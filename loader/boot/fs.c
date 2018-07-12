@@ -192,7 +192,7 @@ file_info fat32_read_file_info(const char *name)
 		clu = get_next_clu(clu);
 	}
 	error(ERR_NO_FILE, "Not found file.");
-	io_hlt();
+	halt();
 }
 
 unsigned int clu_to_sector(unsigned int clu_num)
