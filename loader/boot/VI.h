@@ -34,6 +34,9 @@ int select_register(const unsigned long n, int (*callback)(int n, int type), con
 /**设置活动选择函数*/
 int select_set_active(unsigned long n);
 
+/**Default operating handle*/
+int select_default_callback(int n, int type);
+
 /**确定选择函数*/
 void select_press(void);
 

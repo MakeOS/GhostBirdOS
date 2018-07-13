@@ -8,6 +8,9 @@
  * 7/5/2014 7:08 PM
  */
 
+#include "head.h"
+#include "MMU.h"
+#include "lib/stdio.h"
 #include "lib/stdarg.h"
 #include "lib/stdlib.h"
 #include "lib/stdbool.h"
