@@ -11,7 +11,7 @@
 #include "../head.h"
 #include "mem.h"
 #include "font.h"
-//#include <lib/math.h>
+#include "math.h"
 #include "graphics.h"
 
 /**显示像素函数*/

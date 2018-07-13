@@ -62,6 +62,14 @@ void create_ID
 #define trap_gate		0x700
 #define interrupt_gate	0x600
 
+// 中断入口函数
+extern void *int_auto, *int_auto;
+extern void *int_0x20, *int_0x21, *int_0x22, *int_0x23;
+extern void *int_0x24, *int_0x25, *int_0x26, *int_0x27;
+extern void *int_0x28, *int_0x29, *int_0x2A, *int_0x2B;
+extern void *int_0x2C, *int_0x2D, *int_0x2E, *int_0x2F;
+
+
 // 主从PIC的寄存器端口定义
 #define PIC0_ICW1		0x0020
 #define PIC0_OCW2		0x0020

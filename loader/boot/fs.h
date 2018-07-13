@@ -21,8 +21,8 @@ typedef struct file_info
 	char detail;
 }file_info;
 
-/**初始化FAT32文件系统*/
-void init_FAT32(void);
+/**初始化文件系统*/
+void init_FS(void);
 
 /**获得下一个簇号*/
 unsigned int get_next_clu(unsigned int clu);
