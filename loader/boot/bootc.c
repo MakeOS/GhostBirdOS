@@ -29,10 +29,6 @@ void halt(void)
 	for (;;) io_hlt();
 }
 
-extern int_0x20, int_0x21, int_0x22, int_0x23;
-extern int_0x24, int_0x25, int_0x26, int_0x27;
-extern int_0x28, int_0x29, int_0x2A, int_0x2B;
-extern int_0x2C, int_0x2D, int_0x2E, int_0x2F;
 
 // IDT地址及大小
 void *IDT_base;
@@ -281,8 +277,11 @@ void BOOT_main(const struct boot_info *boot_info)
 	}
 	/**初始化图形模式*/
 	init_graphics
-		(boot_info->ModeInfoBlock.XResolution , boot_info->ModeInfoBlock.YResolution,
-		 boot_info->ModeInfoBlock.BitsPerPixel, boot_info->ModeInfoBlock.PhysBasePtr);
+		(boot_info->ModeInfoBlock.XResolution ,
+		 boot_info->ModeInfoBlock.YResolution ,
+		 boot_info->ModeInfoBlock.BitsPerPixel,
+		 (unsigned char *)boot_info->ModeInfoBlock.PhysBasePtr
+		);
 	
 	/**初始化可视化界面*/
 	init_VI();
@@ -313,7 +312,7 @@ void BOOT_main(const struct boot_info *boot_info)
 
 	config_buf = bmalloc(CONFIG_MAX);
 	if (config_buf == NULL) error(ERR_NO_MEM_FOR_CONFIG, "No memory for loader's configure file.");
-	
+
 	read_file(SD_IDE_00, 1, CONFIG_FILENAME, config_buf, 0);
 	
 	//config_buf[loaderconfig_file_info.size] = 0;
