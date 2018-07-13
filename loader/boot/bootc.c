@@ -72,18 +72,6 @@ void init_interrupt(void)
 	create_ID(0x2F , 0x08, &int_0x2F , interrupt_gate + IDT_32 + IDT_DPL_0 + IDT_P);
 }
 
-/**允许中断*/
-void allow_interrupt(void)
-{
-	io_sti();
-}
-
-/**不允许中断*/
-void disallow_interrupt(void)
-{
-	io_cli();
-}
-
 #define PORT_8042_DATA		0x60
 #define PORT_8042_COMMAND	0x64
 
@@ -293,7 +281,7 @@ void BOOT_main(const struct boot_info *boot_info)
 	init_keyboard();
 	
 	/**允许中断*/
-	allow_interrupt();	
+	io_sti();
 	
 	/**初始化储存器管理*/
 	init_storage();
