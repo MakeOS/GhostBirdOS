@@ -21,6 +21,9 @@ Here are some command:
 - -sh: hex viewer
 - -v: version information
 
+### -f ###
+	gfr -f file_system_version partition dst_storage
+
 ### -ws ###
     gfr -ws src_file dst_file LBA
 

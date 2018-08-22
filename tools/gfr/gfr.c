@@ -68,9 +68,36 @@ void arg_df(void)
 }
 
 // -f: format a partition with GBFS
-void arg_f(void)
+// gfr -f file_system_version partition dst_storage
+int arg_f(void)
 {
-	printf("f\n");
+	struct storage_descriptor dst_storage;
+
+	// Check parameter number
+	if (glo_argc != 5)
+	{
+		printf("Error number of arguments.\n");
+		return RET_FAIL;
+	}
+	
+	// Open the storage
+	if (storage_open(&dst_storage, glo_argv[4]) != RET_SUCC)
+	{
+		printf("Open dst_storage error!\n");
+		return RET_FAIL;
+	}
+	
+	//printf("number:%d\n", strcmp("21.0", "1.0"));
+	// version of file system
+	if (!strcmp(glo_argv[2], "1.0"))
+	{
+		return gbfs_1_0_format(&dst_storage, atoi(glo_argv[3]));
+	}else{
+		printf("Unsupported version of GBFS:%s\n",  glo_argv[2]);
+		return RET_FAIL;
+	}
+	
+	
 }
 
 int arg_ws(void)
