@@ -222,13 +222,13 @@ void arg_sh(void)
 }
 
 // -v: version information
-void arg_v(void)
+int arg_v(void)
 {
 	// Show some necessary info
 	printf(SOFTWARE"\n");
 	printf(COPYRIGHT"\n");
 	
-	return;
+	return RET_SUCC;
 }
 
 int main(int argc, char *argv[])
@@ -251,7 +251,7 @@ int main(int argc, char *argv[])
 	switch (argv[1][1])
 	{
 		case 'v':
-			arg_v();
+			return arg_v();
 			break;
 			
 		case 'w':
