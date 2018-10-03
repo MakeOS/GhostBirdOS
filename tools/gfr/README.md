@@ -22,7 +22,7 @@ Here are some command:
 - -v: version information
 
 ### -f ###
-	gfr -f file_system_version partition dst_storage
+	gfr -f dst_storage partition
 
 ### -ws ###
     gfr -ws src_file dst_file LBA
