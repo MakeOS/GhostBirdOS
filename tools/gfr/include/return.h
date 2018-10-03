@@ -13,6 +13,7 @@
 #ifndef RETURN_H_
 #define RETURN_H_
 
+typedef int RET;
 #define RET_SUCC 0
 #define RET_FAIL -1
 
