@@ -34,9 +34,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "include/types.h"
+#include "include/return.h"
 #include "include/info.h"
 #include "include/config.h"
-#include "include/return.h"
+#include "include/storage.h"
+#include "include/gbfs.h"
 
 #define SECTOR_SIZE 512
 
@@ -80,19 +83,16 @@ void arg_df(void)
 // gfr -f dst_storage partition
 int arg_f(void)
 {
-	struct storage_descriptor dst_storage;
+	Storage *dst_stg = NULL;
 
 	// Check parameter number
 	arg_chk(4);
 	
 	// Open the storage
-	if (storage_open(&dst_storage, glo_argv[4]) != RET_SUCC)
-	{
-		printf("Open dst_storage error!\n");
-		return RET_FAIL;
-	}
+	dst_stg = stg_open(glo_argv[2]);
+	if (!dst_stg) return RET_FAIL;
 	
-	
+	return gbfs_fmt(dst_stg, atoi(glo_argv[3]));
 }
 
 int arg_ws(void)
@@ -223,6 +223,9 @@ int arg_v(void)
 
 int main(int argc, char *argv[])
 {
+	// Output software name & version
+	printf(SOFTWARE" "VERSION"\n");
+	
 	// Copy argument
 	glo_argc = argc;
 	glo_argv = argv;

@@ -12,17 +12,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "interface.h"
 #include "../include/return.h"
 #include "../include/storage.h"
 
 #pragma pack(push)
 #pragma pack(1)
 
-#define VHD_FOOTER_DISKTYPE_NONE		0
-#define VHD_FOOTER_DISKTYPE_FIXD		2
+#define VHD_FOOTER_DISKTYPE_NONE	0
+#define VHD_FOOTER_DISKTYPE_FIXD	2
 #define VHD_FOOTER_DISKTYPE_DNMC	3
-#define VHD_FOOTER_DISKTYPE_DFFC		4
+#define VHD_FOOTER_DISKTYPE_DFFC	4
 
 struct vhd_footer
 {
@@ -31,7 +30,7 @@ struct vhd_footer
 	
 	// Any fields not listed are reserved.
 	// No features enabled	0x00000000
-	// Temporary				0x00000001
+	// Temporary			0x00000001
 	// Reserved				0x00000002
 	unsigned int Features;	
 	
@@ -62,7 +61,7 @@ struct vhd_footer
 	
 	// This field stores the type of host operating system this disk image is created on.
 	// Windows				0x5769326B ("Wi2k")
-	// Macintosh				0x4D616320 ("Mac ")
+	// Macintosh			0x4D616320 ("Mac ")
 	unsigned int CreatorHostOS;
 	
 	/**This field stores the size of the hard disk in bytes, from the perspective of the 
@@ -115,9 +114,9 @@ struct vhd_footer
 struct vhd_footer *storage_vhd_footer = NULL;
 
 #define sw16(x) \
-	((short)( \
-		(((short)(x) & (short)0x00ffU) << 8) | \
-		(((short)(x) & (short)0xff00U) >> 8) ))
+((short)( \
+	(((short)(x) & (short)0x00ffU) << 8) | \
+	(((short)(x) & (short)0xff00U) >> 8) ))
 
 #define sw32(x) \
 ((long)( \
@@ -137,51 +136,56 @@ struct vhd_footer *storage_vhd_footer = NULL;
 	(((long)(x) & (long)0x00ff000000000000) >> 40) | \
 	(((long)(x) & (long)0xff00000000000000) >> 56) ))
 
-int storage_vhd_write(struct storage_descriptor *sd, unsigned long LBA, union storage_sector *sector)
+RET stg_vhd_puts(Storage *sd, dq LBA, void *src)
 {
 	unsigned long n;
-	fseek(sd->file, LBA * STORAGE_SECTOR_SIZE, SEEK_SET);
+	Sector *s_ptr = (Sector *)src;
+	fseek(sd->file, LBA * SECTOR_SIZE, SEEK_SET);
 	
-	for (n = 0; n < STORAGE_SECTOR_SIZE; n++)
-		putc(sector->byte[n], sd->file);
+	for (n = 0; n < SECTOR_SIZE; n++)
+		putc(s_ptr->byte[n], sd->file);
 
 	return RET_SUCC;
 }
 
-int storage_vhd_read(struct storage_descriptor *sd, unsigned long LBA, union storage_sector *sector)
+RET stg_vhd_gets(Storage *sd, dq LBA, void *dst)
 {
 	unsigned long n;
+	Sector *d_ptr = (Sector *)dst;
 	
-	fseek(sd->file, LBA * STORAGE_SECTOR_SIZE, SEEK_SET);
+	fseek(sd->file, LBA * SECTOR_SIZE, SEEK_SET);
 	
-	for (n = 0; n < STORAGE_SECTOR_SIZE; n++)
-		sector->byte[n] = getc(sd->file);
+	for (n = 0; n < SECTOR_SIZE; n++)
+		d_ptr->byte[n] = getc(sd->file);
 		
 	return RET_SUCC;
 }
 
-int storage_vhd_deinit(struct storage_descriptor *sd)
+RET stg_vhd_deinit(Storage *sd)
 {
-	free(storage_vhd_footer);
+	free(sd->info);
 	return RET_SUCC;
 }
 
-int storage_vhd_init(struct storage_descriptor *sd)
+Storage *stg_vhd_init(Storage *sd)
 {
 	unsigned int n;
+	struct vhd_footer *footer;
 	
 	fseek(sd->file, -sizeof(struct vhd_footer), SEEK_END);
 	
-	sd->info_block = NULL;
-	while (!sd->info_block)
-		sd->info_block = malloc(sizeof(struct vhd_footer));
+	sd->info = NULL;
+	while (!sd->info)
+		sd->info = malloc(sizeof(struct vhd_footer));
 	
 	for (n = 0; n < sizeof(struct vhd_footer); n ++)
-		((char *)sd->info_block)[n] = getc(sd->file);
+		((char *)sd->info)[n] = getc(sd->file);
+		
+	footer = (struct vhd_footer *)sd->info;
 		
 	// Output this vhd information	
-	printf("Image format: Virtual Hard Disk");
-	switch (((struct vhd_footer *)sd->info_block)->DiskType)
+	printf("Image format: Virtual Hard Disk\n");
+	switch (footer->DiskType)
 	{
 		case sw32(VHD_FOOTER_DISKTYPE_FIXD):
 			printf("(Fixed hard disk)");
@@ -193,34 +197,33 @@ int storage_vhd_init(struct storage_descriptor *sd)
 			printf("(Differencing hard disk, unsupported yet)\n");
 			goto abort;
 		default:
-			printf("(Reserved Type)");
+			printf("(Reserved Type)\n");
 			goto abort;
 	}
 	
-	printf("\n");
 	printf(
 		"Cookie: %s, Features:%#X\n"
 		"Format version: %#X\n"
 		"Size: %lldBytes\n"
-		, ((struct vhd_footer *)sd->info_block)->Cookie
-		, sw32(((struct vhd_footer *)sd->info_block)->Features)
-		, ((struct vhd_footer *)sd->info_block)->FileFormatVersion
-		, sw64(((struct vhd_footer *)sd->info_block)->CurrentSize)
+		, footer->Cookie
+		, sw32(footer->Features)
+		, footer->FileFormatVersion
+		, sw64(footer->CurrentSize)
 	);
 	
 	// Provide vhd read/write interface
-	storage_write = storage_vhd_write;
-	storage_read = storage_vhd_read;
+	sd->puts = stg_vhd_puts;
+	sd->gets = stg_vhd_gets;
 	
 	// Full the struct 'storage_descriptor'
-	while (!sd->MBR)
-		sd->MBR = malloc(sizeof(struct storage_master_boot_record));
-	sd->size = sw64(((struct vhd_footer *)sd->info_block)->CurrentSize) / STORAGE_SECTOR_SIZE;
-	storage_vhd_read(sd, 0, (union storage_sector *)sd->MBR);
+	while (!sd->mbr)
+		sd->mbr = malloc(sizeof(MBR));
+	sd->size_s = sw64(footer->CurrentSize) / SECTOR_SIZE;
+	stg_vhd_gets(sd, 0, sd->mbr);
 
-	return RET_SUCC;
+	return sd;
 	
 abort:
-	free(storage_vhd_footer);
-	return RET_FAIL;
+	free(footer);
+	return NULL;
 }
