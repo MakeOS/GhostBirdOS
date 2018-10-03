@@ -13,7 +13,8 @@
 #ifndef INFO_H_
 #define INFO_H_
 
-#define COPYRIGHT "Copyright (c) 2017, Ghost Bird Operating System Project Developers. All rights reserved."
-#define SOFTWARE "Ghost Bird File System Reader"
+#define COPYRIGHT	"Copyright (c) 2017, Ghost Bird Operating System Project Developers. All rights reserved."
+#define SOFTWARE	"Ghost Bird File System Reader"
+#define VERSION		"1.0"
 
 #endif
