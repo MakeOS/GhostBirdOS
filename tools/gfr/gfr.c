@@ -43,6 +43,15 @@
 int glo_argc;
 char **glo_argv;
 
+void arg_chk(db argc)
+{
+	if (glo_argc != argc)
+	{
+		printf("Error number of arguments for this command!\n");
+		exit(RET_FAIL);
+	}
+}
+
 // -i: init this image with MBR mode
 void arg_i(void)
 {
@@ -74,11 +83,7 @@ int arg_f(void)
 	struct storage_descriptor dst_storage;
 
 	// Check parameter number
-	if (glo_argc != 5)
-	{
-		printf("Error number of arguments.\n");
-		return RET_FAIL;
-	}
+	arg_chk(4);
 	
 	// Open the storage
 	if (storage_open(&dst_storage, glo_argv[4]) != RET_SUCC)
@@ -100,12 +105,7 @@ int arg_ws(void)
 	FILE *dst_file = NULL;
 	
 	// Check parameter number
-	if (glo_argc < 5)
-	{
-		printf("Too few arguments.\n");
-		retval = RET_FAIL;
-		goto finish;
-	}
+	arg_chk(5);
 	
 	// Open files & get location argument
 	src_file = fopen(glo_argv[2], "rb");
