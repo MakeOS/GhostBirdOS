@@ -42,7 +42,7 @@ $(TARGET): kernel.o
 	$(OBJCOPY) -O binary kernel.o $(TARGET)
 
 kernel.o: $(OBJS)
-	$(LD) $(LDFLAGS) -o kernel.o -Ttext 0x10000 $(OBJS)
+	$(LD) $(LDFLAGS) -o $@ -Ttext 0x10000 $(OBJS)
 
 %.o: %.asm
 	$(NS) $(ASMFLAGS) -o $@ $<
