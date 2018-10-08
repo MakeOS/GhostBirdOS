@@ -184,11 +184,11 @@ Storage *stg_vhd_init(Storage *sd)
 	footer = (struct vhd_footer *)sd->info;
 		
 	// Output this vhd information	
-	printf("Image format: Virtual Hard Disk\n");
+	printf("\tImage format: Virtual Hard Disk");
 	switch (footer->DiskType)
 	{
 		case sw32(VHD_FOOTER_DISKTYPE_FIXD):
-			printf("(Fixed hard disk)");
+			printf("(Fixed hard disk)\n");
 			break;
 		case sw32(VHD_FOOTER_DISKTYPE_DNMC):
 			printf("(Dynamic hard disk, unsupported yet)\n");
@@ -202,9 +202,9 @@ Storage *stg_vhd_init(Storage *sd)
 	}
 	
 	printf(
-		"Cookie: %s, Features:%#X\n"
-		"Format version: %#X\n"
-		"Size: %lldBytes\n"
+		"\tCookie: %s, Features:%#X\n"
+		"\tFormat version: %#X\n"
+		"\tSize: %lldBytes\n"
 		, footer->Cookie
 		, sw32(footer->Features)
 		, footer->FileFormatVersion
