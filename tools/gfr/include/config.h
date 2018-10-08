@@ -13,7 +13,8 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-
+#define CFG_UI_PROG_DESC_LEN	50
+#define CFG_UI_PROG_BAR_LEN		30
 
 
 #endif

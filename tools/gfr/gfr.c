@@ -38,6 +38,7 @@
 #include "include/return.h"
 #include "include/info.h"
 #include "include/config.h"
+#include "include/ui.h"
 #include "include/storage.h"
 #include "include/gbfs.h"
 
