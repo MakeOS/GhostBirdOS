@@ -40,9 +40,8 @@ int task_test()
 	}
 }
 
-
 /**内核主函数*/
-void main(void)
+void kmain(void)
 {
 	/**判断是否成功获取启动信息*/
 	if (boot_info_ptr->flag[0] != 'E' |
