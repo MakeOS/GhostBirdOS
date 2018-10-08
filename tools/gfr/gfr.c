@@ -217,7 +217,6 @@ void arg_sh(void)
 int arg_v(void)
 {
 	// Show some necessary info
-	printf(SOFTWARE"\n");
 	printf(COPYRIGHT"\n");
 	
 	return RET_SUCC;
