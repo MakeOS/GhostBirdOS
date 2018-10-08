@@ -34,7 +34,7 @@ struct script_node script_init(const char *script_start, unsigned long length)
 
 	return node_root;
 }
-
+/*
 struct script_node script_child(struct script_node parent, const char *child_name)
 {
 	char *buffet[SCRIPT_BUF_SIZE];
@@ -46,7 +46,7 @@ struct script_node script_child(struct script_node parent, const char *child_nam
 		.name_len = 0
 	};
 	
-	sprintf(buffet, "[%s]", child_name);
+	// sprintf(buffet, "[%s]", child_name);
 	
 	child.body = strnstr(parent.body, buffet, parent.body_len);
 	
@@ -62,7 +62,7 @@ struct script_node script_child(struct script_node parent, const char *child_nam
 
 	script_node_print(child);
 }
-
+*/
 void script_node_print(struct script_node node)
 {
 	

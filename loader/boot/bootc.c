@@ -293,33 +293,33 @@ void BOOT_main(const struct boot_info *boot_info)
 	init_FS();
 	
 	/**分配放置configure的内存*/
-	struct file_info loaderconfig_file_info;
-	loaderconfig_file_info = read_file_info(SD_IDE_00, 0, CONFIG_FILENAME);
-	if ((loaderconfig_file_info.size + 1) > CONFIG_MAX)
-		error(ERR_CONFIG_OVERSIZE, CONFIG_FILENAME " oversized.");
+	// struct file_info loaderconfig_file_info;
+	// loaderconfig_file_info = read_file_info(SD_IDE_00, 0, CONFIG_FILENAME);
+	// if ((loaderconfig_file_info.size + 1) > CONFIG_MAX)
+		// error(ERR_CONFIG_OVERSIZE, CONFIG_FILENAME " oversized.");
 
-	config_buf = bmalloc(CONFIG_MAX);
-	if (config_buf == NULL) error(ERR_NO_MEM_FOR_CONFIG, "No memory for loader's configure file.");
+	// config_buf = bmalloc(CONFIG_MAX);
+	// if (config_buf == NULL) error(ERR_NO_MEM_FOR_CONFIG, "No memory for loader's configure file.");
 
-	read_file(SD_IDE_00, 1, CONFIG_FILENAME, config_buf, 0);
+	// read_file(SD_IDE_00, 1, CONFIG_FILENAME, config_buf, 0);
 	
 	//config_buf[loaderconfig_file_info.size] = 0;
 	
 	//printk("%.*s\n", 50, config_buf);
 	
 	//printk(strnstr(config_buf, "Hu", 50));
-	struct script_node config_node, list_node, item_node,
-	name_node, description_node, location_node, address_node;
+	// struct script_node config_node, list_node, item_node,
+	// name_node, description_node, location_node, address_node;
 	
-	config_node = script_init(config_buf, loaderconfig_file_info.size);
+	// config_node = script_init(config_buf, loaderconfig_file_info.size);
 	
-	list_node = script_child(config_node, "list");
+	// list_node = script_child(config_node, "list");
 	
-	item_node = script_child(list_node, "item");
-	name_node = script_child(item_node, "name");
-	description_node = script_child(item_node, "description");
-	location_node = script_child(item_node, "location");
-	address_node = script_child(item_node, "address");
+	// item_node = script_child(list_node, "item");
+	// name_node = script_child(item_node, "name");
+	// description_node = script_child(item_node, "description");
+	// location_node = script_child(item_node, "location");
+	// address_node = script_child(item_node, "address");
 	
 
 
@@ -332,7 +332,7 @@ void BOOT_main(const struct boot_info *boot_info)
 	VI_active(VI_page_select);
 	
 	
-	printk("CONFIG.LDR size = %dBytes.\n", loaderconfig_file_info.size);
+	// printk("CONFIG.LDR size = %dBytes.\n", loaderconfig_file_info.size);
 	halt();
 	halt();
 	fin:goto fin;
