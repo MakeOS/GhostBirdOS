@@ -17,24 +17,51 @@
 #include "return.h"
 #include "storage.h"
 
+#define GBFS_FAT_NUL 0xffffffff
+#define GBFS_FAT_END 0xfffffffe
 
+#pragma pack(push)
+#pragma pack(1)
+
+#define GBFS_PBR_CODE_SIZE 496
 typedef struct gbfs_pbr
 {
-	
+	db		code[GBFS_PBR_CODE_SIZE];
+	dd		fat_sctor;
+	dd		free_page;
+	dd		first_page;
+	dw		resv;
+	dw		sign;
 }PBR;
+
+typedef Sector Page;
+
+#pragma pack(pop)
 
 typedef struct gbfs_desc
 {
 	Storage *sd;
 	db		partition;
+	PBR		*pbr;
+	Sector	*fat;
+	Sector	*page;
 }GBFS;
 
-RET		gbfs_puts();
-RET		gbfs_gets();
+typedef struct gbfs_dir
+{
+	GBFS *gd;
+	
+}DIR;
+
+#define GBFS_FAT_LBA(gd, index)STG_PBR_LBA(gd->sd, gd->partition) + index + 1
+#define GBFS_PAGE_LBA(gd, number)STG_PBR_LBA(gd->sd, gd->partition) + gd->pbr->fat_sctor + 1
+
+RET		gbfs_putf();
+RET		gbfs_getf();
 
 GBFS	*gbfs_open(const db *location);
 RET		gbfs_close(GBFS *gd);
 
-RET		gbfs_fmt(Storage *sd, db partition);
+GBFS	*gbfs_fmt(Storage *sd, db partition);
 
 #endif
