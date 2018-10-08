@@ -93,7 +93,8 @@ int arg_f(void)
 	dst_stg = stg_open(glo_argv[2]);
 	if (!dst_stg) return RET_FAIL;
 	
-	return gbfs_fmt(dst_stg, atoi(glo_argv[3]));
+	if (!gbfs_fmt(dst_stg, atoi(glo_argv[3])))
+		return RET_FAIL;
 }
 
 int arg_ws(void)
