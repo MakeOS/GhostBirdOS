@@ -19,7 +19,7 @@
 #pragma pack(push)
 #pragma pack(1)
 
-typedef struct stg_partition_table
+typedef struct stg_pt
 {
 	db active;
 	db chs_strt[3];
@@ -29,13 +29,11 @@ typedef struct stg_partition_table
 	dd size_s;
 }PT;
 
-typedef struct stg_master_boot_record
+typedef struct stg_mbr
 {
 	db	code[446];
 	PT	pt[4];
 }MBR;
-
-
 
 #define SECTOR_SIZE 512
 typedef union stg_sector
@@ -57,6 +55,8 @@ typedef struct stg_desc
 	RET		(*puts)(struct stg_desc *sd, dq LBA, void *src);
 	RET		(*gets)(struct stg_desc *sd, dq LBA, void *dst);
 }Storage;
+
+#define STG_PBR_LBA(sd, partition) sd->mbr->pt[partition].lba_strt
 
 RET		stg_gets(Storage *sd, dq LBA, void *dst);
 RET		stg_puts(Storage *sd, dq LBA, void *src);
